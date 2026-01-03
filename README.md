@@ -3,7 +3,7 @@ version: "1.0.0"
 last_updated: "2026-01-03"
 updated_by: "Claude"
 synced_with:
-  AGENTS.md: "1.0.0"
+  AGENTS.md: "1.1.0"
 changelog:
   - "1.0.0 (2026-01-03): Initial external-facing documentation for Odyssey Design Engine V1"
 ---

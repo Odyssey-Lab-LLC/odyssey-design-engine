@@ -6,6 +6,15 @@ Rules for using the Odyssey Design System tokens, patterns, and component archit
 
 ---
 
+## Related Rules
+
+**Extension & Prototypes:** See `.rules/11-design-system-extensions.md` for guidance on:
+- When sites can extend or override these base tokens
+- Prototype protection during migration
+- Component extraction timing
+
+---
+
 ## Core Principle: Token-First Development
 
 **Rule:** MUST load and reference the design token specification before building or modifying any UI components.
@@ -591,10 +600,19 @@ shared/design-system/GlobalStyles.jsx             ← CSS variables
 
 ---
 
+## When These Rules Don't Apply
+
+**For prototypes and experiments:** Sites in `sites/` can extend or override these tokens. See `.rules/11-design-system-extensions.md` for site sovereignty guidance.
+
+**For migrations:** Don't force existing working code to conform during migration. Move AS-IS first, extract patterns later when proven reusable.
+
+---
+
 ## See Also
 
 - [`SYSTEM_odyssey-design-tokens_v0.3_2025-12-19.md`](_workspace/claude-odyssey-design-system-project/_system/SYSTEM_odyssey-design-tokens_v0.3_2025-12-19.md) — Full token specification
 - [`shared/design-system/README.md`](../shared/design-system/README.md) — Usage guide
 - [`.rules/10-react-standards.md`](./10-react-standards.md) — React component patterns
+- [`.rules/11-design-system-extensions.md`](./11-design-system-extensions.md) — Extension and prototype protection
 - [`ARCHITECTURE.md`](../ARCHITECTURE.md) — Component library structure
 

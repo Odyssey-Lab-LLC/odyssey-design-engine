@@ -3,9 +3,9 @@ version: "1.0.0"
 last_updated: "2026-01-03"
 updated_by: "Claude"
 synced_with:
-  AGENTS.md: "1.0.0"
+  AGENTS.md: "1.1.0"
   README.md: "1.0.0"
-  ARCHITECTURE.md: "1.0.0"
+  ARCHITECTURE.md: "1.1.0"
 changelog:
   - "1.0.0 (2026-01-03): Refactored to DRY-compliant agent directive per Multi-Agent Standard v1.1"
 ---

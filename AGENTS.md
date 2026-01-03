@@ -1,11 +1,12 @@
 ---
-version: "1.0.0"
+version: "1.1.0"
 last_updated: "2026-01-03"
 updated_by: "Claude"
 synced_with:
   README.md: "1.0.0"
-  ARCHITECTURE.md: "1.0.0"
+  ARCHITECTURE.md: "1.1.0"
 changelog:
+  - "1.1.0 (2026-01-03): Added site sovereignty principle and prototype protection guidance"
   - "1.0.0 (2026-01-03): Initial agent coordination setup for Odyssey Design Engine"
 ---
 
@@ -253,6 +254,39 @@ The Odyssey Design Engine V1 is complete when:
 3. Extract to `shared/components/library/` if reusable
 4. Document with .md file
 5. Update library README catalog
+
+### Site Sovereignty Principle
+
+**Page and site sovereignty:**
+- **Page-level**: Individual pages can have embedded GlobalStyles
+- **Site-level**: Sites can have site-wide shared styles
+- Can extend or override base design tokens
+- Can experiment with custom animations/styles
+- Can import from `@shared` OR NOT (during prototyping)
+
+**Multi-site ≠ Forced Conformity:**
+- Multi-site = Deployment separation + optional code sharing
+- NOT = All sites must be identical from day one
+- NOT = Shared design system is mandatory immediately
+- Variety during exploration = feature, not bug
+
+**Prototype Protection:**
+- If code works, don't break it during migration
+- Move AS-IS first, refactor later (maybe)
+- Extraction happens when patterns PROVE reusable (3+ uses across sites)
+- Premature abstraction is worse than variety
+
+**Eventual Convergence:**
+- All sites WILL adopt base styles once patterns stabilize
+- Base provides foundation, sites extend within constraints
+- **Constraints** (conceptual, to validate):
+  - Retain primary header type: Cinzel (display serif character)
+  - Retain core colors: Bronze, Lab Blue variants
+- Convergence path: embedded styles → extract to JSX base → sites import + extend
+
+**Canonical source:** `_workspace/.../SYSTEM_odyssey-design-tokens_v0.3_2025-12-19.md` (1660 lines, CSS-based, awaiting JSX conversion)
+
+**See also:** `.rules/11-design-system-extensions.md` for detailed guidance on sovereignty, convergence path, and deviation constraints.
 
 ---
 

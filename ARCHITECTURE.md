@@ -1,11 +1,12 @@
 ---
-version: "1.0.0"
+version: "1.1.0"
 last_updated: "2026-01-03"
 updated_by: "Claude"
 synced_with:
-  AGENTS.md: "1.0.0"
+  AGENTS.md: "1.1.0"
   README.md: "1.0.0"
 changelog:
+  - "1.1.0 (2026-01-03): Added design system philosophy (descriptive vs prescriptive)"
   - "1.0.0 (2026-01-03): Initial architecture documentation for Odyssey Design Engine"
 ---
 
@@ -271,6 +272,62 @@ When new tokens needed:
 5. Add to `tokens.js` and `GlobalStyles.jsx`
 6. Document in `shared/design-system/README.md`
 7. Note in completion report
+
+### Design System Philosophy: Descriptive, Not Prescriptive
+
+**Key Distinction:**
+
+The Odyssey Design System is **descriptive** (documents patterns that emerge) rather than **prescriptive** (enforces patterns top-down).
+
+**In Practice:**
+
+- `shared/design-system/` = BASE system for common patterns
+- `sites/[site]/src/` = CAN extend, override, or ignore base
+- Component extraction = Happens when proven reusable, not imposed
+- Variety = Allowed and encouraged during experimentation
+
+**Site Sovereignty:**
+
+Each site in `sites/` can:
+- Have its own embedded GlobalStyles component (page or site-wide)
+- Extend or override base design tokens  
+- Use custom animations, utilities, styles
+- Import from `@shared` OR NOT (site's choice during prototyping)
+
+**Page-level Granularity:**
+
+Individual pages within a site can also have their own styles. Sovereignty operates at both levels:
+- **Page-level**: Single page with embedded GlobalStyles
+- **Site-level**: Shared styles across pages in a site
+- **Choice**: Page-specific OR site-wide styles based on needs
+
+**Eventual Convergence:**
+
+While sovereignty allows flexibility during exploration, the system expects eventual convergence:
+- All sites WILL adopt base styles once patterns stabilize
+- Base provides foundation, sites extend within constraints
+- **Constraints to retain** (conceptual, to validate):
+  - Primary header type: Cinzel (mythic/epic display serif)
+  - Core colors: Bronze (#B48E55) and Lab Blue variants
+- Convergence happens organically as patterns prove themselves (3+ uses)
+
+**Migration Principle:**
+
+When migrating existing code (prototypes, HTML pages, working React apps):
+1. Move AS-IS first (preserve working styles)
+2. Get site running in multi-site structure
+3. Identify extraction opportunities over time
+4. Refactor to shared components when clear benefit emerges
+
+**DO NOT** force existing working code to conform to `shared/design-system/GlobalStyles` during migration. That breaks styles and creates work for no gain.
+
+**The Convergence Path:**
+
+**Current (V1)**: Pages have embedded styles, canonical source exists in `_workspace/.../SYSTEM_odyssey-design-tokens_v0.3_2025-12-19.md` (1660 lines, CSS-based, not JSX-friendly).
+
+**Future**: Extract SYSTEM spec → JSX-friendly base in `shared/design-system/`, sites import + extend within constraints.
+
+**See also:** `.rules/11-design-system-extensions.md` for detailed guidance on convergence path and deviation constraints.
 
 ---
 
