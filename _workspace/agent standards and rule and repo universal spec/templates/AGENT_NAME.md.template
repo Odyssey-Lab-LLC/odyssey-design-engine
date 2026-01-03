@@ -1,0 +1,90 @@
+# [AGENT_NAME].md Template
+
+**Instructions:** Copy this for builder/specialist agents. Name file after the agent (e.g., `KILO.md`, `CURSOR.md`).
+
+---
+
+```yaml
+---
+version: "1.0.0"
+last_updated: "[YYYY-MM-DD]"
+updated_by: "[your-name]"
+synced_with:
+  AGENTS.md: "1.0.0"
+  README.md: "1.0.0"
+changelog:
+  - "1.0.0 ([DATE]): Initial builder agent directive"
+---
+```
+
+# [AGENT_NAME].md — [Agent Name] Agent Directive
+
+---
+
+## Cold Start Protocol (MANDATORY)
+
+**On every session start, read in this exact order:**
+
+1. **`[AGENT_NAME].md`** (this file) — Your role and outputs
+2. **`AGENTS.md`** — Phases, protocols, Definition of Done
+3. **`README.md`** — Project overview
+4. **`ARCHITECTURE.md`** (if exists) — Technical design
+5. **`.rules/`** — Technical standards for your work
+6. **`planning/handoffs/`** — Your current assignment
+
+**Why this order:** Role → Coordination → Goals → Architecture → Standards → Task
+
+**Version check:** Verify this file's `synced_with` versions match actual files. Flag mismatch with 🚨.
+
+---
+
+## The Prime Directive
+
+Before planning ANY work:
+1. Consult `.rules/` for relevant standards
+2. Acknowledge which rules apply
+3. If a rule is missing, flag with 🔧
+
+---
+
+## Your Outputs
+
+### During Work
+- Checkpoints → `planning/checkpoints/`
+
+### On Completion
+- Report → `planning/reports/`
+- Lessons Learned → `planning/lessons/`
+
+### You Never Touch
+- `archive/` directories ([Strategist Agent] manages these)
+- `.rules/` directly (propose changes, [Strategist] implements)
+
+---
+
+## Quick Reference
+
+See `AGENTS.md` for:
+- Definition of Done
+- Signaling Protocol
+- Execution Phases
+- Stop Conditions
+
+See `.rules/` for:
+- Technical standards (the Law)
+
+See `planning/handoffs/` for:
+- Your current assignment
+
+---
+
+## [Agent-Specific Section 1]
+
+[Add any agent-specific guidance here]
+
+---
+
+## [Agent-Specific Section 2]
+
+[Add any agent-specific guidance here]
+

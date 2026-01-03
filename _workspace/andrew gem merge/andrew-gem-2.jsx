@@ -51,6 +51,7 @@
             --space-16: 1rem;
             --space-24: 1.5rem;
             --space-32: 2rem;
+            --space-48: 3rem;
             --space-64: 4rem;
             --space-96: 6rem;
             --space-128: 8rem;
@@ -282,6 +283,87 @@
             left: 0;
             color: var(--color-bronze);
         }
+        
+        /* THE PROOF POINT WRAPPER (Refined Treatment) */
+        .proof-point-wrapper {
+            margin: var(--space-128) auto;
+            max-width: 800px;
+            /* Softer Dark Background (Slate 800ish) */
+            background: #1E293B; 
+            /* Thinner, elegant border */
+            border-left: 2px solid var(--color-bronze);
+            /* Increased padding for "Breath" */
+            padding: var(--space-48) var(--space-64);
+            position: relative;
+            /* Softer, more diffuse shadow */
+            box-shadow: 0 20px 60px -10px rgba(0,0,0,0.15);
+            border-radius: 2px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .proof-point-wrapper:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 30px 70px -10px rgba(0,0,0,0.2);
+        }
+
+        .proof-point-header {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--color-bronze);
+            margin-bottom: var(--space-32);
+            /* Removed border-bottom for cleaner look */
+            opacity: 0.9;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        
+        .proof-point-header::before {
+            content: '';
+            width: 8px; height: 8px;
+            background: var(--color-bronze);
+            border-radius: 50%;
+        }
+        
+        .proof-point-title {
+            font-family: 'Cormorant Garamond', serif;
+            /* Reduced size for hierarchy */
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #F8FAFC;
+            margin-bottom: var(--space-24);
+            line-height: 1.3;
+        }
+
+        .proof-point-body {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #CBD5E1; /* Lighter slate text */
+            margin-bottom: var(--space-32);
+            font-weight: 300;
+        }
+        
+        .proof-point-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--color-lab-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+        
+        .proof-point-link:hover {
+            color: var(--color-lab-blue-light);
+            gap: 0.8rem;
+            border-bottom-color: rgba(56, 189, 248, 0.3);
+        }
 
         /* Echo Words */
         .echo-word {
@@ -434,6 +516,18 @@
                     <li><strong>Design Systems:</strong> Creating a visual language that speaks authority instantly.</li>
                 </ul>
             </div>
+        </div>
+
+        <!-- NEW PROOF POINT SECTION (REFINED) -->
+        <div class="proof-point-wrapper">
+            <div class="proof-point-header">
+                PROOF POINT • Operational Systems
+            </div>
+            <h3 class="proof-point-title">TBC: The Breakfast Company Validation</h3>
+            <div class="proof-point-body">
+                $80K+ annual engagement proving operational systems work. Industry research, Airtable/no-code validation, specific use cases, prototype mockups. Growing 4 → 8 locations. CEO Dimitri deeply engaged. This is a live validation environment for systems thinking.
+            </div>
+            <a href="#" class="proof-point-link">View TBC Research →</a>
         </div>
 
         <!-- SECTION 03: THE EXPLORATION -->

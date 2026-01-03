@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hidden Costs of AI Delegation | Odyssey Lab</title>
+    
+    <!-- FONTS: Cinzel (Display), Inter (Body), JetBrains Mono (Technical) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. ODYSSEY LAB DESIGN TOKENS v0.3 (PRESERVED)
+           ==========================================================================
+        */
+        :root {
+            /* COLOR PALETTE - TITANS REALM */
+            --color-bronze: #B48E55;
+            --color-bronze-light: #C9A76D;
+            --color-bronze-dark: #8B6B3D;
+            --color-gold: #D4AF37;
+            
+            --color-lab-blue: #38BDF8;        /* Sky blue - Dark zone */
+            --color-lab-blue-electric: #2563EB; /* Electric blue - Light zone */
+            
+            /* BACKGROUNDS */
+            --light-bg-body: #F5F5F7;
+            --light-bg-card: #FFFFFF;
+            --dark-bg-deep: #0F172A;
+            --dark-bg-panel: #1E293B;
+            --dark-bg-elevated: #334155;
+            
+            /* TEXT */
+            --light-text-primary: #0F172A;
+            --light-text-muted: #475569;
+            --dark-text-primary: #F8FAFC;
+            --dark-text-secondary: #E2E8F0;
+            --dark-text-muted: #94A3B8;
+            
+            /* SPACING (8px Grid) */
+            --space-1: 0.25rem;   /* 4px */
+            --space-2: 0.5rem;    /* 8px */
+            --space-3: 0.75rem;   /* 12px */
+            --space-4: 1rem;      /* 16px */
+            --space-6: 1.5rem;    /* 24px */
+            --space-8: 2rem;      /* 32px */
+            --space-10: 2.5rem;   /* 40px */
+            --space-12: 3rem;     /* 48px */
+            --space-16: 4rem;     /* 64px */
+            --space-24: 6rem;     /* 96px */
+            
+            /* TYPOGRAPHY */
+            --font-display: 'Cinzel', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            /* TYPE SCALE */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 2rem;
+            --text-4xl: 2.5rem;
+            --text-5xl: 3rem;
+            
+            /* BORDERS & RADIUS */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+            
+            --border-width-std: 1px;
+            --border-width-thick: 2px;
+            
+            /* ANIMATION */
+            --duration-normal: 300ms;
+            --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* RESET & BASE */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-body);
+            background-color: var(--light-bg-body);
+            color: var(--light-text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; transition: color var(--duration-normal); }
+        a:hover { color: var(--color-bronze); }
+
+        /* ==========================================================================
+           2. UTILITY CLASSES & ZONES
+           ==========================================================================
+        */
+        .zone-dark {
+            background-color: var(--dark-bg-deep);
+            color: var(--dark-text-primary);
+        }
+        
+        .zone-light {
+            background-color: var(--light-bg-body);
+            color: var(--light-text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        .container-compact {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           3. HERO SECTION (TITANS REALM)
+           ==========================================================================
+        */
+        .hero {
+            position: relative;
+            padding: var(--space-16) var(--space-6);
+            overflow: hidden;
+            border-bottom: 1px solid rgba(180, 142, 85, 0.2);
+            /* Subtle radial gradient to create "depth" */
+            background: radial-gradient(circle at 50% 0%, #1a2742 0%, var(--dark-bg-deep) 70%);
+        }
+
+        /* The Labyrinth/Foundation Pattern (Abstract) */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Bronze Accent Line (Top) */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--color-bronze);
+            box-shadow: 0 0 20px rgba(180, 142, 85, 0.4);
+            z-index: 2;
+        }
+
+        .hero__content {
+            position: relative;
+            z-index: 10;
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero__eyebrow {
+            font-family: var(--font-mono);
+            color: var(--color-bronze);
+            font-size: var(--text-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: var(--space-6);
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid rgba(180, 142, 85, 0.3);
+            border-radius: var(--radius-sm);
+            background: rgba(180, 142, 85, 0.05);
+        }
+
+        .hero__title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-8);
+            background: linear-gradient(to bottom right, #FFFFFF 30%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .hero__thesis {
+            font-size: var(--text-xl);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--dark-text-secondary);
+            margin-bottom: var(--space-8);
+            border-left: 2px solid var(--color-bronze);
+            padding-left: var(--space-6);
+            text-align: left; /* Shift to left alignment for readability of long text */
+            background: linear-gradient(to right, rgba(180, 142, 85, 0.05), transparent);
+        }
+
+        .hero__context, .hero__finding {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            color: var(--dark-text-muted);
+            margin-bottom: var(--space-6);
+            text-align: left;
+            max-width: 760px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Stronger weight for finding */
+        .hero__finding {
+            color: var(--dark-text-secondary);
+            font-weight: 500;
+        }
+
+        .hero__companion {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--dark-text-muted);
+            margin-top: var(--space-8);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--dark-border-subtle);
+            text-align: center;
+        }
+
+        .hero__companion a {
+            color: var(--color-bronze);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            text-decoration-color: rgba(180, 142, 85, 0.4);
+        }
+
+        /* Foundation Forms (Decorative at bottom) */
+        .hero-foundation {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-4);
+            margin-top: var(--space-12);
+            opacity: 0.3;
+        }
+        
+        .foundation-block {
+            width: 60px;
+            height: 12px;
+            background: var(--dark-bg-elevated);
+            border-top: 2px solid var(--color-bronze);
+        }
+
+        /* ==========================================================================
+           4. TIMELINE DIAGRAM (6-24 MONTH PROGRESSION)
+           ==========================================================================
+        */
+        .timeline-section {
+            padding: var(--space-16) 0;
+            background-color: var(--light-bg-body);
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+        
+        .timeline-header h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            color: var(--light-text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        /* The Horizontal Timeline Container */
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-8);
+        }
+
+        @media (min-width: 1024px) {
+            .timeline-container {
+                flex-direction: row;
+                align-items: stretch;
+            }
+        }
+
+        /* Individual Phase Card */
+        .phase-card {
+            flex: 1;
+            background: var(--light-bg-card);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: var(--radius-md);
+            padding: var(--space-6);
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            transition: transform var(--duration-normal);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        /* BRONZE GRADIENT PROGRESSION (Visualizing the deepening) */
+        .phase-1 { border-top: 4px solid rgba(180, 142, 85, 0.25); }
+        .phase-2 { border-top: 4px solid rgba(180, 142, 85, 0.50); }
+        .phase-3 { border-top: 4px solid rgba(180, 142, 85, 0.75); }
+        .phase-4 { border-top: 4px solid rgba(180, 142, 85, 1.00); }
+
+        /* Phase Header */
+        .phase-header {
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .phase-title {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--light-text-primary);
+            display: block;
+        }
+
+        .phase-time {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--color-bronze);
+            font-weight: 600;
+            display: block;
+            margin-top: var(--space-1);
+        }
+
+        /* Characteristics List (Clean bullets for timeline) */
+        .phase-list {
+            list-style: none;
+            font-size: var(--text-sm);
+            color: var(--light-text-muted);
+        }
+
+        .phase-list li {
+            position: relative;
+            padding-left: var(--space-4);
+            margin-bottom: var(--space-2);
+            line-height: 1.5;
+        }
+
+        /* Custom Bullet for Timeline: Small Bronze Diamond */
+        .phase-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 6px;
+            height: 6px;
+            background-color: var(--color-bronze);
+            transform: rotate(45deg);
+            opacity: 0.7;
+        }
+
+        /* Connecting Arrows (Desktop Only) */
+        @media (min-width: 1024px) {
+            .phase-card:not(:last-child)::after {
+                content: '→';
+                position: absolute;
+                right: -24px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-family: var(--font-display);
+                color: var(--color-bronze);
+                font-size: var(--text-xl);
+                z-index: 10;
+                opacity: 0.5;
+            }
+        }
+
+        /* ==========================================================================
+           5. FEEDBACK LOOPS (Secondary Diagram)
+           ==========================================================================
+        */
+        .feedback-loops {
+            margin-top: var(--space-16);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+        }
+
+        .loop-card {
+            background: #FFF;
+            border: 1px solid #E2E8F0;
+            border-radius: var(--radius-full);
+            padding: var(--space-8);
+            text-align: center;
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .loop-card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border-radius: var(--radius-full);
+            border: 1px dashed var(--color-bronze);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .loop-title {
+            font-family: var(--font-display);
+            font-size: var(--text-lg);
+            color: var(--color-bronze-dark);
+            margin-bottom: var(--space-2);
+        }
+
+        .loop-desc {
+            font-size: var(--text-xs);
+            color: var(--light-text-muted);
+            line-height: 1.4;
+        }
+
+        /* ==========================================================================
+           6. VISUAL LIST TREATMENTS (THE ANTI-BULLET MANIFESTO)
+           ==========================================================================
+           NOTE: These classes are provided for Claude to use in the body build.
+        */
+
+        /* OPTION 1: CUSTOM SVG LIST (Diamonds) */
+        .list-bronze-diamond {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-4) 0;
+        }
+        
+        .list-bronze-diamond li {
+            position: relative;
+            padding-left: var(--space-6);
+            margin-bottom: var(--space-3);
+            font-family: var(--font-body);
+            color: var(--light-text-primary);
+        }
+
+        .list-bronze-diamond li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6em;
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-bronze);
+            transform: rotate(45deg);
+        }
+
+        /* OPTION 2: STYLED NUMBERS */
+        .list-numbered-styled {
+            list-style: none;
+            counter-reset: custom-counter;
+            display: grid;
+            gap: var(--space-6);
+        }
+
+        .list-numbered-styled li {
+            counter-increment: custom-counter;
+            display: flex;
+            gap: var(--space-4);
+            align-items: flex-start;
+        }
+
+        .list-numbered-styled li::before {
+            content: counter(custom-counter, decimal-leading-zero);
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--color-bronze);
+            line-height: 1;
+            opacity: 0.8;
+            min-width: 2.5rem;
+        }
+        
+        .number-content h4 {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-1);
+        }
+
+        /* OPTION 3: CARD LIST (For heavy content) */
+        .list-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .card-item {
+            background: var(--light-bg-card);
+            padding: var(--space-6);
+            border-left: 3px solid var(--color-bronze);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card-item h4 {
+            font-family: var(--font-display);
+            color: var(--color-bronze-dark);
+            margin-bottom: var(--space-2);
+        }
+
+        /* STYLE GUIDE SECTION (Visual Reference) */
+        .style-guide-section {
+            background: #FFF;
+            border-top: 1px solid #E2E8F0;
+            padding: var(--space-16) 0;
+            margin-top: var(--space-16);
+        }
+        .guide-label {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            color: var(--light-text-muted);
+            margin-bottom: var(--space-4);
+            display: block;
+            border-bottom: 1px solid #eee;
+            padding-bottom: var(--space-2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 
+      =================================================================
+      PART 1: HERO SECTION
+      Aesthetic: Titans Realm (Grounded, Bronze, Weighted)
+      Content: 100% Verbatim from Artifact
+      =================================================================
+    -->
+    <section class="hero hero--compact zone-dark">
+        <div class="hero__content">
+            
+            <!-- Eyebrow -->
+            <p class="hero__eyebrow">Research Report | Risks Landscape</p>
+            
+            <!-- Title -->
+            <h1 class="hero__title">
+                The Hidden Costs of AI Delegation in Knowledge Work
+            </h1>
+            
+            <!-- Thesis (PRESERVED EXACTLY) -->
+            <div class="hero__thesis">
+                Over-reliance on AI tools causes measurable cognitive degradation within 6-12 weeks, with skill atrophy, trust erosion, and capability loss accelerating through cascading feedback loops. For small creative teams where human judgment is the core value proposition, the risks extend beyond individual capability to encompass client trust, quality drift, and the collapse of expertise development pathways.
+            </div>
+            
+            <!-- Context (PRESERVED EXACTLY) -->
+            <p class="hero__context">
+                Research across cognitive psychology, education, and professional services reveals these are not hypothetical concerns but documented patterns with quantifiable impacts and identifiable mechanisms.
+            </p>
+            
+            <!-- Central Finding (PRESERVED EXACTLY) -->
+            <p class="hero__finding">
+                Tools designed to augment human capability can systematically diminish it when adoption patterns shift from conscious augmentation to unconscious substitution. This transition happens quietly, often within the first year of use, and creates particularly acute vulnerabilities in small teams (3-10 people) where there's limited redundancy, compressed timelines for cultural change, and direct exposure to client perception risks.
+            </p>
+            
+            <!-- Companion Note -->
+            <p class="hero__companion">
+                This report examines risks. For the opportunities framework, see <a href="#">companion report</a>. For synthesis of both perspectives, see <a href="#">portal</a>.
+            </p>
+            
+            <!-- Foundation Visual Elements (Metaphor) -->
+            <div class="hero-foundation">
+                <div class="foundation-block"></div>
+                <div class="foundation-block" style="width: 80px; opacity: 0.8;"></div>
+                <div class="foundation-block"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+      =================================================================
+      PART 2: TIMELINE DIAGRAM
+      Scope: 6-24 Month Progression + Feedback Loops
+      Aesthetic: Museum Quality, Clean, Bronze Gradient
+      =================================================================
+    -->
+    <section class="timeline-section">
+        <div class="container">
+            
+            <div class="timeline-header">
+                <h2>The Dependency Arc</h2>
+                <p style="font-family: var(--font-mono); color: var(--light-text-muted);">6-24 MONTH PROGRESSION</p>
+            </div>
+
+            <div class="timeline-container">
+                
+                <!-- PHASE 1: HONEYMOON -->
+                <article class="phase-card phase-1">
+                    <div class="phase-header">
+                        <span class="phase-title">Honeymoon</span>
+                        <span class="phase-time">0-3 Months</span>
+                    </div>
+                    <ul class="phase-list">
+                        <li>Productivity surge of 55.8% faster task completion</li>
+                        <li>Morale boost, perceived competence inflation</li>
+                        <li>Skills remain intact but less practiced</li>
+                        <li>Teams enthusiastic, clients see faster delivery</li>
+                        <li>Hidden cost: subtle reduction in deep cognitive engagement</li>
+                    </ul>
+                </article>
+
+                <!-- PHASE 2: INTEGRATION -->
+                <article class="phase-card phase-2">
+                    <div class="phase-header">
+                        <span class="phase-title">Integration</span>
+                        <span class="phase-time">3-9 Months</span>
+                    </div>
+                    <ul class="phase-list">
+                        <li>AI becomes standard operating procedure</li>
+                        <li>Review time decreases unconsciously</li>
+                        <li>Junior development begins stalling</li>
+                        <li>Trust in AI begins declining around 6-8 months as limitations surface</li>
+                        <li>Pattern recognition degrading, especially for less frequent tasks</li>
+                        <li>Quality concerns emerge but attributed to anomalies, not systematic issues</li>
+                    </ul>
+                </article>
+
+                <!-- PHASE 3: DEPENDENCY -->
+                <article class="phase-card phase-3">
+                    <div class="phase-header">
+                        <span class="phase-title">Dependency</span>
+                        <span class="phase-time">9-18 Months</span>
+                    </div>
+                    <ul class="phase-list">
+                        <li>Workflows redesigned entirely around AI capabilities</li>
+                        <li>Confidence-capability gap widens significantly</li>
+                        <li>Alternative methods forgotten or feel "inefficient"</li>
+                        <li>Skills status: significant decay in cognitive abilities; procedural skills "rusty"</li>
+                        <li>Code churn projected to double versus pre-AI baseline</li>
+                        <li>Teams struggle with maintainability when working without AI</li>
+                    </ul>
+                </article>
+
+                <!-- PHASE 4: CRITICAL FRAGILITY -->
+                <article class="phase-card phase-4">
+                    <div class="phase-header">
+                        <span class="phase-title">Critical Fragility</span>
+                        <span class="phase-time">18+ Months</span>
+                    </div>
+                    <ul class="phase-list">
+                        <li>System brittleness: team cannot function when AI unavailable</li>
+                        <li>Quality drift normalized and invisible</li>
+                        <li>Expertise hollow: can approve/edit AI but can't generate from scratch</li>
+                        <li>May require significant retraining to restore capabilities</li>
+                        <li>Workforce restructuring typically complete (junior roles eliminated)</li>
+                        <li>Recovery requires organizational restructuring, not just practice adjustment</li>
+                    </ul>
+                </article>
+
+            </div>
+
+            <!-- FEEDBACK LOOPS -->
+            <div style="margin-top: var(--space-16); text-align: center;">
+                <h3 class="heading-3" style="font-family: var(--font-display); font-size: var(--text-2xl);">Self-Reinforcing Feedback Loops</h3>
+            </div>
+            
+            <div class="feedback-loops">
+                
+                <div class="loop-card">
+                    <h4 class="loop-title">Performance-Dependency</h4>
+                    <p class="loop-desc">AI improves speed → Team takes more work → Less time for manual methods → More AI reliance → Skills decay → Even more dependent</p>
+                </div>
+                
+                <div class="loop-card">
+                    <h4 class="loop-title">Confidence-Competence</h4>
+                    <p class="loop-desc">AI handles complexity → Tasks feel easier → Confidence increases → Less verification → Errors missed → Attributed to anomalies not skill gaps → More trust in AI</p>
+                </div>
+                
+                <div class="loop-card">
+                    <h4 class="loop-title">Economic Lock-In</h4>
+                    <p class="loop-desc">AI increases capacity → Team takes more clients → Revenue increases → Team size stays flat → More work per person → Impossible to return to manual methods → Fully dependent</p>
+                </div>
+
+                <div class="loop-card">
+                    <h4 class="loop-title">Knowledge Loss</h4>
+                    <p class="loop-desc">AI handles routine work → Juniors don't learn fundamentals → Seniors retire → No one can train next generation → Institutional knowledge lost → Greater AI dependence</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 
+      =================================================================
+      PART 3: VISUAL LIBRARY / LIST TREATMENTS
+      Guidance for Claude on how to style the rest of the report.
+      =================================================================
+    -->
+    <section class="style-guide-section">
+        <div class="container">
+            <h3 style="margin-bottom: var(--space-8); font-family: var(--font-display);">Visual Treatment Library (Anti-Bullet System)</h3>
+
+            <!-- TREATMENT 1 -->
+            <div style="margin-bottom: var(--space-8);">
+                <span class="guide-label">Option 1: .list-bronze-diamond (Use for generic lists)</span>
+                <ul class="list-bronze-diamond">
+                    <li>Visual alternative to standard bullets</li>
+                    <li>Uses rotated CSS square (diamond)</li>
+                    <li>Color: var(--color-bronze)</li>
+                </ul>
+            </div>
+
+            <!-- TREATMENT 2 -->
+            <div style="margin-bottom: var(--space-8);">
+                <span class="guide-label">Option 2: .list-numbered-styled (Use for steps/phases)</span>
+                <ol class="list-numbered-styled">
+                    <li>
+                        <div class="number-content">
+                            <h4>Implementation Step 1</h4>
+                            <p>Large number via CSS counter, Cinzel font.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="number-content">
+                            <h4>Implementation Step 2</h4>
+                            <p>Clean alignment with flexbox.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- TREATMENT 3 -->
+            <div style="margin-bottom: var(--space-8);">
+                <span class="guide-label">Option 3: .list-cards (Use for Findings/Warnings)</span>
+                <div class="list-cards">
+                    <div class="card-item">
+                        <h4>Warning Sign 1</h4>
+                        <p>Difficulty explaining AI-assisted decisions without referencing "the AI suggested it".</p>
+                    </div>
+                    <div class="card-item">
+                        <h4>Warning Sign 2</h4>
+                        <p>Inability to recall content immediately after creation.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

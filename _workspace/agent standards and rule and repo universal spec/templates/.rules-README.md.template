@@ -1,0 +1,78 @@
+# .rules/README.md Template
+
+**Instructions:** Copy this to `.rules/README.md` in your project.
+
+---
+
+# Rules Directory
+
+This is the **Source of Truth** for technical standards. Rules here are agent-agnostic.
+
+## How to Add a New Rule
+
+1. Write the rule in this directory (`.rules/`)
+2. Create pointer files in `.cursor/rules/` and `.kilocode/rules/`
+3. Never duplicate rule content — always reference
+
+## File Naming Convention
+
+- `00-*.md` — Universal/general standards
+- `10-*.md` — Domain standards (RAG, API, database, etc.)
+- `20-*.md` — Quality/testing standards
+- `90-*.md` — Project-specific standards
+
+## Current Rules
+
+### Universal (00-*.md)
+- `00-general.md` — Universal coding standards
+- `00-conflict-checking.md` — Conflict checking protocol
+- `01-reporting-requirements.md` — Report format requirements
+- `02-system-coherence.md` — System coherence protocol
+
+### Domain-Specific (10-*.md)
+- [Add your domain rules here as you create them]
+- Example: `10-rag-standards.md` — RAG data integrity
+- Example: `11-api-standards.md` — API development patterns
+
+### Quality (20-*.md)
+- [Add your quality rules here]
+- Example: `20-content-types.md` — Content type catalog
+- Example: `21-testing-standards.md` — Testing patterns
+
+### Project-Specific (90-*.md)
+- `90-[project-name].md` — Project-specific patterns
+
+## Three-Layer Architecture
+
+```
+.rules/           ← Source of Truth (you are here)
+   ↑ referenced by
+.cursor/rules/    ← Cursor-specific pointers
+.kilocode/rules/  ← Kilocode-specific pointers
+```
+
+**Why:** Single source of truth prevents drift. IDE-specific files are pointers, never duplicates.
+
+## Updating Rules
+
+**Never edit `.rules/` directly during build execution.**
+
+Instead:
+1. Flag need for update in lessons learned (🔧)
+2. Strategist creates handoff for update
+3. Builder implements update via handoff
+4. Strategist reviews and approves
+5. Update pointer files in IDE directories
+
+## Reading Rules
+
+**For agents:**
+- Always read relevant rules BEFORE creating architect plan
+- Acknowledge which rules consulted in plan
+- If rule missing, flag with 🔧
+
+**For humans:**
+- Rules document "why" not just "what"
+- Rules emerge from real problems, not theory
+- Rules evolve as project evolves
+

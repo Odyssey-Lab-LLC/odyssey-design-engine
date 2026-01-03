@@ -1,0 +1,136 @@
+# Handoff Template
+
+**Instructions:** Use this template when creating handoffs in `planning/handoffs/NNN-description.md`.
+
+---
+
+# Handoff [NNN]: [Clear, Descriptive Title]
+
+**From:** [Agent Name or User Name]  
+**To:** [Agent Name]  
+**Date:** [YYYY-MM-DD]  
+**Depends on:** [Prior handoff numbers, or "None"]
+
+---
+
+## Rules Consulted
+
+- `.rules/XX-[name].md` — [Relevant sections used]
+- `.rules/YY-[name].md` — [Relevant sections used]
+- `AGENTS.md` — [Relevant sections: phases, file layout, etc.]
+
+---
+
+## Context
+
+[Explain what's been done so far. What is the current state? Why is this work needed now?]
+
+[If this depends on prior work, reference it explicitly.]
+
+---
+
+## Objective
+
+[Single clear goal. One sentence. What does success look like?]
+
+Example: "Extract theme definitions from all PDFs and create deduplicated core files."
+
+---
+
+## Tasks
+
+### Task 1: [Task Name]
+
+[Concrete, actionable steps. Be specific.]
+
+**Expected Input:**
+- [What files/data will be read]
+
+**Expected Output:**
+- [What files/data will be created]
+
+**Process:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+### Task 2: [Task Name]
+
+[Same structure]
+
+### Task 3: [Task Name]
+
+[Add as many tasks as needed]
+
+---
+
+## Output Structure
+
+[Show expected file structure after completion]
+
+```
+expected_directory/
+├── file1.md
+├── file2.json
+├── subdirectory/
+│   ├── file3.py
+│   └── file4.txt
+└── another_subdirectory/
+    └── file5.yaml
+```
+
+**File Format Requirements:**
+- [Any specific formatting requirements]
+- [Front matter requirements if applicable]
+- [Naming conventions]
+
+---
+
+## Validation Criteria
+
+After completion, verify:
+- [ ] [Criterion 1 — measurable]
+- [ ] [Criterion 2 — measurable]
+- [ ] [Criterion 3 — measurable]
+
+---
+
+## Stop Conditions
+
+STOP and report if:
+- [Condition 1 that should halt execution]
+- [Condition 2 that should halt execution]
+- [Condition 3 that should halt execution]
+
+Example: "STOP if any PDF cannot be classified with certainty"
+
+---
+
+## Completion
+
+Produce:
+1. **Report:** `planning/reports/[NNN]-[slug]-report.md`
+2. **Lessons:** `planning/lessons/[NNN]-[slug]-lessons.md`
+
+**Report should include:**
+- [Specific things to document]
+- [Metrics to report]
+- [Analysis to include]
+
+**Lessons should focus on:**
+- [What edge cases were discovered]
+- [What rules were missing or unclear]
+- [What worked well]
+
+---
+
+## Questions (If Applicable)
+
+[If this is a DRAFT handoff, list open questions here]
+
+❓ [Question 1 that needs resolution]
+
+❓ [Question 2 that needs resolution]
+
+[Remove this section when handoff is finalized]
+

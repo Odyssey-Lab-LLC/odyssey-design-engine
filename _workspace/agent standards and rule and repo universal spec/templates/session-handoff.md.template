@@ -1,0 +1,190 @@
+# Session Handoff Template
+
+**Instructions:** Use this template for `planning/sessions/[AGENT]-[YYYY-MM-DD]-[NNN].md` where NNN is the session number for that day.
+
+---
+
+```yaml
+---
+agent: [Agent Name]
+session_id: "[YYYY-MM-DD]-[NNN]"
+previous_session: "[YYYY-MM-DD]-[NNN]"  # or null if first session
+next_session: null  # filled by next session
+status: closed  # or active
+---
+```
+
+# Session Handoff: [Agent Name] [YYYY-MM-DD]-[NNN]
+
+## Session Summary
+
+[2-3 sentences capturing the essence of what was accomplished in this session. Keep it high-level.]
+
+Example: "Completed Phase 2 extraction for themes 15-22. Discovered unexpected variation in blend descriptions requiring manual review. Made decision to use 8-char hashes instead of 6-char due to collision risk."
+
+---
+
+## Current State
+
+**Active handoffs:**
+- `planning/handoffs/[NNN]-[slug].md` ([status], [% complete or phase])
+- `planning/handoffs/[NNN]-[slug].md` ([status], [blocker if any])
+
+**Recent completions:**
+- [NNN]-[slug] (complete, archived [DATE])
+- [NNN]-[slug] (complete, archived [DATE])
+
+**Open questions:**
+- ❓ [Question needing decision]
+- ❓ [Question needing decision]
+
+**Blocked items:**
+- [Item] — Blocked on: [reason]
+
+---
+
+## Context to Preserve
+
+**Decisions made this session:**
+
+1. **[Decision title]** — Rationale: [why this decision was made, what alternatives were considered]
+2. **[Decision title]** — Rationale: [why]
+3. **[Decision title]** — Rationale: [why]
+
+**Patterns observed:**
+
+- [Pattern discovered during work - e.g., "Theme definitions are 100% universal across all people"]
+- [Pattern - e.g., "'Why unique' paragraphs have ~40% sharing rate"]
+- [Pattern - e.g., "Blend descriptions vary more than expected"]
+
+**Gotchas discovered:**
+
+- [Edge case or trap - e.g., "PDF page numbers don't match extraction page numbers (off by 2)"]
+- [Gotcha - e.g., "Hash collisions possible with 6-char prefix"]
+- [Gotcha - e.g., "Bernie Progio has unique report format - handle separately"]
+
+**Insights:**
+
+- [Understanding gained - e.g., "Horizontal-first extraction 2x faster than vertical"]
+- [Insight - e.g., "Version sync catching real issues early"]
+
+---
+
+## Next Session Should
+
+**Immediate actions (priority order):**
+
+1. [First thing to do next session]
+2. [Second thing to do]
+3. [Third thing to do]
+
+**Context to load:**
+
+- Read `planning/lessons/[NNN]-*.md` for [specific insights]
+- Review `_work/[filename]` for [current state of what]
+- Check `path/to/file` for [specific information needed]
+
+**Focus area:**
+
+[One sentence describing what next session should prioritize]
+
+Example: "Complete handoff 012 Phase 3 before starting new work. Don't unblock 013 until user decision received."
+
+---
+
+## State Snapshot
+
+**Files modified this session:**
+
+- `[filename]` v[OLD] → v[NEW] ([brief what changed])
+- `[filename]` (created - [brief purpose])
+- `[filename]` ([brief what changed])
+
+**System file versions (current):**
+
+- AGENTS.md: v[X.Y.Z]
+- [AGENT].md: v[X.Y.Z]
+- README.md: v[X.Y.Z]
+- ARCHITECTURE.md: v[X.Y.Z] (if exists)
+
+**Version sync status:**
+
+- ✅ All files in sync
+— OR —
+- ⚠️ [File] needs update to v[X.Y.Z]
+
+**Project metrics (if applicable):**
+
+- [Metric name]: [Value] ([change from last session])
+- [Metric name]: [Value]
+- [Metric name]: [Value]
+
+Example:
+- Extraction progress: 78% (+12% from last session)
+- Themes processed: 27/34
+- Deduplication rate: 42% shared content
+
+---
+
+## References
+
+**Linked artifacts:**
+
+- Handoffs: [List handoff numbers mentioned]
+- Reports: [List report numbers if relevant]
+- Lessons: [List lesson file numbers if referenced]
+
+**Key files touched:**
+
+- [List files that are central to understanding session state]
+
+---
+
+## Notes for Continuity
+
+**If picking up where left off:**
+
+- [Specific instruction for seamless continuation]
+- [Context that would otherwise be lost]
+- [Reminder about something mid-progress]
+
+**If context loading is complex:**
+
+- Load in this order: [specific loading sequence]
+- Skip re-reading: [what's already covered here]
+- Pay special attention to: [what needs focus]
+
+**Time-sensitive items:**
+
+- [Anything with a deadline or urgency]
+- [Decisions needed by specific date]
+
+---
+
+## Session Metadata
+
+**Duration:** [Hours] hours  
+**Handoffs touched:** [Number]  
+**Files modified:** [Number]  
+**Decisions made:** [Number]  
+**Issues encountered:** [Number - link to incident reports if any]
+
+**Quality notes:**
+
+- ✅ [What went well]
+- ⚠️ [What was challenging]
+- 🔧 [What needs improvement]
+
+---
+
+## Handoff to Next Session
+
+[One paragraph summary for next session agent reading this cold]
+
+Example: "This session focused on Phase 2 extraction validation. Found blend descriptions vary more than expected - some need manual review (flagged in _work/review-needed.json). Decision made to use 8-char hashes. Handoff 012 is 75% complete, ready for Phase 3. Handoff 013 blocked waiting for user decision on caching strategy. System files updated to v1.3.0 and all in sync. Next session should complete 012 before starting anything new."
+
+---
+
+**Session closed:** [YYYY-MM-DD HH:MM UTC]  
+**Next session:** [YYYY-MM-DD] (estimated) or "TBD"
+

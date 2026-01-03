@@ -1,0 +1,108 @@
+# Cursor Pointer Rule Template (.mdc)
+
+**Instructions:** Use this template for `.cursor/rules/[rule-name].mdc` pointer files.
+
+---
+
+---
+description: "[Brief description of what this rule covers]"
+[alwaysApply: true | globs: ["pattern/**"] | neither]
+---
+
+# [Rule Title]
+
+See `.rules/[XX]-[rule-name].md` for the authoritative [rule topic] standards.
+
+**Key rules:** [Brief 1-2 sentence summary of the most important points]
+
+[Optional: Add a few bullet points for quick reference, but keep it minimal]
+- [Key point 1]
+- [Key point 2]
+- [Key point 3]
+
+**For complete details:** Read `.rules/[XX]-[rule-name].md`
+
+---
+
+## Configuration Options
+
+Choose ONE of these configurations:
+
+### Option 1: Always Apply (Universal Rules)
+
+```yaml
+---
+description: "[Description]"
+alwaysApply: true
+---
+```
+
+**Use for:** Rules that apply to every conversation (conflict checking, reporting requirements, etc.)
+
+### Option 2: Pattern Matched (Context-Specific)
+
+```yaml
+---
+description: "[Description]"
+globs:
+  - "path/to/files/**"
+  - "another/pattern/**"
+---
+```
+
+**Use for:** Rules that only apply when working with specific files (extraction rules for `_inputs/**`, output rules for `core/**`)
+
+### Option 3: Agent Decides (Optional Reference)
+
+```yaml
+---
+description: "[Description]"
+---
+```
+
+**Use for:** Rules the agent can choose to fetch if relevant (domain-specific patterns, advanced techniques)
+
+---
+
+## Examples
+
+### Example 1: Always Applied Rule
+
+```markdown
+---
+description: "Conflict checking protocol"
+alwaysApply: true
+---
+
+See `.rules/00-conflict-checking.md` for the authoritative conflict checking protocol.
+
+ALWAYS check for conflicts between handoffs and governing files before executing.
+```
+
+### Example 2: Pattern Matched Rule
+
+```markdown
+---
+description: "Rules for PDF/HTML extraction"
+globs:
+  - "_inputs/**"
+  - "_extractions/**"
+---
+
+See `.rules/10-extraction-standards.md` for extraction rules.
+
+**Key rules:** Verbatim only, provenance tracking required, fail-fast on classification.
+```
+
+### Example 3: Agent Decides
+
+```markdown
+---
+description: "Advanced RAG optimization techniques"
+---
+
+See `.rules/15-rag-optimization.md` for advanced RAG patterns.
+
+Fetch this rule when working on performance optimization or embedding quality.
+```
+

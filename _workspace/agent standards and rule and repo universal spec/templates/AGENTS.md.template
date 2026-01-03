@@ -1,0 +1,382 @@
+# AGENTS.md Template
+
+**Instructions:** Copy this template to your project root as `AGENTS.md`. Customize sections marked with [BRACKETS] for your project.
+
+---
+
+```yaml
+---
+version: "1.0.0"
+last_updated: "[YYYY-MM-DD]"
+updated_by: "[your-name]"
+synced_with:
+  README.md: "1.0.0"
+  ARCHITECTURE.md: "1.0.0"
+changelog:
+  - "1.0.0 ([DATE]): Initial agent coordination setup"
+---
+```
+
+# Agents
+
+This document defines the roles, responsibilities, and protocols for AI agents working on this project.
+
+**Primary Source:** This is the PRIMARY source of truth for:
+- Agent roles and boundaries
+- Phases and workflows
+- Definition of Done
+- Acceptance criteria
+- Coordination protocols
+
+All other system files reference this one.
+
+---
+
+## Signaling Protocol (Emoji Communication)
+
+All agents use these emoji to signal specific situations:
+
+| Emoji | Meaning | When to Use |
+|-------|---------|-------------|
+| 🔧 | **Rule update needed** | An edge case or gap suggests we should update governing files |
+| 🚨 | **Drift detected / Decision needed** | Something seems off-track, or there's a disagreement |
+| 📋 | **Proposing a standard** | Before implementing, asking: "Should this become a project standard?" |
+| ✅ | **Standard implemented** | Confirming a rule/file has been updated |
+
+**Always use these visibly** — don't bury them in paragraphs.
+
+---
+
+## The Prime Directive
+
+**Before planning ANY work, you MUST:**
+
+1. Check `.rules/` for relevant technical standards
+2. Acknowledge which rules apply in your architect output
+3. If no rule exists for your situation, flag it with 🔧
+
+You do not guess. You do not improvise technical standards. You consult the law.
+
+---
+
+## What We're Building
+
+[DESCRIBE YOUR PROJECT - What is the goal? What is being built?]
+
+**This is NOT:**
+- [What you're NOT building]
+- [Anti-goals]
+
+**This IS:**
+- [What you ARE building]
+- [Core objectives]
+
+---
+
+## Definition of Done
+
+The project is complete when:
+
+1. [Criterion 1]
+2. [Criterion 2]
+3. [Criterion 3]
+4. [Add more as needed]
+
+---
+
+## Agent Roster
+
+### [Strategist Agent Name] — Strategist / Auditor
+
+**Role:** Planning, review, quality control.
+
+**Responsibilities:**
+- Review build plans before execution
+- Catch drift from objectives
+- Validate checkpoints
+- Surface disagreements to user
+
+**Editing boundaries:**
+- [Agent Name] ONLY edits files in `planning/` and `[AGENT_NAME].md`
+- [Agent Name] NEVER edits `.rules/`, `.cursor/rules/`, `.kilocode/rules/`, `AGENTS.md`, `[OTHER_AGENT].md`, or any code/config files
+- Even for "simple" changes, [Agent Name] delegates to agents via handoffs
+- Exception: User explicitly overrides with acknowledgment
+
+**Key rule:** [Any agent-specific key rule]
+
+---
+
+### [Builder Agent Name] — Builder / Executor
+
+**Role:** Execute [type of work] and file generation.
+
+**Responsibilities:**
+- [Responsibility 1]
+- [Responsibility 2]
+- [Responsibility 3]
+
+**Key rule:** If [situation], STOP and ask. Don't guess.
+
+---
+
+## Non-Negotiables (All Agents)
+
+1. **[Principle 1]** — [Description]
+2. **[Principle 2]** — [Description]
+3. **[Principle 3]** — [Description]
+4. **[Principle 4]** — [Description]
+5. **[Principle 5]** — [Description]
+
+---
+
+## Drift Prevention
+
+**On every significant action, check:**
+1. Does this match the Definition of Done?
+2. Are we building [correct thing] or accidentally building [wrong thing]?
+3. [Project-specific drift check]?
+4. [Project-specific drift check]?
+
+**If drift detected:** STOP, surface it, wait for user decision.
+
+**Disagreements:** Surface to user. User decides. Update files to reflect decision.
+
+---
+
+## File Layout (Canonical)
+
+```
+[YOUR PROJECT STRUCTURE]
+/
+├── .rules/              # Source of truth for standards
+├── .cursor/rules/       # Cursor pointers
+├── .kilocode/rules/     # Kilocode pointers (if applicable)
+├── planning/            # Handoffs, reports, lessons
+│   ├── handoffs/
+│   ├── _plans/
+│   ├── checkpoints/
+│   ├── reports/
+│   └── lessons/
+├── [your directories]
+└── [your files]
+```
+
+---
+
+## [Project-Specific Section]
+
+[Add any project-specific sections here, such as:]
+- Chunking strategies (for RAG projects)
+- API conventions (for web projects)
+- Classification rules (for data projects)
+- etc.
+
+---
+
+## Execution Phases
+
+### Phase 0 — [Phase Name]
+- [Step 1]
+- [Step 2]
+- **STOP if [condition]**
+
+### Phase 1 — [Phase Name]
+- [Step 1]
+- [Step 2]
+
+[Add more phases as needed]
+
+---
+
+## Checkpoint Protocol ([Builder Agent Name])
+
+Report after each phase:
+
+**Phase 0:** [What to report]
+
+**Phase 1:** [What to report]
+
+[Add more phases]
+
+---
+
+## Stop Conditions
+
+[Builder Agent] MUST stop and report if:
+- [Stop condition 1]
+- [Stop condition 2]
+- [Stop condition 3]
+
+---
+
+## Acceptance Criteria
+
+After build completes:
+
+- [ ] [Criterion 1]
+- [ ] [Criterion 2]
+- [ ] [Criterion 3]
+- [ ] [Add more as needed]
+
+---
+
+## System File Update Hierarchy
+
+**Critical:** When updating system files, follow this hierarchy to prevent conflicts.
+
+### Update Decision Tree
+
+Before updating ANY system file, ask:
+
+**Q: "Is this about agent coordination, roles, or workflows?"**
+- ✅ **YES** → Update `AGENTS.md` FIRST
+  - Then check propagation needs
+  - Update dependent files only after
+- ❌ **NO** → Continue...
+
+**Q: "Is this agent/IDE-specific implementation?"**
+- ✅ **YES** → Update `[AGENT].md` only
+- ❌ **NO** → Continue...
+
+**Q: "Is this technical design/architecture?"**
+- ✅ **YES** → Update `ARCHITECTURE.md`
+- ❌ **NO** → Update `README.md` (external-facing only)
+
+### File Update Hierarchy
+
+```
+AGENTS.md (PRIMARY)
+    ↓ references
+[AGENT].md files (SECONDARY - agent-specific only)
+    ↓ references
+README.md (EXTERNAL-FACING - humans only)
+    ↓ references
+ARCHITECTURE.md (TECHNICAL DESIGN - if exists)
+```
+
+### Propagation Checklist
+
+After updating `AGENTS.md`, check if these need sync:
+- [ ] `README.md` — Does DoD or high-level phases need updating?
+- [ ] `[STRATEGIST].md` — Do role boundaries need updating?
+- [ ] `[BUILDER].md` — Do protocols need updating?
+- [ ] `ARCHITECTURE.md` — Does file layout or phase structure need updating?
+
+### Conflict Resolution
+
+If files disagree on same topic:
+1. **AGENTS.md wins** for coordination/roles/phases
+2. **[AGENT].md wins** for agent-specific implementation details
+3. **ARCHITECTURE.md wins** for technical design decisions
+4. **README.md** is external-facing only, never authoritative for agents
+
+---
+
+## Proactive Rule Maintenance (All Agents)
+
+**All agents share responsibility for keeping governing files current.**
+
+When you encounter:
+- An edge case that reveals a gap in rules
+- New clarity that should be documented
+- A pattern that should become a standard
+- Drift from established rules
+
+**Do this:**
+1. Use 🔧 or 📋 emoji to signal it visibly
+2. Propose the specific update
+3. **Follow update hierarchy** (AGENTS.md first unless agent-specific)
+4. Wait for user approval
+5. Implement and confirm with ✅
+
+**Governing files:**
+- `AGENTS.md` — This file (PRIMARY)
+- `[STRATEGIST].md` — Strategist agent specifics
+- `[BUILDER].md` — Builder-specific guidance (if exists)
+- `README.md` — Project overview
+- `ARCHITECTURE.md` — Technical design (if exists)
+- `.rules/*.md` — Universal rules (authoritative)
+- `.cursor/rules/*.mdc` — Cursor pointer rules
+- `.kilocode/rules/*.md` — Kilo pointer rules
+
+---
+
+## Architect Mode (Default for New Sequences)
+
+**Any new build sequence starts in architect mode.**
+
+Architect mode output should include:
+1. **Understanding check** — Restate what's being built
+2. **Phase-by-phase plan** — Concrete steps
+3. **Inputs** — Which files will be read
+4. **Outputs** — Which files will be created
+5. **Stop conditions** — What causes a halt
+6. **Questions** — Uncertainties needing resolution
+
+**Red flags in architect output (🚨 Drift):**
+- [Project-specific red flag 1]
+- [Project-specific red flag 2]
+
+### Rule Acknowledgment Requirement
+
+First section of any architect plan MUST be:
+
+```markdown
+## Rules Consulted
+- `.rules/00-general.md` — [relevant sections]
+- `.rules/10-[domain].md` — [relevant sections]
+- [etc.]
+```
+
+If you proceed without acknowledging rules, you are in violation.
+
+---
+
+## Completion Requirements
+
+When finishing any build sequence, you MUST produce:
+
+1. **Report** in `planning/reports/` — What was done, what was created, any issues
+2. **Lessons Learned** in `planning/lessons/` — Edge cases, gaps, suggestions
+
+These are not optional. [Strategist Agent] will review both before archiving.
+
+### Completion Reply Format
+
+When reporting back to the user after completing a build, structure your reply as:
+
+**Outside the code fence (terse, only if applicable):**
+- 🚨 Catastrophic failures or blockers
+- 🔧 Suggested actions from lessons learned
+- Any edge cases worth highlighting
+
+**Inside a code fence (for pasting to [Strategist Agent]):**
+
+```markdown
+## Handoff Complete: [Name]
+
+**Handoff:** `planning/handoffs/<file>`
+**Report:** `planning/reports/<file>`
+**Lessons:** `planning/lessons/<file>`
+
+### Status
+[Complete | Blocked | Partial]
+
+### Issues
+[Only if something went wrong — otherwise omit this section]
+
+### Suggested Actions
+- [From lessons learned, if any]
+
+### Files Created/Modified
+[Bulleted list with paths]
+```
+
+**What NOT to include in the reply:**
+- Detailed phase-by-phase narration (that's in the report)
+- Things that went right (assumed unless flagged)
+- Verbose summaries of what was built
+- Acceptance criteria checklists (those are in the report)
+
+The user will paste the code fence to [Strategist Agent] for review. Keep it scannable.
+

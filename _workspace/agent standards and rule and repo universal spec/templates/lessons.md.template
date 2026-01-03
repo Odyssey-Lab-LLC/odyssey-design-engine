@@ -1,0 +1,178 @@
+# Lessons Learned Template
+
+**Instructions:** Use this template for `planning/lessons/NNN-slug-lessons.md`.
+
+---
+
+# Lessons Learned: [Handoff Title]
+
+**Handoff:** `planning/handoffs/[NNN]-[slug].md`  
+**Report:** `planning/reports/[NNN]-[slug]-report.md`  
+**Agent:** [Agent Name]  
+**Date:** [YYYY-MM-DD]  
+**Disposition:** [Pending review | Acknowledged — no action needed (date) | Handoff created: NNN (date)]
+
+---
+
+## Edge Cases Discovered
+
+[Document any unexpected situations, corner cases, or scenarios not covered by existing rules]
+
+### Edge Case 1: [Name]
+
+**What happened:** [Description of the situation]
+
+**Pattern:** [Is this a one-off or could it recur?]
+
+**Handled by:** [How you handled it — flagged, stopped, proceeded with caveat]
+
+**Recommendation:** [Should this inform a rule update? Should it be documented somewhere?]
+
+---
+
+[If no edge cases:]
+
+**No edge cases discovered.** All scenarios matched expectations.
+
+---
+
+## Gaps in Rules
+
+[Document any missing or unclear rules that made execution more difficult]
+
+### Gap 1: [Description]
+
+**Missing guidance on:** [What wasn't covered in existing rules]
+
+**How it affected work:** [What ambiguity or difficulty resulted]
+
+**Workaround used:** [How you proceeded despite the gap]
+
+**Suggested rule:** [Propose specific rule text or reference to add]
+
+---
+
+[If no gaps:]
+
+**No gaps in rules identified.** All guidance was clear and sufficient.
+
+---
+
+## Suggested Updates
+
+[Specific proposals for updating governing files]
+
+### 1. 🔧 [Suggested Update Title]
+
+**File to update:** `[path/to/file.md]`
+
+**Proposed change:** [Specific text to add, modify, or remove]
+
+**Rationale:** [Why this update would improve future work]
+
+**Priority:** [High | Medium | Low]
+
+---
+
+### 2. 📋 [Another Suggestion]
+
+[Same structure]
+
+---
+
+[If no suggestions:]
+
+**No updates suggested.** Current rules and processes worked well.
+
+---
+
+## What Worked Well
+
+[Document successful patterns worth repeating]
+
+### 1. [Pattern Name]
+
+**What:** [Description of the pattern or approach]
+
+**Why it worked:** [What made this effective]
+
+**Recommendation:** [Should this be standardized? Documented? Repeated?]
+
+---
+
+### 2. [Another Success]
+
+[Same structure]
+
+---
+
+## What Didn't Work
+
+[Document approaches that failed or were problematic]
+
+### 1. [Problem Name]
+
+**What:** [Description of what was tried]
+
+**Why it didn't work:** [What went wrong]
+
+**Better approach:** [What should be done instead next time]
+
+---
+
+[If everything worked:]
+
+**All approaches were effective.** No significant problems encountered.
+
+---
+
+## Unanticipated Successes
+
+[Positive discoveries — things that worked better than expected, or unexpected benefits]
+
+### 1. [Discovery]
+
+**What happened:** [Description]
+
+**Why valuable:** [What made this beneficial]
+
+**Opportunity:** [Could this be leveraged elsewhere?]
+
+---
+
+## Potential Future Considerations
+
+[Forward-looking observations — not immediate actions, but things to think about]
+
+### If [Scenario] Happens
+
+**Consideration:** [What to think about]
+
+**Preparation:** [What could be done to prepare]
+
+---
+
+### Scalability
+
+**Current approach:** [How things work now]
+
+**At scale:** [What might need to change if volume increases significantly]
+
+---
+
+## Questions for Discussion
+
+[Open questions that came up during work but don't have clear answers]
+
+❓ [Question 1]
+
+❓ [Question 2]
+
+---
+
+## Summary
+
+[1-2 sentences capturing the most important lessons from this work]
+
+**Key takeaway:** [The one thing future agents should know from this experience]
+

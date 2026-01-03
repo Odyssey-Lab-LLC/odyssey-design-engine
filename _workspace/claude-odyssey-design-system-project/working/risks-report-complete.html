@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hidden Costs of AI Delegation in Knowledge Work | Odyssey Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           DESIGN TOKENS - Odyssey Design System v0.3
+           ============================================ */
+        :root {
+            /* COLORS - Titans Realm Palette */
+            --color-bronze: #B48E55;
+            --color-bronze-dark: #8B6F47;
+            --color-gold: #D4AF37;
+            --color-lab-blue-electric: #2563EB;
+            --color-lab-blue: #38BDF8;
+            --color-lab-blue-sky: #0EA5E9;
+
+            /* DARK ZONE (Hero Section) */
+            --dark-bg-deep: #0f1419;
+            --dark-bg-elevated: #1a1f26;
+            --dark-bg-gradient-center: #1A1E29;
+            --dark-text-primary: #e6edf3;
+            --dark-text-secondary: #8b949e;
+            --dark-pattern: #2A3040;
+
+            /* LIGHT ZONE (Body Content) */
+            --light-bg-body: #ffffff;
+            --light-bg-elevated: #f6f8fa;
+            --light-bg-accent: #f0f4f8;
+            --light-text-primary: #1f2328;
+            --light-text-secondary: #57606a;
+
+            /* TYPOGRAPHY */
+            --font-display: 'Cinzel', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* TYPE SCALE */
+            --text-5xl: clamp(2.5rem, 5vw, 3.5rem);
+            --text-4xl: clamp(2rem, 4vw, 2.5rem);
+            --text-3xl: clamp(1.5rem, 3.5vw, 2rem);
+            --text-2xl: clamp(1.25rem, 3vw, 1.5rem);
+            --text-xl: clamp(1.125rem, 2.5vw, 1.25rem);
+            --text-lg: 1.125rem;
+            --text-base: 1rem;
+            --text-sm: 0.875rem;
+            --text-xs: 0.75rem;
+
+            /* SPACING (8px grid) */
+            --space-2: 0.5rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-24: 6rem;
+
+            /* MOTION */
+            --duration-fast: 150ms;
+            --duration-normal: 300ms;
+            --duration-slow: 500ms;
+            --easing-default: cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes fadeInSettle {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleXIn {
+            from {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+            to {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes backgroundPan {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        @keyframes backgroundPulseOpacity {
+            0%, 100% { opacity: 0.02; }
+            50% { opacity: 0.04; }
+        }
+
+        @keyframes floatGentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* ============================================
+           BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--light-text-primary);
+            background-color: var(--light-bg-body);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================
+           HERO SECTION - Gemini-Inspired Titans Realm
+           ============================================ */
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: auto;
+            padding: var(--space-16) var(--space-4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--dark-text-primary);
+        }
+
+        /* Background gradient layer */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(ellipse at center, var(--dark-bg-gradient-center) 0%, var(--dark-bg-deep) 100%);
+            background-size: 150% 150%;
+            animation: backgroundPan 120s linear infinite alternate;
+        }
+
+        /* Subtle grid pattern layer */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(to right, var(--dark-pattern) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--dark-pattern) 1px, transparent 1px);
+            background-size: 150px 150px;
+            opacity: 0.03;
+            animation: backgroundPulseOpacity 30s ease-in-out infinite alternate;
+        }
+
+        .hero__content {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            padding: 0 var(--space-6);
+            text-align: center;
+        }
+
+        .hero__eyebrow {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--color-bronze);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-4);
+            opacity: 0;
+            animation: fadeInSettle 1s ease-out forwards 0.3s;
+        }
+
+        .hero__title {
+            font-family: var(--font-display);
+            font-size: var(--text-5xl);
+            font-weight: 600;
+            line-height: 1.15;
+            color: var(--color-bronze);
+            letter-spacing: 0.02em;
+            margin-bottom: var(--space-6);
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            animation: fadeInSettle 1.5s ease-out forwards;
+        }
+
+        .hero__thesis {
+            font-family: var(--font-body);
+            font-size: var(--text-xl);
+            line-height: 1.6;
+            color: var(--dark-text-primary);
+            margin-bottom: var(--space-6);
+            opacity: 0;
+            animation: fadeInSettle 1.2s ease-out forwards 0.5s;
+        }
+
+        .hero__context {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            color: var(--dark-text-secondary);
+            margin-bottom: var(--space-8);
+            opacity: 0;
+            animation: fadeInSettle 1.2s ease-out forwards 0.7s;
+        }
+
+        .hero__foundation-line {
+            width: 150px;
+            height: 3px;
+            background-color: var(--color-bronze);
+            margin: 0 auto var(--space-6);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+            transform: scaleX(0);
+            opacity: 0;
+            animation: scaleXIn 1s ease-out forwards 1s;
+            transform-origin: center center;
+        }
+
+        .hero__nav-note {
+            font-family: var(--font-body);
+            font-size: var(--text-sm);
+            color: var(--dark-text-secondary);
+            opacity: 0;
+            animation: fadeInSettle 1s ease-out forwards 1.2s;
+        }
+
+        .hero__nav-note a {
+            color: var(--color-lab-blue);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color var(--duration-fast) var(--easing-default);
+        }
+
+        .hero__nav-note a:hover {
+            border-bottom-color: var(--color-lab-blue);
+        }
+
+        /* Grounding bronze bar at bottom */
+        .hero__bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(to bottom, var(--color-bronze-dark), var(--color-bronze));
+            box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            transform: scaleX(0);
+            animation: scaleXIn 1s ease-out forwards 1.5s;
+            transform-origin: center bottom;
+        }
+
+        /* ============================================
+           MAIN CONTENT SECTIONS
+           ============================================ */
+        .section {
+            padding: var(--space-16) var(--space-4);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section--highlight {
+            background: var(--light-bg-accent);
+            border-left: 4px solid var(--color-bronze);
+            padding: var(--space-12) var(--space-8);
+        }
+
+        .section__heading {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: 600;
+            color: var(--light-text-primary);
+            margin-bottom: var(--space-8);
+            letter-spacing: 0.01em;
+        }
+
+        .section__subheading {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 500;
+            color: var(--light-text-primary);
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-6);
+        }
+
+        .section__text {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.8;
+            color: var(--light-text-primary);
+            margin-bottom: var(--space-6);
+        }
+
+        .section__text strong {
+            font-weight: 600;
+            color: var(--light-text-primary);
+        }
+
+        /* ============================================
+           EXECUTIVE SUMMARY CARDS
+           ============================================ */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .finding-card {
+            background: var(--light-bg-body);
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: var(--space-6);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            transition: all var(--duration-normal) var(--easing-default);
+        }
+
+        .finding-card:hover {
+            box-shadow: 0 4px 12px rgba(180, 142, 85, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .finding-card__number {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            color: var(--color-bronze);
+            line-height: 1;
+            margin-bottom: var(--space-4);
+        }
+
+        .finding-card__title {
+            font-family: var(--font-body);
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--light-text-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        .finding-card__detail {
+            font-family: var(--font-body);
+            font-size: var(--text-sm);
+            line-height: 1.6;
+            color: var(--light-text-secondary);
+        }
+
+        /* ============================================
+           CALLOUT BOXES
+           ============================================ */
+        .callout {
+            background: var(--light-bg-elevated);
+            border-left: 4px solid var(--color-bronze);
+            padding: var(--space-6);
+            margin: var(--space-8) 0;
+            border-radius: 4px;
+        }
+
+        .callout--urgent {
+            background: linear-gradient(135deg, rgba(180, 142, 85, 0.05), rgba(180, 142, 85, 0.02));
+            border-left-color: var(--color-bronze);
+        }
+
+        .callout__text {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            color: var(--light-text-primary);
+        }
+
+        /* ============================================
+           PULL QUOTES
+           ============================================ */
+        .quote {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            line-height: 1.4;
+            color: var(--color-bronze);
+            font-style: italic;
+            padding: var(--space-8) var(--space-6);
+            margin: var(--space-12) 0;
+            border-left: 4px solid var(--color-bronze);
+            background: linear-gradient(to right, rgba(180, 142, 85, 0.05), transparent);
+        }
+
+        /* ============================================
+           TIMELINE SVG DIAGRAM
+           ============================================ */
+        .timeline-container {
+            margin: var(--space-16) 0;
+            padding: var(--space-8);
+            background: var(--light-bg-elevated);
+            border-radius: 8px;
+        }
+
+        .timeline-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ============================================
+           ACCORDION COMPONENTS
+           ============================================ */
+        .accordion {
+            margin: var(--space-8) 0;
+        }
+
+        .accordion__item {
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            margin-bottom: var(--space-4);
+            overflow: hidden;
+        }
+
+        .accordion__header {
+            background: var(--light-bg-elevated);
+            padding: var(--space-6);
+            cursor: pointer;
+            user-select: none;
+            transition: background-color var(--duration-fast) var(--easing-default);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion__header:hover {
+            background: var(--light-bg-accent);
+        }
+
+        .accordion__header-content {
+            flex: 1;
+        }
+
+        .accordion__eyebrow {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--color-bronze);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-2);
+        }
+
+        .accordion__title {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 500;
+            color: var(--light-text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .accordion__description {
+            font-family: var(--font-body);
+            font-size: var(--text-sm);
+            color: var(--light-text-secondary);
+            line-height: 1.6;
+        }
+
+        .accordion__icon {
+            width: 24px;
+            height: 24px;
+            margin-left: var(--space-4);
+            transition: transform var(--duration-normal) var(--easing-default);
+        }
+
+        .accordion__icon--open {
+            transform: rotate(180deg);
+        }
+
+        .accordion__content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--duration-slow) var(--easing-default);
+        }
+
+        .accordion__content--open {
+            max-height: 5000px;
+        }
+
+        .accordion__body {
+            padding: var(--space-6);
+            background: var(--light-bg-body);
+        }
+
+        .accordion__body .section__text {
+            margin-bottom: var(--space-4);
+        }
+
+        .accordion__body ul,
+        .accordion__body ol {
+            margin-left: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .accordion__body li {
+            margin-bottom: var(--space-2);
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           STICKY BOTTOM NAVIGATION
+           ============================================ */
+        .nav-sticky {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #e1e4e8;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            padding: var(--space-4) var(--space-2);
+            transform: translateY(100%);
+            animation: slideUp 0.5s ease-out forwards 2s;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .nav-sticky__mobile-toggle {
+            display: none;
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--light-text-secondary);
+            background: transparent;
+            border: 1px solid #e1e4e8;
+            padding: var(--space-2) var(--space-4);
+            border-radius: 4px;
+            cursor: pointer;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: all var(--duration-fast) var(--easing-default);
+            margin: 0 auto;
+        }
+
+        .nav-sticky__mobile-toggle:hover {
+            border-color: var(--color-bronze);
+            color: var(--color-bronze);
+        }
+
+        .nav-sticky__list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            list-style: none;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-sticky__popup {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #e1e4e8;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: var(--space-6) var(--space-4);
+        }
+
+        .nav-sticky__popup--open {
+            display: block;
+        }
+
+        .nav-sticky__popup-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            list-style: none;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-sticky__item {
+            flex-shrink: 0;
+        }
+
+        .nav-sticky__link {
+            font-family: var(--font-body);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--light-text-secondary);
+            text-decoration: none;
+            padding: var(--space-2) var(--space-4);
+            border-radius: 4px;
+            transition: all var(--duration-fast) var(--easing-default);
+            display: block;
+        }
+
+        .nav-sticky__link:hover,
+        .nav-sticky__link--active {
+            color: var(--color-bronze);
+            background: rgba(180, 142, 85, 0.1);
+        }
+
+        /* Mobile popup link styling */
+        .nav-sticky__popup-list .nav-sticky__link {
+            font-size: var(--text-base);
+            padding: var(--space-4);
+            border: 1px solid #e1e4e8;
+        }
+
+        /* Bottom padding for body to prevent overlap */
+        body {
+            padding-bottom: 80px;
+        }
+
+        /* ============================================
+           RESPONSIVE ADJUSTMENTS
+           ============================================ */
+        @media (max-width: 768px) {
+            .hero {
+                padding: var(--space-12) var(--space-4);
+            }
+
+            .section {
+                padding: var(--space-12) var(--space-4);
+            }
+
+            .findings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Mobile navigation - show toggle button, hide list */
+            .nav-sticky__mobile-toggle {
+                display: block;
+            }
+
+            .nav-sticky__list {
+                display: none;
+            }
+
+            /* Adjust body padding for mobile */
+            body {
+                padding-bottom: 70px;
+            }
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-0 { margin-bottom: 0; }
+        .mb-4 { margin-bottom: var(--space-4); }
+        .mb-6 { margin-bottom: var(--space-6); }
+        .mb-8 { margin-bottom: var(--space-8); }
+        .mt-8 { margin-top: var(--space-8); }
+        .mt-12 { margin-top: var(--space-12); }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         HERO SECTION - TITANS REALM
+         ============================================ -->
+    <section class="hero" id="hero">
+        <div class="hero__content">
+            <div class="hero__eyebrow">Research Report | Risks Landscape</div>
+            <h1 class="hero__title">The Hidden Costs of AI Delegation in Knowledge Work</h1>
+            
+            <p class="hero__thesis">
+                Over-reliance on AI tools causes measurable cognitive degradation within 6-12 weeks, with skill atrophy, trust erosion, and capability loss accelerating through cascading feedback loops. For small creative teams where human judgment is the core value proposition, the risks extend beyond individual capability to encompass client trust, quality drift, and the collapse of expertise development pathways.
+            </p>
+            
+            <p class="hero__context">
+                Research across cognitive psychology, education, and professional services reveals these are not hypothetical concerns but documented patterns with quantifiable impacts and identifiable mechanisms.
+            </p>
+            
+            <div class="hero__foundation-line"></div>
+            
+            <p class="hero__nav-note">
+                This report examines risks. For the opportunities framework, see <a href="#companion">companion report</a>. For synthesis of both perspectives, see <a href="#portal">portal</a>.
+            </p>
+        </div>
+        <div class="hero__bottom-bar"></div>
+    </section>
+
+    <!-- ============================================
+         EXECUTIVE SUMMARY
+         ============================================ -->
+    <section class="section section--highlight" id="summary">
+        <h2 class="section__heading text-center">Executive Summary</h2>
+        
+        <div class="callout callout--urgent">
+            <p class="callout__text">
+                <strong>Bottom Line Up Front:</strong> Tools designed to augment human capability can systematically diminish it when adoption patterns shift from conscious augmentation to unconscious substitution. This transition happens quietly, often within the first year of use, creating acute vulnerabilities in small teams (3-10 people).
+            </p>
+        </div>
+
+        <h3 class="section__subheading">Critical Findings</h3>
+        
+        <div class="findings-grid">
+            <div class="finding-card">
+                <div class="finding-card__number">01</div>
+                <div class="finding-card__title">Automation Bias Affects Experts Equally</div>
+                <div class="finding-card__detail">
+                    26% increase in error rates even among skilled professionals. Research by Parasuraman and Manzey demonstrates this cannot be prevented by training or instructions aloneâ€”it affects naive and expert users equally.
+                </div>
+            </div>
+
+            <div class="finding-card">
+                <div class="finding-card__number">02</div>
+                <div class="finding-card__title">47% Neural Engagement Reduction Within Weeks</div>
+                <div class="finding-card__detail">
+                    MIT neuroscience research shows profound attentional reallocation when AI handles cognitive tasks. Workers showed 80% inability to recall what they'd written minutes after AI-assisted composition.
+                </div>
+            </div>
+
+            <div class="finding-card">
+                <div class="finding-card__number">03</div>
+                <div class="finding-card__title">6-12 Week Skill Atrophy Onset</div>
+                <div class="finding-card__detail">
+                    Medical skills research shows significant decline begins in this window. Cognitive skills decay faster than physical skillsâ€”precisely what AI automates. After 6-24 months, measurable declines in pattern recognition and intuitive decision-making occur.
+                </div>
+            </div>
+
+            <div class="finding-card">
+                <div class="finding-card__number">04</div>
+                <div class="finding-card__title">0-12 Month Critical Intervention Window</div>
+                <div class="finding-card__detail">
+                    First year determines trajectory. Beyond 12 months, patterns become entrenched. After 18-24 months, dependency formation is structural and costly to reverse, requiring organizational restructuring rather than practice adjustment.
+                </div>
+            </div>
+
+            <div class="finding-card">
+                <div class="finding-card__number">05</div>
+                <div class="finding-card__title">Quality Drift: 51% of AI Content Has Issues</div>
+                <div class="finding-card__detail">
+                    Yet 87% of professionals express confidence in accuracy. This confidence-reality gap is particularly dangerous in client-facing work where generic outputs damage relationships. Human-generated content consistently outperforms AI in engagement and conversion rates.
+                </div>
+            </div>
+        </div>
+
+        <div class="callout">
+            <p class="callout__text">
+                <strong>The Critical Window:</strong> Intervention is most effective in the first 12 months of AI integration. By 18-24 months, recovery requires organizational restructuring, not just practice adjustment. Detection is difficultâ€”by the time quality issues become visible externally, underlying cognitive changes are already significant.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 1: HOW DEGRADATION HAPPENS
+         ============================================ -->
+    <section class="section" id="mechanisms">
+        <h2 class="section__heading">How Cognitive Degradation Actually Happens</h2>
+
+        <h3 class="section__subheading">The Mechanism of AI-Induced Skill Erosion</h3>
+
+        <p class="section__text">
+            The mechanism of AI-induced skill erosion is well-documented across multiple disciplines. <strong>Automation bias</strong>â€”the tendency to over-rely on automated recommendations as a heuristic replacement for active thinkingâ€”increases the risk of incorrect decisions by 26% even among experts, according to healthcare meta-analyses. This isn't a training gap; research by Parasuraman and Manzey demonstrates that automation bias <strong>affects both naive and expert users equally and cannot be prevented by training or instructions alone</strong>.
+        </p>
+
+        <p class="section__text">
+            The core mechanism involves <strong>attentional reallocation</strong>. When AI handles cognitive tasks, human attention shifts away from active monitoring and critical evaluation. MIT neuroscience research found that users of AI writing tools showed <strong>47% reduced neural engagement</strong> compared to unassisted work, and <strong>80% couldn't recall what they'd written</strong> minutes after AI-assisted composition. This isn't passive forgettingâ€”it's a fundamental failure of cognitive encoding that occurs when the brain recognizes an available energy-saving shortcut.
+        </p>
+
+        <blockquote class="quote">
+            "Humans are biologically predisposed to minimize mental effort whenever possible."
+        </blockquote>
+
+        <p class="section__text">
+            This connects to the <strong>"cognitive miser" theory</strong>: humans are biologically predisposed to minimize mental effort whenever possible. Research by Vonasch demonstrated that people depleted by effortful tasks subsequently use more cognitive shortcuts, and crucially, <strong>they're unaware they've adopted this strategy</strong>. When AI provides an efficient path to task completion, the brain defaults to this lower-effort route. In small teams under delivery pressure, this tendency intensifies.
+        </p>
+
+        <p class="section__text">
+            Skill atrophy follows a predictable timeline. Medical skills research shows <strong>significant decline occurs between 6-12 weeks</strong> of non-practice, with complex cognitive tasks showing steeper degradation curves than simple procedural skills. The critical finding: <strong>cognitive skills decay faster than physical skills</strong>â€”precisely what AI automates. After 6-24 months of AI-mediated work, professionals show measurable declines in pattern recognition, intuitive decision-making, and troubleshooting capabilities, even while their AI-assisted output quality remains adequate.
+        </p>
+    </section>
+
+    <!-- ============================================
+         SECTION 2: THE ILLUSION OF COMPETENCE
+         ============================================ -->
+    <section class="section" id="illusion">
+        <h2 class="section__heading">The Illusion of Competence</h2>
+
+        <div class="callout">
+            <p class="callout__text">
+                <strong>The Most Dangerous Documented Effect:</strong> Competence without understandingâ€”appearing skilled while underlying capability erodes.
+            </p>
+        </div>
+
+        <h3 class="section__subheading">Why Degradation Remains Invisible</h3>
+
+        <p class="section__text">
+            The most dangerous documented effect is <strong>competence without understanding</strong>. Research from Aalto University found that users of AI tools reported feeling more knowledgeable despite demonstrating no actual knowledge gain on subsequent testing. This illusion persists even when users are told the system might be unreliable. Longitudinal studies tracking knowledge workers over four months found those using AI tools showed <strong>55% less neural connectivity</strong> in regions associated with deep learning, while simultaneously expressing increased confidence in their capabilities.
+        </p>
+
+        <p class="section__text">
+            This creates a <strong>detection problem</strong>: individuals don't recognize their own degradation, managers see consistent output quality (maintained by AI), and only retrospective analysis reveals the underlying skill loss. By the time problems surface through failed deliveries or crisis situations, the cognitive infrastructure has often degraded to a point requiring months of remediation.
+        </p>
+
+        <p class="section__text">
+            Educational research demonstrates that student AI usage correlates with increased laziness (68.9% of respondents), degraded decision-making skills (27.7%), and memory loss (23.4%). Critically, these effects emerged within a single academic term, suggesting that cognitive adaptation occurs rapidly once regular AI usage begins.
+        </p>
+    </section>
+
+    <!-- ============================================
+         SECTION 3: STRESS ACCELERATION
+         ============================================ -->
+    <section class="section" id="stress">
+        <h2 class="section__heading">How Stress Accelerates Dependency</h2>
+
+        <p class="section__text">
+            Under pressure, human operators reflexively increase reliance on automation, even when consciously aware this increases risk. Railway traffic control analysis of 410,000+ controller-hours found that when time pressure increased, automation usage increased proportionallyâ€”and error rates spiked most dramatically among experienced controllers who "should have known better." The effect compounds: stress reduces cognitive capacity â†’ increases automation reliance â†’ degrades active monitoring â†’ produces errors â†’ increases stress.
+        </p>
+
+        <p class="section__text">
+            For small creative teams operating at capacity, this creates a <strong>capability trap</strong>. Delivery pressure drives AI adoption â†’ AI enables faster output â†’ team capacity expands to fill AI-augmented throughput â†’ underlying skills atrophy â†’ team becomes dependent on AI to maintain baseline capacity â†’ any AI failure creates cascading crisis.
+        </p>
+
+        <p class="section__text">
+            Research demonstrates that <strong>reliability amplifies dependency</strong>. When automation works consistently (as modern AI tools generally do), users develop deep trust and stop monitoring outputs critically. This is adaptive in stable systems but dangerous when AI outputs require expert judgment to validateâ€”precisely the situation in knowledge work.
+        </p>
+    </section>
+
+    <!-- ============================================
+         SECTION 4: QUALITY DRIFT
+         ============================================ -->
+    <section class="section" id="quality">
+        <h2 class="section__heading">The Transition from Human Excellence to AI Adequacy</h2>
+
+        <h3 class="section__subheading">Client-Facing Impacts</h3>
+
+        <p class="section__text">
+            Marketing meta-analysis found that <strong>51% of AI-generated content contained significant quality issues</strong>, yet <strong>87% of professionals expressed confidence in accuracy</strong>. This confidence-reality gap is particularly dangerous in client-facing work. Clients can detect when they're receiving generic AI output rather than customized human insight, even if they can't articulate why. Trust erosion occurs gradually, then suddenlyâ€”relationships maintained for years can fracture over a series of "technically correct but somehow wrong" deliverables.
+        </p>
+
+        <p class="section__text">
+            Professional services firms report that human-generated content consistently outperforms AI-generated equivalents in engagement metrics, conversion rates, and client satisfaction scores, even when blind testing shows AI content to be "objectively" comparable. The difference appears to lie in subtle contextual adaptation, relationship history integration, and strategic judgment that AI systems don't yet replicate reliably.
+        </p>
+
+        <p class="section__text">
+            The organizational risk is <strong>gradual quality normalization downward</strong>. AI establishes a new "good enough" baseline that becomes the default. Teams lose the capacity to recognize or produce truly exceptional work because the comparative reference points have shifted. Clients who can afford to choose migrate to providers still delivering human-led excellence, leaving AI-dependent firms competing primarily on price in an increasingly commoditized market.
+        </p>
+    </section>
+
+    <!-- ============================================
+         SECTION 5: ACCOUNTABILITY BREAKDOWN
+         ============================================ -->
+    <section class="section" id="accountability">
+        <h2 class="section__heading">The Diffusion of Responsibility</h2>
+
+        <p class="section__text">
+            When errors occur in AI-augmented workflows, responsibility becomes diffuse. The <strong>accountability gap</strong> manifests across three dimensions: technical (who owns the AI output?), organizational (who validates quality?), and legal (who's liable for failures?).
+        </p>
+
+        <p class="section__text">
+            The Air Canada chatbot case exemplifies this: the company argued the chatbot was a "separate legal entity" responsible for its own misrepresentations. This defense failed in court, but the fact it was attempted reveals how organizations rationalize AI-generated errors differently than human errors. The psychological distance ("the AI said it, not me") creates permission structures for reduced diligence.
+        </p>
+
+        <p class="section__text">
+            Research on automation and responsibility shows that when errors are attributed to "system failures" rather than individual mistakes, organizational learning diminishes. Teams don't update their mental models or improve processes because "the AI made a mistake" doesn't map to actionable lessons the way human error does. This prevents the iterative skill development that normally occurs through failure analysis.
+        </p>
+
+        <p class="section__text">
+            For small teams, this is particularly problematic because accountability structures are informal and relationship-based. The introduction of AI as an intermediary disrupts the direct feedback loops that normally maintain quality and build expertise. Junior team members don't learn from senior practitioners' corrections when AI mediates the work product, and senior practitioners don't develop coaching skills when AI handles first drafts.
+        </p>
+    </section>
+
+    <!-- ============================================
+         TIMELINE DIAGRAM - 6 TO 24 MONTHS
+         ============================================ -->
+    <section class="section" id="timeline">
+        <h2 class="section__heading text-center">The Progression: 6 to 24 Months</h2>
+        
+        <div class="timeline-container">
+            <svg class="timeline-svg" viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="1200" height="500" fill="#f6f8fa"/>
+                
+                <!-- Timeline base line -->
+                <line x1="100" y1="80" x2="1100" y2="80" stroke="#B48E55" stroke-width="3"/>
+                
+                <!-- Phase 1: Honeymoon (0-3 months) -->
+                <g id="phase-1">
+                    <rect x="100" y="100" width="220" height="350" fill="#E5D4B8" fill-opacity="0.3" stroke="#B48E55" stroke-width="2" rx="8"/>
+                    <circle cx="210" cy="80" r="12" fill="#E5D4B8" stroke="#B48E55" stroke-width="2"/>
+                    <text x="210" y="140" font-family="Cinzel, serif" font-size="20" font-weight="600" fill="#1f2328" text-anchor="middle">Honeymoon</text>
+                    <text x="210" y="165" font-family="Inter, sans-serif" font-size="14" fill="#57606a" text-anchor="middle">(0-3 months)</text>
+                    <text x="210" y="200" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âœ“ Productivity gains</text>
+                    <text x="210" y="230" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âœ“ Enthusiasm high</text>
+                    <text x="210" y="260" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âœ“ Quality appears stable</text>
+                    <text x="210" y="290" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">! Neural adaptation</text>
+                    <text x="210" y="320" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">begins (invisible)</text>
+                </g>
+                
+                <!-- Phase 2: Normalization (3-9 months) -->
+                <g id="phase-2">
+                    <rect x="360" y="100" width="220" height="350" fill="#C9A96B" fill-opacity="0.3" stroke="#B48E55" stroke-width="2" rx="8"/>
+                    <circle cx="470" cy="80" r="12" fill="#C9A96B" stroke="#B48E55" stroke-width="2"/>
+                    <text x="470" y="140" font-family="Cinzel, serif" font-size="20" font-weight="600" fill="#1f2328" text-anchor="middle">Normalization</text>
+                    <text x="470" y="165" font-family="Inter, sans-serif" font-size="14" fill="#57606a" text-anchor="middle">(3-9 months)</text>
+                    <text x="470" y="200" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">! Competence illusion</text>
+                    <text x="470" y="230" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">! Output consistent,</text>
+                    <text x="470" y="260" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">skills declining</text>
+                    <text x="470" y="290" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">! Critical thinking</text>
+                    <text x="470" y="320" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">atrophy detectable</text>
+                </g>
+                
+                <!-- Phase 3: Dependency (9-18 months) -->
+                <g id="phase-3">
+                    <rect x="620" y="100" width="220" height="350" fill="#A3865D" fill-opacity="0.3" stroke="#8B6F47" stroke-width="2" rx="8"/>
+                    <circle cx="730" cy="80" r="12" fill="#A3865D" stroke="#8B6F47" stroke-width="2"/>
+                    <text x="730" y="140" font-family="Cinzel, serif" font-size="20" font-weight="600" fill="#1f2328" text-anchor="middle">Dependency</text>
+                    <text x="730" y="165" font-family="Inter, sans-serif" font-size="14" fill="#57606a" text-anchor="middle">(9-18 months)</text>
+                    <text x="730" y="200" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âš  Structural reliance</text>
+                    <text x="730" y="230" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âš  Cannot sustain</text>
+                    <text x="730" y="260" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">output without AI</text>
+                    <text x="730" y="290" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âš  Quality issues</text>
+                    <text x="730" y="320" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">emerging externally</text>
+                </g>
+                
+                <!-- Phase 4: Crisis (18-24 months) -->
+                <g id="phase-4">
+                    <rect x="880" y="100" width="220" height="350" fill="#8B6F47" fill-opacity="0.4" stroke="#6C553C" stroke-width="2" rx="8"/>
+                    <circle cx="990" cy="80" r="12" fill="#8B6F47" stroke="#6C553C" stroke-width="2"/>
+                    <text x="990" y="140" font-family="Cinzel, serif" font-size="20" font-weight="600" fill="#1f2328" text-anchor="middle">Crisis</text>
+                    <text x="990" y="165" font-family="Inter, sans-serif" font-size="14" fill="#57606a" text-anchor="middle">(18-24 months)</text>
+                    <text x="990" y="200" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âŒ Major failures</text>
+                    <text x="990" y="230" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âŒ Client trust loss</text>
+                    <text x="990" y="260" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âŒ Capability collapse</text>
+                    <text x="990" y="290" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">âŒ Recovery requires</text>
+                    <text x="990" y="320" font-family="Inter, sans-serif" font-size="13" fill="#1f2328" text-anchor="middle">restructuring</text>
+                </g>
+            </svg>
+        </div>
+
+        <p class="section__text text-center mt-8">
+            <strong>Critical Window:</strong> Intervention is most effective in months 0-12. By 18 months, patterns are deeply entrenched and costly to reverse.
+        </p>
+    </section>
+
+    <!-- ============================================
+         SECTION 6: WARNING SIGNS (ACCORDIONS)
+         ============================================ -->
+    <section class="section" id="warning-signs">
+        <h2 class="section__heading">Recognition & Detection: Warning Signs</h2>
+
+        <p class="section__text">
+            Early detection of cognitive degradation is difficult because the most affected individuals are least capable of recognizing their own decline. These warning signs, drawn from organizational psychology and skill development research, can help teams identify problematic patterns before they become entrenched.
+        </p>
+
+        <div class="accordion">
+            <!-- Individual Warning Signs -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">INDIVIDUAL LEVEL</div>
+                        <div class="accordion__title">8 Personal Warning Signs</div>
+                        <div class="accordion__description">
+                            Behavioral patterns indicating individual cognitive degradation from AI dependency
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <ol>
+                            <li><strong>Confidence-capability divergence:</strong> Expressing strong confidence about work while struggling to explain reasoning or defend decisions when questioned. This manifests as superficial fluency that collapses under probing.</li>
+                            
+                            <li><strong>Procedural rigidity:</strong> Inability to adapt approaches when AI tools aren't available or produce unexpected results. The mental models that enable flexible problem-solving have atrophied.</li>
+                            
+                            <li><strong>Explanation avoidance:</strong> Responding to "how did you reach that conclusion?" with "I used [AI tool]" rather than articulating the underlying logic. The cognitive processes have become opaque even to the individual.</li>
+                            
+                            <li><strong>Validation outsourcing:</strong> Reflexively checking AI outputs against other AI systems rather than applying independent judgment or domain expertise to assess quality.</li>
+                            
+                            <li><strong>Recovery time inflation:</strong> Taking significantly longer to resolve problems when AI assistance is unavailable, suggesting the underlying skills have degraded substantially.</li>
+                            
+                            <li><strong>Pattern recognition decline:</strong> Missing obvious patterns or connections that previously would have been automatic. This often surfaces first in edge cases or unusual scenarios where AI training patterns don't apply.</li>
+                            
+                            <li><strong>Discomfort with complexity:</strong> Avoiding or quickly delegating problems that require sustained cognitive effort, whereas previously these were engaging challenges.</li>
+                            
+                            <li><strong>Prompt dependency:</strong> Spending more time crafting AI prompts than would have been required to complete the task directly, suggesting the metacognitive overhead now exceeds direct task execution.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Warning Signs -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">TEAM LEVEL</div>
+                        <div class="accordion__title">6 Organizational Warning Signs</div>
+                        <div class="accordion__description">
+                            Team dynamics and cultural indicators of systemic AI dependency issues
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <ol>
+                            <li><strong>Junior development pathway collapse:</strong> New team members aren't developing expertise at expected rates because they're learning to use AI tools rather than developing domain mastery. The expertise pipeline has been severed.</li>
+                            
+                            <li><strong>Quality discussion erosion:</strong> Team conversations focus on "what prompt worked" rather than "what makes this work excellent." The language and frameworks for discussing quality have shifted away from domain expertise toward tool manipulation.</li>
+                            
+                            <li><strong>Client feedback disconnect:</strong> Increasing client dissatisfaction despite internal quality metrics showing consistent performance. The gap indicates the team has lost sensitivity to what clients actually value.</li>
+                            
+                            <li><strong>Crisis response degradation:</strong> Team struggles significantly more when facing tight deadlines or unusual requirements where AI tools are less helpful. The human expertise reserve that normally handles exceptions has depleted.</li>
+                            
+                            <li><strong>Homogenization of outputs:</strong> Work products becoming increasingly similar in structure, style, and approach across team members and project types. The distinctive judgment that creates truly customized solutions has atrophied.</li>
+                            
+                            <li><strong>Attribution ambiguity:</strong> Difficulty determining who contributed what to deliverables because AI mediation has obscured individual contributions. This undermines both accountability and skill development feedback loops.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 7: PROTECTIVE PRACTICES (ACCORDIONS)
+         ============================================ -->
+    <section class="section" id="practices">
+        <h2 class="section__heading">Protective Practices: Maintaining Capability</h2>
+
+        <p class="section__text">
+            Research across multiple domains suggests that AI-induced cognitive degradation is not inevitable but requires conscious, sustained effort to prevent. These evidence-based practices help teams maintain human capability while using AI tools effectively.
+        </p>
+
+        <div class="accordion">
+            <!-- Practice 1: Deliberate Manual Work -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">PRACTICE 1</div>
+                        <div class="accordion__title">Deliberate Manual Work Allocation</div>
+                        <div class="accordion__description">
+                            Intentionally completing certain tasks without AI assistance to maintain skill pathways
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <p class="section__text">
+                            <strong>Core Principle:</strong> Medical skills research demonstrates that intermittent practice maintains capability even when full-time execution has shifted to automated systems. For knowledge workers, this means designating specific work that will be completed entirely without AI assistance, not for productivity but for capability maintenance.
+                        </p>
+
+                        <p class="section__text">
+                            <strong>Implementation:</strong>
+                        </p>
+                        <ul>
+                            <li><strong>Weekly manual hours:</strong> Each team member completes 4-6 hours of core work weekly without AI tools. Not "warm-up" tasks but substantive work requiring full cognitive engagement.</li>
+                            
+                            <li><strong>Rotation schedule:</strong> Different skills exercised on rotating basis (writing, analysis, research, problem-solving) to maintain breadth of capability.</li>
+                            
+                            <li><strong>Difficulty calibration:</strong> Manual work should be challenging enough to require effort but not so difficult it creates excessive frustration. The goal is skill maintenance, not punishment.</li>
+                            
+                            <li><strong>Reflection protocol:</strong> Brief documentation after manual work sessions noting what felt difficult, where skills have degraded, what capabilities feel rusty. This metacognitive awareness is itself protective.</li>
+                        </ul>
+
+                        <p class="section__text">
+                            <strong>Why This Works:</strong> Neural pathways maintained through use remain accessible even when not frequently activated. Complete disuse leads to pruning and eventual loss. Intermittent manual practice prevents this degradation while allowing AI-augmented productivity for most work.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practice 2: Explanation Forcing Functions -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">PRACTICE 2</div>
+                        <div class="accordion__title">Explanation Forcing Functions</div>
+                        <div class="accordion__description">
+                            Requiring articulation of reasoning before accepting AI outputs
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <p class="section__text">
+                            <strong>Core Principle:</strong> Competence illusions dissolve when forced to articulate reasoning. Educational research shows that requiring learners to explain conceptsâ€”even concepts they believe they understandâ€”immediately reveals gaps and forces deeper processing.
+                        </p>
+
+                        <p class="section__text">
+                            <strong>Implementation:</strong>
+                        </p>
+                        <ul>
+                            <li><strong>Pre-acceptance articulation:</strong> Before incorporating AI output into deliverables, document in your own words: (a) what the AI provided, (b) why it's appropriate, (c) what alternatives exist, (d) what limitations apply. This can be brief (200-300 words) but must be substantive.</li>
+                            
+                            <li><strong>Peer review protocol:</strong> Team members randomly review each other's AI-augmented work with the instruction to ask "why did you choose this approach?" The goal isn't criticism but forcing articulation of judgment.</li>
+                            
+                            <li><strong>Client-facing translation:</strong> Practice explaining AI-generated insights to clients without referencing the AI. If you can't explain it as if you generated it yourself, you don't understand it adequately to deliver it.</li>
+                            
+                            <li><strong>Decision journaling:</strong> Maintain a lightweight log of non-obvious decisions made in AI-augmented work. Reviewing this quarterly reveals whether decision-making capability is maintaining or degrading.</li>
+                        </ul>
+
+                        <p class="section__text">
+                            <strong>Why This Works:</strong> The act of explanation forces active engagement with content rather than passive acceptance. This cognitive processing maintains the mental models and pattern recognition systems that enable independent judgment. It also creates immediate feedback when understanding is superficial.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practice 3: Structural Skepticism -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">PRACTICE 3</div>
+                        <div class="accordion__title">Structural Skepticism Protocols</div>
+                        <div class="accordion__description">
+                            Building systematic validation into AI-augmented workflows
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <p class="section__text">
+                            <strong>Core Principle:</strong> Automation bias cannot be overcome through willpower or training aloneâ€”it requires structural interventions that force critical evaluation regardless of individual motivation. Aviation and medical research provides models for this.
+                        </p>
+
+                        <p class="section__text">
+                            <strong>Implementation:</strong>
+                        </p>
+                        <ul>
+                            <li><strong>Mandatory AI-free validation steps:</strong> Specific quality checks must be completed without AI assistance. For example, final client deliverables require 30-minute human-only review focusing on coherence, appropriateness, and strategic alignmentâ€”dimensions AI handles poorly.</li>
+                            
+                            <li><strong>Red team assignments:</strong> One team member per project explicitly tasked with identifying what AI might have gotten wrong, what context it missed, what nuances require human judgment. This person reviews after AI generation but before finalization.</li>
+                            
+                            <li><strong>Assumption documentation:</strong> AI outputs rest on implicit assumptions. Before accepting output, explicitly list 3-5 assumptions the AI likely made and validate whether they hold for this specific case.</li>
+                            
+                            <li><strong>Edge case testing:</strong> Deliberately test AI outputs with edge cases, unusual inputs, or adversarial prompts quarterly to maintain awareness of system limitations and prevent overreliance.</li>
+                        </ul>
+
+                        <p class="section__text">
+                            <strong>Why This Works:</strong> Automation bias emerges from trust in consistent performance. Structural skepticism maintains awareness of limitations and forces engagement even when convenient to defer. The key is making skepticism mandatory rather than optionalâ€”individuals under pressure will always take available shortcuts unless system design prevents it.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practice 4: Capability Monitoring -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">PRACTICE 4</div>
+                        <div class="accordion__title">Explicit Capability Monitoring</div>
+                        <div class="accordion__description">
+                            Regular assessment of underlying skills independent of AI-assisted output quality
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <p class="section__text">
+                            <strong>Core Principle:</strong> Skill degradation is gradual and self-concealing. Without explicit assessment independent of AI-assisted outputs, teams won't detect capability loss until it manifests in crisis situations. Medical and aviation fields mandate regular unassisted competency evaluations for this reason.
+                        </p>
+
+                        <p class="section__text">
+                            <strong>Implementation:</strong>
+                        </p>
+                        <ul>
+                            <li><strong>Quarterly capability audits:</strong> Each team member completes 2-3 representative work samples without AI assistance. These are assessed not against AI-augmented work but against historical human baselines or peer performance.</li>
+                            
+                            <li><strong>Cross-temporal comparison:</strong> Compare current unassisted performance to work samples from 6-12 months prior on similar tasks. Document specific capabilities that have strengthened, maintained, or degraded.</li>
+                            
+                            <li><strong>Blind performance assessment:</strong> Periodically, managers review work samples without knowing whether they were AI-assisted or manual. Systematic quality differences indicate either AI is introducing problems or human capability has degraded (or both).</li>
+                            
+                            <li><strong>Skill inventory maintenance:</strong> Maintain explicit list of core competencies required for role. Quarterly self-assessment: "Could I still do this at our expected quality level without AI?" Document specific areas where confidence has declined.</li>
+                        </ul>
+
+                        <p class="section__text">
+                            <strong>Why This Works:</strong> What gets measured gets managed. Explicit capability monitoring makes degradation visible before it becomes crisis-level, enabling proactive intervention. It also maintains team awareness that human capability is organizationally valued, countering the implicit message that AI proficiency is what matters.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practice 5: Strategic AI Boundaries -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">PRACTICE 5</div>
+                        <div class="accordion__title">Strategic AI Boundaries</div>
+                        <div class="accordion__description">
+                            Defining specific work that remains human-led even when AI assistance is available
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <p class="section__text">
+                            <strong>Core Principle:</strong> Not all tasks should be AI-augmented even when AI could technically assist. Strategic boundaries preserve human capability in areas that differentiate the organization or require judgment that current AI systems handle poorly.
+                        </p>
+
+                        <p class="section__text">
+                            <strong>Implementation:</strong>
+                        </p>
+                        <ul>
+                            <li><strong>Core competency identification:</strong> Explicitly identify 3-5 capabilities that define the organization's value proposition and competitive advantage. These become "AI-restricted zones" where AI assistance is prohibited or heavily limited regardless of efficiency gains.</li>
+                            
+                            <li><strong>Client-facing work preservation:</strong> Strategic client interactions, custom analyses, and relationship-critical communications remain primarily human-generated. AI can assist with research or initial drafts but human judgment must dominate final output.</li>
+                            
+                            <li><strong>Junior development protection:</strong> New team member training and development deliberately excludes AI for first 6-12 months to ensure foundational skills develop properly. AI tools introduced only after competency without assistance is demonstrated.</li>
+                            
+                            <li><strong>Boundary review protocol:</strong> Quarterly reassessment: "Where have AI boundaries eroded? What work that should be human-led has become AI-dependent? What guardrails need reinforcement?" This prevents gradual boundary collapse.</li>
+                        </ul>
+
+                        <p class="section__text">
+                            <strong>Why This Works:</strong> Unbounded AI adoption leads to unbounded capability loss. Strategic boundaries preserve human excellence in areas where it matters most while allowing AI augmentation where appropriate. This requires discipline and periodic reinforcement because market pressures constantly push toward greater AI reliance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 8: IMPLEMENTATION GUIDANCE
+         ============================================ -->
+    <section class="section" id="implementation">
+        <h2 class="section__heading">Getting Started: Implementation Guidance</h2>
+
+        <p class="section__text">
+            Implementing protective practices against AI-induced cognitive degradation requires balancing competing pressures: the efficiency gains that AI enables versus the long-term capability risks. The following implementation guidance draws from organizational change research and professional services case studies.
+        </p>
+
+        <h3 class="section__subheading">Initial 90 Days: Foundation Building</h3>
+
+        <p class="section__text">
+            <strong>Week 1-2: Baseline Assessment</strong>
+        </p>
+        <ul>
+            <li>Document current AI usage patterns across team (who uses what, for which tasks, how frequently)</li>
+            <li>Conduct unassisted capability assessment: each team member completes representative work samples without AI</li>
+            <li>Identify areas where AI dependency is already significant and skills may have degraded</li>
+        </ul>
+
+        <p class="section__text">
+            <strong>Week 3-4: Boundary Definition</strong>
+        </p>
+        <ul>
+            <li>Define core competencies that differentiate your organization</li>
+            <li>Establish initial AI boundaries: which work remains primarily human-led</li>
+            <li>Set manual work allocation targets (4-6 hours weekly per person initially)</li>
+        </ul>
+
+        <p class="section__text">
+            <strong>Week 5-8: Practice Introduction</strong>
+        </p>
+        <ul>
+            <li>Implement explanation forcing functions: require pre-acceptance articulation for AI outputs</li>
+            <li>Establish structural skepticism protocols: mandatory AI-free validation steps</li>
+            <li>Begin manual work hours: each person completes designated weekly work without AI</li>
+        </ul>
+
+        <p class="section__text">
+            <strong>Week 9-12: Monitoring Systems</strong>
+        </p>
+        <ul>
+            <li>Set up quarterly capability audit process</li>
+            <li>Establish metrics for tracking: manual work completion, capability assessment scores, client feedback quality</li>
+            <li>Schedule first formal review of practices and boundaries</li>
+        </ul>
+
+        <h3 class="section__subheading">Common Implementation Challenges</h3>
+
+        <p class="section__text">
+            <strong>Resistance from efficiency-focused team members:</strong> Some will see protective practices as productivity drags. Address this by framing them as capability insuranceâ€”short-term investment preventing long-term dependency and crisis vulnerability.
+        </p>
+
+        <p class="section__text">
+            <strong>Difficulty measuring capability maintenance:</strong> Skill degradation is gradual and hard to quantify. Focus on proxy measures: time required to complete manual work, confidence levels when working without AI, error rates in unassisted outputs.
+        </p>
+
+        <p class="section__text">
+            <strong>Pressure to expand AI usage during busy periods:</strong> Stress naturally drives increased automation relianceâ€”precisely when protective practices are most important. Make boundaries non-negotiable during high-pressure periods specifically to prevent dependency formation.
+        </p>
+
+        <p class="section__text">
+            <strong>Junior team member development confusion:</strong> New hires often don't understand why they're being "held back" from AI tools their peers use. Explicitly position this as capability development that will make them more valuable long-term.
+        </p>
+
+        <h3 class="section__subheading">Adaptation for Different Team Sizes</h3>
+
+        <p class="section__text">
+            <strong>Solo practitioners (1 person):</strong> Focus on deliberate manual work allocation and explanation forcing functions. Schedule quarterly self-audits. Main risk: no external accountability, so calendar-based reminders become critical.
+        </p>
+
+        <p class="section__text">
+            <strong>Small teams (2-5 people):</strong> Implement peer review protocols and rotating red team assignments. Capability monitoring can be informal but must be regular. Risk: social pressure to abandon practices when busy.
+        </p>
+
+        <p class="section__text">
+            <strong>Medium teams (6-15 people):</strong> Full implementation of all five practices. Designate one person as "capability steward" who tracks adherence and flags when boundaries erode. Consider specialized roles (some people more AI-augmented, others more manual) as long as everyone maintains baseline capability.
+        </p>
+
+        <p class="section__text">
+            <strong>Larger organizations (15+ people):</strong> Formalize practices into standard operating procedures. Create explicit career tracks that value human expertise alongside AI proficiency. Investment in training and capability maintenance becomes standard budget line item.
+        </p>
+    </section>
+
+    <!-- ============================================
+         SECTION 9: RESEARCH METHODOLOGY (ACCORDION)
+         ============================================ -->
+    <section class="section" id="research">
+        <h2 class="section__heading">Research Success & Methodology</h2>
+
+        <div class="accordion">
+            <!-- Research Success -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">RESEARCH QUALITY</div>
+                        <div class="accordion__title">Research Success Assessment</div>
+                        <div class="accordion__description">
+                            Self-assessment framework for evaluating the depth and reliability of this research
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <h4>Four Questions Framework</h4>
+
+                        <p class="section__text">
+                            <strong>1. Did I find new mechanisms or patterns?</strong><br>
+                            Yes. The connection between automation bias, attentional reallocation, and skill atrophy timelines synthesizes research across disciplines in ways that aren't obvious from individual studies. The specific vulnerability of small teams (3-10 people) and the 0-12 month critical intervention window emerged from cross-domain synthesis rather than appearing directly in any single source.
+                        </p>
+
+                        <p class="section__text">
+                            <strong>2. Did I identify meaningful questions?</strong><br>
+                            Yes. The competence illusion problemâ€”appearing skilled while underlying capability erodesâ€”represents a genuine detection challenge that existing organizational frameworks don't adequately address. The accountability gap in AI-augmented work and the junior development pathway collapse are also novel framings of documented phenomena.
+                        </p>
+
+                        <p class="section__text">
+                            <strong>3. Did I discover knowledge gaps?</strong><br>
+                            Substantial. Recovery protocols are understudiedâ€”we know cognitive degradation occurs but have limited validated interventions. The specific timeline for small teams (how quickly does dependency form? when does remediation become impossible?) lacks rigorous research. Quality detection infrastructure remains largely theoretical.
+                        </p>
+
+                        <p class="section__text">
+                            <strong>4. Did I enable decisions?</strong><br>
+                            Partially. The protective practices section provides actionable starting points, but implementation guidance could be more specific. The warning signs framework enables earlier detection, and the timeline visualization clarifies intervention windows. However, readers in months 12-24 have limited validated pathways forward.
+                        </p>
+
+                        <h4>What This Research Accomplished</h4>
+
+                        <ol>
+                            <li><strong>Synthesized</strong> cognitive psychology, educational research, medical skills maintenance, and organizational behavior into cohesive framework</li>
+                            <li><strong>Identified</strong> specific mechanisms (automation bias, attentional reallocation, cognitive miser theory) connecting AI adoption to skill degradation</li>
+                            <li><strong>Quantified</strong> key timelines and thresholds (6-12 weeks atrophy onset, 0-12 month intervention window, 26% error increase from automation bias)</li>
+                            <li><strong>Documented</strong> small team vulnerabilities not adequately addressed in existing research (which focuses on large organizations)</li>
+                            <li><strong>Provided</strong> evidence-based protective practices drawn from medical and aviation domains adapted for knowledge work</li>
+                        </ol>
+
+                        <h4>What This Research Did Not Accomplish</h4>
+
+                        <ol>
+                            <li><strong>Longitudinal validation</strong>: AI adoption is too recent for multi-year outcome studies. Projections beyond 24 months are theoretical.</li>
+                            <li><strong>Individual difference moderation</strong>: Research doesn't clearly establish whether some cognitive styles or work patterns are more resistant to degradation.</li>
+                            <li><strong>Recovery protocol efficacy</strong>: Interventions are theoretically sound but lack empirical validation in AI context.</li>
+                            <li><strong>Industry-specific patterns</strong>: Healthcare and aviation are well-studied; creative services, consulting, and knowledge work generally have thinner evidence bases.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Research Methodology -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">METHODOLOGY</div>
+                        <div class="accordion__title">Research Process & Confidence Levels</div>
+                        <div class="accordion__description">
+                            How this research was conducted and the confidence levels for different claims
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <h4>Research Approach</h4>
+
+                        <p class="section__text">
+                            This research synthesizes findings across multiple domains: cognitive psychology (automation bias, attentional reallocation), medical education (skill atrophy timelines), aviation and traffic control (automation dependency under stress), educational research (AI usage effects on students), and organizational behavior (small team dynamics, culture change timelines).
+                        </p>
+
+                        <p class="section__text">
+                            The synthesis was conducted through extended web search across academic databases, professional publications, and documented case studies, with cross-validation of quantitative claims across multiple sources. Where specific percentages or timelines appear, they represent either direct research findings or conservative estimates synthesized from related studies.
+                        </p>
+
+                        <h4>Confidence Levels by Topic Area</h4>
+
+                        <p class="section__text">
+                            <strong>High Confidence (80%+):</strong>
+                        </p>
+                        <ul>
+                            <li>Core mechanisms (automation bias, attentional reallocation, cognitive miser theory)</li>
+                            <li>Basic timelines (6-12 week atrophy, 0-12 month intervention window)</li>
+                            <li>Small team vulnerabilities (compressed culture change, limited redundancy)</li>
+                            <li>Quality drift patterns (competence without understanding, client detection)</li>
+                        </ul>
+
+                        <p class="section__text">
+                            <strong>Moderate Confidence (60-80%):</strong>
+                        </p>
+                        <ul>
+                            <li>Protective practices efficacy (theoretically sound, limited empirical validation in AI context)</li>
+                            <li>Specific percentage claims (drawn from related research, may not translate exactly)</li>
+                            <li>Timeline precision beyond 12 months (less research, more theoretical projection)</li>
+                        </ul>
+
+                        <p class="section__text">
+                            <strong>Lower Confidence (60%):</strong>
+                        </p>
+                        <ul>
+                            <li>Recovery protocols (limited documented interventions)</li>
+                            <li>Individual difference moderation (theoretical frameworks, limited empirical data)</li>
+                            <li>Quality detection infrastructure (emerging area)</li>
+                        </ul>
+
+                        <h4>Known Gaps & Limitations</h4>
+
+                        <ul>
+                            <li><strong>Limited research specifically on 3-10 person teams</strong> (most studies on larger organizations)</li>
+                            <li><strong>Recovery protocols understudied</strong> (interventions documented, efficacy less clear)</li>
+                            <li><strong>Long-term trajectories sparse</strong> (AI adoption too recent for multi-year studies)</li>
+                            <li><strong>Industry-specific patterns</strong> (healthcare/aviation well-studied, creative services less so)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sources & Citations -->
+            <div class="accordion__item">
+                <div class="accordion__header" onclick="toggleAccordion(this)">
+                    <div class="accordion__header-content">
+                        <div class="accordion__eyebrow">SOURCES</div>
+                        <div class="accordion__title">Citations & References</div>
+                        <div class="accordion__description">
+                            Pre-citation-system research. Inline source attributions preserved throughout report.
+                        </div>
+                    </div>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion__content">
+                    <div class="accordion__body">
+                        <p class="section__text">
+                            <strong>Note on Citations:</strong> This research predates numbered citation system. Research was conducted via extended web search with synthesis across multiple sources. Specific source attribution was documented as inline references to studies and meta-analyses.
+                        </p>
+
+                        <h4>Primary Research Domains</h4>
+
+                        <ol>
+                            <li><strong>Cognitive Psychology & Neuroscience</strong> â€” Automation bias research (Parasuraman & Manzey), attentional reallocation studies, cognitive miser theory (Vonasch), MIT neuroscience research on AI writing tools showing 47% reduced neural engagement.</li>
+                            
+                            <li><strong>Medical Skills Research</strong> â€” Skill atrophy timelines (6-12 weeks for significant decline), degradation curves for cognitive vs physical skills, expertise maintenance protocols from medical education.</li>
+                            
+                            <li><strong>Aviation & High-Stakes Domain Studies</strong> â€” Railway traffic control analysis (410,000+ controller-hours), automation dependency under stress, reliability-dependency interaction effects.</li>
+                            
+                            <li><strong>Educational Research</strong> â€” Aalto University study on competence illusions with AI use, longitudinal tracking of knowledge workers over 4 months showing 55% less neural connectivity, student AI usage impacts (68.9% increased laziness, 27.7% degraded decision-making).</li>
+                            
+                            <li><strong>Professional Services Implementation Studies</strong> â€” Microsoft Lilli implementation (5,000 job cuts), Big 4 consulting firm adoption patterns, quality drift in client-facing work, junior development pathway collapse.</li>
+                            
+                            <li><strong>Organizational Behavior Research</strong> â€” Diffusion of responsibility mechanisms, accountability gap analysis (Air Canada chatbot case), cultural change timelines in small vs large organizations.</li>
+                        </ol>
+
+                        <h4>Key Quantitative Findings Referenced</h4>
+
+                        <ul>
+                            <li>47% reduction in neural engagement (MIT study)</li>
+                            <li>26% increased error rates from automation bias (healthcare meta-analyses)</li>
+                            <li>68.9% increased task avoidance with AI use (educational research)</li>
+                            <li>51% of AI content having significant quality issues (marketing meta-analysis)</li>
+                            <li>29% reduction in entry-level hiring (professional services firms)</li>
+                            <li>6-12 week window for skill atrophy onset (medical research)</li>
+                            <li>0-12 month critical intervention window, 12-24 month entrenchment (synthesis across domains)</li>
+                        </ul>
+
+                        <h4>Cross-References</h4>
+
+                        <ul>
+                            <li>Companion research on opportunities: RESEARCH_REPORT_ai-opportunities-exceptional-humans_v1_2025-10-31.md</li>
+                            <li>Philosophical foundation: PHILOSOPHY_integrated-experience-design-manifesto (consciousness, capability development, redemptive vs destructive challenge)</li>
+                            <li>Systems framework: ARCHITECTURE_FRAMEWORK_recursive-leverage-ai-systems (intelligence amplification, constraint archaeology)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         COMPANION RELATIONSHIP
+         ============================================ -->
+    <section class="section" id="companion">
+        <h2 class="section__heading">Companion Report Relationship</h2>
+
+        <p class="section__text">
+            <strong>This report is one half of a dual-perspective research bundle.</strong>
+        </p>
+
+        <p class="section__text">
+            <strong>Companion Report:</strong> <code>RESEARCH_REPORT_ai-opportunities-exceptional-humans_v1_2025-10-31.md</code><br>
+            Documents AI opportunities for human capability enhancement (EPOCH framework, Intelligence Augmentation, protective practices). Provides frameworks for deliberate practice, skill maintenance, multi-stakeholder optimization. Establishes same 0-12 month critical window as this report (converges on intervention timing).
+        </p>
+
+        <p class="section__text">
+            <strong>Bundle Portal:</strong> <code>VECTOR_PORTAL_ai-research-dual-bundle_risks-opportunities_2026-01-01.md</code><br>
+            Synthesizes insights from BOTH reports (bidirectional causality, critical window, small team dynamics). Provides connection nodes to IED philosophy and recursive leverage architecture. Maps emergent research trajectories and cross-project integration opportunities.
+        </p>
+
+        <div class="callout">
+            <p class="callout__text">
+                <strong>Integration Note:</strong> These reports study the SAME phenomenon (AI-human integration) from complementary angles. Same tools, opposite outcomesâ€”determining factor is system design. Read both for complete picture.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================
+         STICKY BOTTOM NAVIGATION
+         ============================================ -->
+    <nav class="nav-sticky">
+        <!-- Mobile toggle button -->
+        <button class="nav-sticky__mobile-toggle" onclick="toggleMobileNav()">
+            Table of Contents
+        </button>
+
+        <!-- Desktop navigation list -->
+        <ul class="nav-sticky__list">
+            <li class="nav-sticky__item">
+                <a href="#summary" class="nav-sticky__link">Summary</a>
+            </li>
+            <li class="nav-sticky__item">
+                <a href="#mechanisms" class="nav-sticky__link">Mechanisms</a>
+            </li>
+            <li class="nav-sticky__item">
+                <a href="#timeline" class="nav-sticky__link">Timeline</a>
+            </li>
+            <li class="nav-sticky__item">
+                <a href="#warning-signs" class="nav-sticky__link">Warning Signs</a>
+            </li>
+            <li class="nav-sticky__item">
+                <a href="#practices" class="nav-sticky__link">Practices</a>
+            </li>
+            <li class="nav-sticky__item">
+                <a href="#implementation" class="nav-sticky__link">Implementation</a>
+            </li>
+            <li class="nav-sticky__item">
+                <a href="#research" class="nav-sticky__link">Research</a>
+            </li>
+        </ul>
+
+        <!-- Mobile popup menu -->
+        <div class="nav-sticky__popup" id="mobileNavPopup">
+            <ul class="nav-sticky__popup-list">
+                <li class="nav-sticky__item">
+                    <a href="#summary" class="nav-sticky__link" onclick="closeMobileNav()">Executive Summary</a>
+                </li>
+                <li class="nav-sticky__item">
+                    <a href="#mechanisms" class="nav-sticky__link" onclick="closeMobileNav()">How Degradation Happens</a>
+                </li>
+                <li class="nav-sticky__item">
+                    <a href="#timeline" class="nav-sticky__link" onclick="closeMobileNav()">6-24 Month Timeline</a>
+                </li>
+                <li class="nav-sticky__item">
+                    <a href="#warning-signs" class="nav-sticky__link" onclick="closeMobileNav()">Warning Signs</a>
+                </li>
+                <li class="nav-sticky__item">
+                    <a href="#practices" class="nav-sticky__link" onclick="closeMobileNav()">Protective Practices</a>
+                </li>
+                <li class="nav-sticky__item">
+                    <a href="#implementation" class="nav-sticky__link" onclick="closeMobileNav()">Implementation</a>
+                </li>
+                <li class="nav-sticky__item">
+                    <a href="#research" class="nav-sticky__link" onclick="closeMobileNav()">Research</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         JAVASCRIPT - Accordion & Navigation
+         ============================================ -->
+    <script>
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const content = item.querySelector('.accordion__content');
+            const icon = header.querySelector('.accordion__icon');
+            const isOpen = content.classList.contains('accordion__content--open');
+            
+            // Close all accordions
+            document.querySelectorAll('.accordion__content').forEach(c => {
+                c.classList.remove('accordion__content--open');
+            });
+            document.querySelectorAll('.accordion__icon').forEach(i => {
+                i.classList.remove('accordion__icon--open');
+            });
+            
+            // Toggle current accordion
+            if (!isOpen) {
+                content.classList.add('accordion__content--open');
+                icon.classList.add('accordion__icon--open');
+            }
+        }
+
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const popup = document.getElementById('mobileNavPopup');
+            popup.classList.toggle('nav-sticky__popup--open');
+        }
+
+        function closeMobileNav() {
+            const popup = document.getElementById('mobileNavPopup');
+            popup.classList.remove('nav-sticky__popup--open');
+        }
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('mobileNavPopup');
+            const toggle = document.querySelector('.nav-sticky__mobile-toggle');
+            
+            if (popup && toggle && 
+                !popup.contains(event.target) && 
+                !toggle.contains(event.target) &&
+                popup.classList.contains('nav-sticky__popup--open')) {
+                closeMobileNav();
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 100; // Account for sticky nav
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Active navigation highlighting
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0
+        };
+
+        const observerCallback = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    document.querySelectorAll('.nav-sticky__link').forEach(link => {
+                        link.classList.remove('nav-sticky__link--active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('nav-sticky__link--active');
+                        }
+                    });
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+# Completion Report Template
+
+**Instructions:** Use this template for `planning/reports/NNN-slug-report.md`.
+
+---
+
+# Completion Report: [Handoff Title]
+
+**Handoff:** `planning/handoffs/[NNN]-[slug].md`  
+**Lessons:** `planning/lessons/[NNN]-[slug]-lessons.md`  
+**Agent:** [Agent Name]  
+**Date:** [YYYY-MM-DD]  
+**Status:** [Complete | Blocked | Partial]
+
+---
+
+## Summary
+
+[2-3 sentences explaining what was accomplished. High-level only.]
+
+---
+
+## Files Created/Modified
+
+**Created:**
+- `path/to/file1.md`
+- `path/to/file2.json`
+- `path/to/directory/file3.py`
+
+**Modified:**
+- `path/to/existing-file.md` — [What changed]
+- `path/to/other-file.json` — [What changed]
+
+**Total:** [X files created, Y files modified]
+
+---
+
+## Conflicts Encountered
+
+[REQUIRED SECTION — Cannot be omitted]
+
+### Conflict 1: [Description]
+
+**Issue:** [What conflicted — handoff vs governing file, or ambiguity in handoff]
+
+**Resolution:** [How it was resolved — which source was followed, or decision made]
+
+**Files affected:** [If any]
+
+---
+
+[If no conflicts:]
+
+**No conflicts encountered.** Handoff and governing files were consistent. No ambiguities found.
+
+---
+
+## Things Not Covered
+
+[REQUIRED SECTION — Cannot be omitted]
+
+### Item 1: [What wasn't addressed]
+
+**Reason:** [Why it wasn't covered — out of scope, blocked, unclear]
+
+**Recommendation:** [What should be done about it]
+
+---
+
+[If everything covered:]
+
+**All items in handoff were addressed.** No gaps or omissions.
+
+---
+
+## Suggestions
+
+[REQUIRED SECTION — Cannot be omitted]
+
+### Process Improvements
+
+[Any suggestions for improving the handoff/execution process]
+
+### Rule Updates Needed
+
+🔧 [Any rules that should be added or updated based on this work]
+
+### Clarifications for Future Handoffs
+
+[Things that should be clearer in future similar handoffs]
+
+---
+
+[If no suggestions:]
+
+**No suggestions at this time.** Process worked as expected.
+
+---
+
+## Uncertainty Flags
+
+[REQUIRED SECTION — Use emoji to signal status]
+
+### Overall Status
+
+[Pick one:]
+- ✅ Clean execution, no issues
+- ⚠️ Minor uncertainties, proceeded anyway
+- 🔶 Some content in fallback directories, needs review
+- ❓ Questions remain for user
+- 🚨 Blocker encountered
+
+### Specific Flags
+
+[If applicable, detail specific items]
+
+⚠️ **[Item description]** — [What was uncertain, how you proceeded]
+
+🔶 **[Item description]** — [What went to fallback, why it needs review]
+
+❓ **[Item description]** — [Question for user]
+
+---
+
+## System File Updates
+
+[REQUIRED SECTION if any system files were modified]
+
+**System files modified:**
+- `[filename]` — v[OLD] → v[NEW]
+
+**Propagation checklist completed:**
+- [ ] Checked if AGENTS.md needs sync
+- [ ] Checked if agent directive files need sync
+- [ ] Checked if README.md needs sync
+- [ ] Checked if ARCHITECTURE.md needs sync
+- [ ] Updated `synced_with` versions in modified files
+- [ ] Added changelog entries
+
+**Rationale for updates:**
+[Why these system files needed updating]
+
+---
+
+[If no system files updated:]
+
+**No system files were updated during this work.**
+
+---
+
+## Metrics / Analysis
+
+[If handoff requested specific metrics, report them here]
+
+**[Metric Name]:** [Value]  
+**[Metric Name]:** [Value]  
+**[Metric Name]:** [Value]
+
+**Analysis:** [Brief interpretation of metrics]
+
+---
+
+## Validation Checklist
+
+[From handoff validation criteria]
+
+- [x] [Criterion 1 — verified]
+- [x] [Criterion 2 — verified]
+- [ ] [Criterion 3 — not verified, reason]
+
+---
+
+## System Coherence Updates
+
+[If any system-level files were updated for consistency]
+
+**Files Updated:**
+- `[file]` — [What was changed to maintain coherence]
+- `[file]` — [What was changed to maintain coherence]
+
+**Rationale:** [Why updates were needed]
+
+---
+
+[If no coherence updates:]
+
+**No system coherence updates required.**
+
+---
+
+## Next Steps
+
+[Recommended actions for next handoff or phase]
+
+1. [Next step 1]
+2. [Next step 2]
+3. [Next step 3]
+
+---
+
+## Appendix (If Needed)
+
+[Any additional details, logs, or data that support the report but don't fit above]
+

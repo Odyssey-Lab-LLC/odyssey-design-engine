@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hidden Costs of AI Delegation | Titan Portal Edition</title>
+    
+    <!-- FONTS: Cinzel (Display), Inter (Body), JetBrains Mono (Technical) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. ODYSSEY LAB DESIGN TOKENS v0.3 (PRESERVED)
+           ==========================================================================
+        */
+        :root {
+            /* COLOR PALETTE - TITANS REALM */
+            --color-bronze: #B48E55;
+            --color-bronze-glow: rgba(180, 142, 85, 0.6);
+            --color-gold: #D4AF37;
+            
+            --color-lab-blue: #38BDF8;
+            --color-lab-blue-glow: rgba(56, 189, 248, 0.6);
+            
+            /* BACKGROUNDS */
+            --dark-bg-deep: #050b14; /* Deepened for portal contrast */
+            --dark-bg-panel: rgba(30, 41, 59, 0.7);
+            
+            /* TEXT */
+            --dark-text-primary: #F8FAFC;
+            --dark-text-secondary: #E2E8F0;
+            --dark-text-muted: #94A3B8;
+            
+            /* SPACING */
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            
+            /* TYPOGRAPHY */
+            --font-display: 'Cinzel', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            /* ANIMATION */
+            --duration-slow: 60s;
+        }
+
+        /* RESET & BASE */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-body);
+            background-color: var(--dark-bg-deep);
+            color: var(--dark-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==========================================================================
+           2. THE TITAN PORTAL (BACKGROUND ANIMATION)
+           ==========================================================================
+        */
+        .portal-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            perspective: 1000px;
+        }
+
+        /* The deep void gradient */
+        .portal-void {
+            position: absolute;
+            inset: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, #1a2742 0%, #050b14 40%, #000000 100%);
+            opacity: 0.8;
+        }
+
+        /* The Main Rotating Ring Structure */
+        .portal-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            border-radius: 50%;
+        }
+
+        /* Ring 1: Massive Bronze Outer (Slow Clockwise) */
+        .ring-outer {
+            width: 140vh;
+            height: 140vh;
+            margin-left: -70vh;
+            margin-top: -70vh;
+            border: 1px solid rgba(180, 142, 85, 0.1);
+            box-shadow: 0 0 100px rgba(180, 142, 85, 0.05);
+            animation: spin 120s linear infinite;
+        }
+        
+        .ring-outer::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 0%, var(--color-bronze) 20%, transparent 40%, transparent 100%);
+            opacity: 0.3;
+            mask-image: radial-gradient(transparent 69%, black 70%);
+        }
+
+        /* Ring 2: The Data Stream (Counter-Clockwise Blue) */
+        .ring-mid {
+            width: 100vh;
+            height: 100vh;
+            margin-left: -50vh;
+            margin-top: -50vh;
+            border: 1px dashed rgba(56, 189, 248, 0.1);
+            animation: spin-reverse 80s linear infinite;
+        }
+
+        .ring-mid::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100%; height: 100%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--color-lab-blue);
+            border-bottom-color: var(--color-lab-blue);
+            opacity: 0.1;
+            filter: drop-shadow(0 0 10px var(--color-lab-blue));
+        }
+
+        /* Ring 3: The Core (Pulsing Gold) */
+        .ring-inner {
+            width: 60vh;
+            height: 60vh;
+            margin-left: -30vh;
+            margin-top: -30vh;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: inset 0 0 50px rgba(180, 142, 85, 0.1);
+            animation: pulse-rotate 20s ease-in-out infinite;
+        }
+
+        /* Grid Floor (The "Grounded" Metaphor) */
+        .foundation-grid {
+            position: absolute;
+            bottom: -20vh;
+            left: -50%;
+            width: 200%;
+            height: 100vh;
+            background-image: 
+                linear-gradient(rgba(180, 142, 85, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(180, 142, 85, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(75deg);
+            transform-origin: 50% 100%;
+            mask-image: linear-gradient(to top, black 0%, transparent 60%);
+            animation: grid-scan 20s linear infinite;
+        }
+
+        /* ==========================================================================
+           3. HERO CONTENT LAYOUT
+           ==========================================================================
+        */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-16) var(--space-6);
+        }
+
+        .glass-panel {
+            max-width: 900px;
+            background: rgba(15, 23, 42, 0.4); /* Glass effect */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: var(--space-12);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fade-up 1s ease-out 0.5s forwards;
+            position: relative;
+        }
+
+        /* Bronze accent line on the glass panel */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-bronze), transparent);
+            box-shadow: 0 0 15px var(--color-bronze);
+        }
+
+        /* Typography */
+        .hero-eyebrow {
+            font-family: var(--font-mono);
+            color: var(--color-bronze);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-align: center;
+            display: block;
+            margin-bottom: var(--space-6);
+            opacity: 0.9;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: var(--space-8);
+            color: white;
+            text-shadow: 0 0 40px rgba(0,0,0,0.8);
+            /* Metal gradient text */
+            background: linear-gradient(180deg, #FFFFFF 20%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-thesis {
+            font-size: 1.25rem;
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--dark-text-secondary);
+            text-align: left;
+            margin-bottom: var(--space-8);
+            border-left: 2px solid var(--color-bronze);
+            padding-left: var(--space-6);
+        }
+
+        .hero-context {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--dark-text-muted);
+            margin-bottom: var(--space-8);
+            padding-top: var(--space-6);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Animated Finding Box */
+        .finding-box {
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            border-radius: 8px;
+            padding: var(--space-6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .finding-box::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 2px; height: 100%;
+            background: var(--color-lab-blue);
+            box-shadow: 0 0 10px var(--color-lab-blue);
+        }
+
+        .finding-text {
+            font-size: 1rem;
+            color: var(--dark-text-primary);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+        }
+        .scroll-text {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--color-bronze), transparent);
+        }
+
+        /* ==========================================================================
+           4. KEYFRAMES
+           ==========================================================================
+        */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        @keyframes pulse-rotate {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.5; }
+            50% { transform: rotate(180deg) scale(1.05); opacity: 0.8; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.5; }
+        }
+        @keyframes grid-scan {
+            0% { transform: rotateX(75deg) translateY(0); }
+            100% { transform: rotateX(75deg) translateY(60px); }
+        }
+        @keyframes fade-up {
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        /* ==========================================================================
+           5. TIMELINE SECTION (Standard Design Tokens - Dark Mode Variant)
+           ==========================================================================
+        */
+        .section-dark {
+            background-color: #0F172A; /* Deep blue/black */
+            padding: var(--space-16) 0;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 -50px 100px #0F172A; /* Blend with hero */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        /* Timeline Cards - Dark Mode */
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin-top: var(--space-12);
+        }
+
+        .timeline-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: var(--space-6);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .timeline-card:hover {
+            background: rgba(30, 41, 59, 0.8);
+            transform: translateY(-5px);
+            border-color: var(--color-bronze);
+        }
+
+        /* Gradient Tops for Dark Mode */
+        .card-p1 { border-top: 3px solid #7d6540; }
+        .card-p2 { border-top: 3px solid #997b4c; }
+        .card-p3 { border-top: 3px solid #b48e55; }
+        .card-p4 { border-top: 3px solid #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
+
+        .timeline-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: white;
+            margin-bottom: 5px;
+        }
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-bronze);
+            margin-bottom: var(--space-4);
+            display: block;
+        }
+        .timeline-list {
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--dark-text-muted);
+        }
+        .timeline-list li {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+        .timeline-list li::before {
+            content: 'â—†';
+            font-size: 8px;
+            color: var(--color-bronze);
+            position: absolute;
+            left: 0;
+            top: 4px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- PORTAL BACKGROUND (Fixed) -->
+    <div class="portal-wrapper">
+        <div class="portal-void"></div>
+        <div class="foundation-grid"></div>
+        
+        <!-- The Titan Rings -->
+        <div class="portal-ring ring-outer"></div>
+        <div class="portal-ring ring-mid"></div>
+        <div class="portal-ring ring-inner"></div>
+    </div>
+
+    <!-- HERO CONTENT (Scrollable Layer) -->
+    <main class="content-layer">
+        
+        <!-- Glassmorphism Panel -->
+        <div class="glass-panel">
+            
+            <span class="hero-eyebrow">Research Report | Risks Landscape</span>
+            
+            <h1 class="hero-title">
+                The Hidden Costs of AI Delegation in Knowledge Work
+            </h1>
+
+            <div class="hero-thesis">
+                Over-reliance on AI tools causes measurable cognitive degradation within 6-12 weeks, with skill atrophy, trust erosion, and capability loss accelerating through cascading feedback loops. For small creative teams where human judgment is the core value proposition, the risks extend beyond individual capability to encompass client trust, quality drift, and the collapse of expertise development pathways.
+            </div>
+
+            <p class="hero-context">
+                Research across cognitive psychology, education, and professional services reveals these are not hypothetical concerns but documented patterns with quantifiable impacts and identifiable mechanisms.
+            </p>
+
+            <div class="finding-box">
+                <p class="finding-text">
+                    <strong style="color: var(--color-lab-blue);">Critical Finding:</strong> Tools designed to augment human capability can systematically diminish it when adoption patterns shift from conscious augmentation to unconscious substitution. This transition happens quietly, often within the first year of use, and creates particularly acute vulnerabilities in small teams (3-10 people).
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <span class="scroll-text">Scroll to Timeline</span>
+            <div class="scroll-line"></div>
+        </div>
+
+    </main>
+
+    <!-- TIMELINE SECTION (Dark Mode Integration) -->
+    <section class="section-dark">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--space-12);">
+                <h2 style="font-family: var(--font-display); font-size: 2.5rem; color: white;">The Dependency Arc</h2>
+                <p style="font-family: var(--font-mono); color: var(--color-bronze);">6-24 MONTH PROGRESSION</p>
+            </div>
+
+            <div class="timeline-grid">
+                
+                <!-- PHASE 1 -->
+                <article class="timeline-card card-p1">
+                    <h3 class="timeline-title">Honeymoon</h3>
+                    <span class="timeline-date">0-3 Months</span>
+                    <ul class="timeline-list">
+                        <li>Productivity surge of 55.8%</li>
+                        <li>Morale boost, competence inflation</li>
+                        <li>Skills intact but less practiced</li>
+                        <li>Hidden cost: subtle reduction in deep cognitive engagement</li>
+                    </ul>
+                </article>
+
+                <!-- PHASE 2 -->
+                <article class="timeline-card card-p2">
+                    <h3 class="timeline-title">Integration</h3>
+                    <span class="timeline-date">3-9 Months</span>
+                    <ul class="timeline-list">
+                        <li>AI becomes standard procedure</li>
+                        <li>Review time decreases unconsciously</li>
+                        <li>Junior development stalls</li>
+                        <li>Trust declines as limitations surface</li>
+                    </ul>
+                </article>
+
+                <!-- PHASE 3 -->
+                <article class="timeline-card card-p3">
+                    <h3 class="timeline-title">Dependency</h3>
+                    <span class="timeline-date">9-18 Months</span>
+                    <ul class="timeline-list">
+                        <li>Workflows redesigned around AI</li>
+                        <li>Confidence-capability gap widens</li>
+                        <li>Alternative methods forgotten</li>
+                        <li>Significant decay in cognitive abilities</li>
+                    </ul>
+                </article>
+
+                <!-- PHASE 4 -->
+                <article class="timeline-card card-p4">
+                    <h3 class="timeline-title">Critical Fragility</h3>
+                    <span class="timeline-date">18+ Months</span>
+                    <ul class="timeline-list">
+                        <li>System brittleness without AI</li>
+                        <li>Quality drift normalized</li>
+                        <li>Expertise hollow (can edit, can't create)</li>
+                        <li>Recovery requires organizational restructuring</li>
+                    </ul>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
