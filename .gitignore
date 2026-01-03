@@ -62,3 +62,6 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
+# Planning & Coordination
+plans/incidents/INCIDENT_ACTIVE.md
+
