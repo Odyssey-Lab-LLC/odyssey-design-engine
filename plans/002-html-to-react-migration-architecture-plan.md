@@ -18,6 +18,146 @@
 
 ---
 
+## ⚠️ PRE-EXECUTION VALIDATION (READ THIS FIRST)
+
+**DO NOT SKIP. Complete ALL checks before Phase 1.**
+
+### V1: Dependency Audit
+
+**What:** Verify all required dependencies exist or install them.
+
+**Why:** Prevents mid-execution failures when imports fail.
+
+**How:**
+
+```bash
+# Check current dependencies
+cat package.json | grep -E "(framer-motion|lucide-react)"
+```
+
+**Expected result:**
+- ✅ `framer-motion`: ^12.23.26 (FOUND)
+- ✅ `lucide-react`: ^0.562.0 (FOUND)
+- ❌ `react-router-dom`: NOT FOUND (will install in Phase 1)
+- ❌ `@studio-freight/lenis`: NOT FOUND (will install in Phase 2.3)
+
+**Action:** Note which are missing. Phase 1 will install react-router-dom. Phase 2.3 will install Lenis if needed.
+
+**Stop condition:** If framer-motion or lucide-react are missing, STOP and report. These should already exist.
+
+---
+
+### V2: Token Overlap Reality Check
+
+**What:** Compare actual tokens between source HTML and current App.jsx to validate 40-50% overlap estimate.
+
+**Why:** If overlap is >60%, Decision 1 (defer shared base) might be wrong. If <30%, duplication is worse than estimated.
+
+**How:**
+
+1. Read `_workspace/andrew gem merge/andrew-1-call-to-adventure.html` lines 1-150 (style block)
+2. Read `sites/odyssey-lab/src/App.jsx` lines 25-100 (GlobalStyles)
+3. Count core tokens (colors, spacing, typography)
+4. Calculate overlap %
+
+**Quick check:**
+
+```bash
+# Extract :root variables from andrew-1
+grep -A 50 ":root {" "_workspace/andrew gem merge/andrew-1-call-to-adventure.html" | grep "  --" | wc -l
+
+# Extract :root variables from App.jsx GlobalStyles
+grep -A 50 ":root {" "sites/odyssey-lab/src/App.jsx" | grep "  --" | wc -l
+```
+
+**Decision point:**
+- If overlap >60%: Reconsider Decision 1 (maybe create shared base now)
+- If overlap 40-60%: Proceed as planned (defer)
+- If overlap <30%: Good call to defer, note high sovereignty
+
+**Stop condition:** If overlap is >70%, STOP and ask if user wants to create shared base first.
+
+---
+
+### V3: Tailwind CDN Conflict Check
+
+**What:** Verify andrew-gem-2 has Tailwind CDN and plan to remove it.
+
+**Why:** Project already has Tailwind configured. Two Tailwind stylesheets will conflict.
+
+**How:**
+
+1. Read `_workspace/andrew gem merge/andrew-gem-2.jsx` lines 1-50
+2. Search for `<script src="https://cdn.tailwindcss.com"`
+3. If found: Note to remove in Phase 2.3 conversion
+
+**Expected result:** CDN link likely exists. Will remove during conversion and rely on project Tailwind.
+
+**Action:** In Phase 2.3, explicitly remove Tailwind CDN `<script>` tag and test that project Tailwind classes work.
+
+---
+
+### V4: Backup Current App.jsx
+
+**What:** Create rollback point before refactoring.
+
+**Why:** If migration breaks, you can revert quickly.
+
+**How:**
+
+```bash
+cp sites/odyssey-lab/src/App.jsx sites/odyssey-lab/src/App.jsx.backup
+```
+
+**Validation:** Confirm backup file exists before proceeding to Phase 2.1.
+
+**Rollback procedure:** If anything breaks:
+
+```bash
+cp sites/odyssey-lab/src/App.jsx.backup sites/odyssey-lab/src/App.jsx
+npm run dev
+```
+
+---
+
+### V5: Vercel Deployment Readiness
+
+**What:** Add Vercel configuration for client-side routing.
+
+**Why:** Without this, direct URL access (e.g., `/call-to-adventure`) will 404 on Vercel.
+
+**How:** Create `vercel.json` in project root:
+
+```json
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
+```
+
+**What this does:** All routes fall back to `index.html`, letting React Router handle routing.
+
+**When to do:** Can do now (before execution) or in Phase 3.3. Recommend: Do now, it's safe.
+
+**Stop condition:** None. This is a best practice addition, won't break anything.
+
+---
+
+### Pre-Execution Checklist
+
+Before starting Phase 1, confirm:
+
+- [ ] V1: Dependencies audited (framer-motion, lucide-react present)
+- [ ] V2: Token overlap checked (~40-60% confirmed or decision reconsidered)
+- [ ] V3: Tailwind CDN conflict noted (will remove in Phase 2.3)
+- [ ] V4: App.jsx.backup created
+- [ ] V5: vercel.json created (optional but recommended)
+
+**Time estimate:** 5-10 minutes
+
+---
+
 ## Executive Summary
 
 ### What I'm Building
@@ -111,6 +251,13 @@
 - Create `prompts/html-integration-workflow.md` based on learnings
 - Include conversion checklist, gotchas, decision flowchart
 - Keep it pragmatic and flexible
+- **Critical: Remove Tailwind CDN from andrew-gem-2** (project has Tailwind configured)
+
+**Tailwind CDN Handling:**
+- andrew-gem-2 has `<script src="https://cdn.tailwindcss.com">` in `<head>`
+- **Action:** Remove during conversion, rely on project Tailwind (already in devDependencies)
+- **Why:** Two Tailwind stylesheets will conflict (CDN + project config)
+- **Test:** Verify Tailwind classes still work after CDN removal
 
 ✅ **Passes Blind Spot Test 4** (Documentation fits low-frequency, high-judgment work)
 
@@ -515,16 +662,146 @@ Naming proposals all form-first:
 
 ---
 
+## Time & Cost Estimates
+
+### Phase-by-Phase Breakdown
+
+| Phase | Task | Time Estimate | Complexity |
+|-------|------|---------------|------------|
+| **Pre-Exec** | Validation checks (V1-V5) | 5-10 mins | Low |
+| **Phase 1.1** | Install dependencies (react-router-dom + Lenis) | 2-3 mins | Low |
+| **Phase 1.2** | Create pages/ directory | 1 min | Low |
+| **Phase 2.1** | Migrate App.jsx → Home.jsx | 5-8 mins | Low (copy/paste) |
+| **Phase 2.2** | Convert andrew-1.html → JSX | 25-35 mins | Medium |
+| **Phase 2.2.7** | Visual comparison andrew-1 | 3-5 mins | Low |
+| **Phase 2.3** | Convert andrew-gem-2 → JSX | 45-60 mins | **High** |
+| **Phase 2.3** | - Lens mouse tracking | 8-12 mins | High |
+| **Phase 2.3** | - Matrix text decode | 5-8 mins | Medium |
+| **Phase 2.3** | - Zone switcher | 8-12 mins | Medium |
+| **Phase 2.3** | - Lenis integration | 5-8 mins | Medium |
+| **Phase 2.3** | - Tailwind CDN removal | 2-3 mins | Low |
+| **Phase 2.3.7** | Visual comparison andrew-2 | 8-12 mins | Medium |
+| **Phase 3** | Refactor App.jsx to router | 8-12 mins | Medium |
+| **Phase 4.1** | Visual regression suite (3 routes) | 9-15 mins | Medium |
+| **Phase 4.2** | Routing tests | 3-5 mins | Low |
+| **Phase 4.3** | Build & deploy validation | 5-8 mins | Low |
+| **Phase 5** | Documentation (3 files) | 20-30 mins | Medium |
+
+**Total estimated time:** 2.5 - 3.5 hours
+
+**Buffer for debugging:** +30-60 mins (typical for complex conversions)
+
+**Realistic total:** **3-4 hours**
+
+---
+
+### Cost Estimate (YOLO Mode)
+
+**Assumptions:**
+- Kilo AI agent cost: ~$0.10-0.15 per minute of active processing
+- Some operations are fast (file reads), others slow (HTML→JSX conversion, visual testing)
+- Buffer for retries/debugging
+
+**Conservative estimate:**
+- Base execution: 3.5 hours = 210 minutes
+- Active processing time: ~60-70% (rest is waiting for dev server, browser tests)
+- Active processing: ~140 minutes
+- Cost per minute: $0.12 (mid-range)
+- **Estimated cost: $15-20**
+
+**High-complexity scenario** (if debugging is heavy):
+- Extended debugging: +60 mins active processing
+- **Worst case: $25-30**
+
+**Recommendation:**
+- **Top up account with $40-50** to ensure uninterrupted YOLO execution
+- Agent will stop if funds run out, losing progress
+
+---
+
+### Phase 2.3 Complexity Breakdown (High-Risk Features)
+
+**What could take longer:**
+
+1. **Lens mouse tracking** (8-12 mins estimated)
+   - **Risk:** CSS custom properties updated via JS, React state management tricky
+   - **Fallback:** If >5 mins debugging, simplify to static lens (no mouse tracking)
+   - **Impact:** Visual effect reduced, but page works
+
+2. **Matrix text decode** (5-8 mins estimated)
+   - **Risk:** Interval timing, character randomization logic
+   - **Fallback:** If >5 mins debugging, use simpler fade-in effect
+   - **Impact:** Animation less dramatic, but readable
+
+3. **Zone transitions** (8-12 mins estimated)
+   - **Risk:** IntersectionObserver + scroll position + CSS class toggling
+   - **Fallback:** If >5 mins debugging, default to light zone only
+   - **Impact:** No dark mode sections, but layout intact
+
+4. **Lenis smooth scroll** (5-8 mins estimated)
+   - **Risk:** NPM install vs CDN, RAF loop, cleanup
+   - **Fallback:** If >5 mins debugging, remove Lenis (use native scroll)
+   - **Impact:** No smooth scroll, but page functional
+
+**Escalation protocol:**
+If ANY feature exceeds 5 minutes of debugging:
+1. Document issue in `plans/lessons/002-first-conversion-lessons.md`
+2. Implement fallback (simpler version)
+3. Mark as "complex feature requiring refinement"
+4. Continue execution (don't let one feature block entire migration)
+5. Total fallback time budget: 15 minutes across all features
+
+---
+
 ## Implementation Plan
 
 ### Phase 1: Infrastructure Setup
 
-**1.1 Install React Router**
+**1.1 Install Missing Dependencies**
+
+**Check current state:**
+
 ```bash
-npm install react-router-dom
+cat package.json | grep -E "(react-router-dom|lenis)"
 ```
 
+**Expected:**
+- ❌ react-router-dom: NOT FOUND
+- ❌ @studio-freight/lenis: NOT FOUND
+
+**Install:**
+
+```bash
+npm install react-router-dom
+npm install @studio-freight/lenis
+```
+
+**Why install Lenis now:** Phase 2.3 needs it for andrew-gem-2 conversion. Installing now prevents mid-phase interruption.
+
+**Validation:**
+
+```bash
+cat package.json | grep -E "(react-router-dom|lenis)"
+```
+
+**Expected result:**
+
+```json
+"dependencies": {
+  "react-router-dom": "^6.x.x",
+  "@studio-freight/lenis": "^1.x.x",
+  ...
+}
+```
+
+**Stop condition:** If npm install fails, STOP and check network connection / npm registry access.
+
+**Time estimate:** 2-3 minutes
+
+---
+
 **1.2 Create pages directory**
+
 ```bash
 mkdir -p sites/odyssey-lab/src/pages
 ```
@@ -554,6 +831,52 @@ Steps:
 5. Import required dependencies
 6. Test in browser
 
+**2.2.7 Visual Comparison & Regression Check**
+
+**What:** Compare converted React page with original HTML to catch style breakage.
+
+**Why:** Subtle CSS differences can break layout. Catch them immediately.
+
+**Method: Side-by-Side Browser Comparison**
+
+1. **Open original HTML:**
+   - Open `_workspace/andrew gem merge/andrew-1-call-to-adventure.html` in browser
+   - Take screenshot or keep window open
+
+2. **Open converted React page:**
+   - Navigate to `http://localhost:5173/call-to-adventure`
+   - Compare side-by-side
+
+3. **Check these areas:**
+   - [ ] **Header/Hero:** Fonts, spacing, colors match
+   - [ ] **Cards/Components:** Borders, shadows, spacing identical
+   - [ ] **Typography:** Line heights, letter spacing, font weights
+   - [ ] **Colors:** Bronze/gold/blue exact matches (use eyedropper if unsure)
+   - [ ] **Spacing:** Margins, padding consistent
+   - [ ] **Responsive:** Resize to ~375px width (iPhone portrait), check mobile layout
+
+4. **Test interactions:**
+   - [ ] Accordions expand/collapse correctly
+   - [ ] Hover states work (color changes, underlines, etc.)
+   - [ ] Scroll behavior smooth
+   - [ ] Zone transitions (if applicable)
+
+5. **Console check:**
+   - [ ] No errors in browser console
+   - [ ] No warnings about missing assets
+   - [ ] No 404s for fonts or resources
+
+**Stop condition:** If ANY visual regression detected (colors off, layout broken, spacing wrong), STOP and fix before proceeding to Phase 2.3.
+
+**Acceptable differences:**
+- React DevTools indicators
+- Hot reload overlay (dev mode)
+- Minor sub-pixel rendering differences (<1px)
+
+**Time estimate:** 3-5 minutes per page
+
+---
+
 **2.3 Convert andrew-gem-2.jsx → ThresholdConvergence.jsx**
 
 Why third: Most complex (Lenis scroll, zone switching, matrix text, lens effect)
@@ -571,6 +894,75 @@ Steps:
    - Zone switcher → useEffect + IntersectionObserver
    - Matrix text decode → useEffect + interval
 6. Test extensively (complex interactions)
+
+**2.3.7 Visual Comparison & Interaction Test (Complex Page)**
+
+**What:** Thorough comparison for andrew-gem-2 (most complex page).
+
+**Why:** This page has Lenis scroll, lens effect, matrix text, zone switching. High breakage risk.
+
+**Method: Comprehensive Check**
+
+1. **Open original:** `_workspace/andrew gem merge/andrew-gem-2.jsx` in browser
+2. **Open converted:** `http://localhost:5173/threshold-convergence`
+
+3. **Visual comparison:**
+   - [ ] Lens hero effect renders correctly
+   - [ ] Zone transitions (dark → light → dark) work
+   - [ ] Matrix text decode animation plays
+   - [ ] Synchronic bar displays correctly
+   - [ ] Typography and spacing match original
+   - [ ] Colors exact (especially dark mode tones)
+
+4. **Interaction test:**
+   - [ ] Lens mouse tracking works (cursor movement updates lens position)
+   - [ ] Smooth scroll works (if Lenis installed)
+   - [ ] Zone switcher triggers on scroll position
+   - [ ] All accordions/expandable sections work
+   - [ ] Hover states on proof points work
+   - [ ] Clock/timer logic runs correctly
+
+5. **Performance check:**
+   - [ ] Page loads in <3 seconds
+   - [ ] Smooth scroll doesn't lag
+   - [ ] No jank during zone transitions
+
+6. **Mobile test (single breakpoint: 375px portrait):**
+   - [ ] Layout doesn't break at 375px width
+   - [ ] Touch interactions work (accordions tap to open)
+   - [ ] Lens effect disabled or adapted for mobile
+   - [ ] Text readable (no tiny fonts)
+   - [ ] Smooth scroll works on touch (if Lenis)
+
+**Time estimate:** 8-12 minutes (complex page)
+
+**Stop condition:** If lens effect, zone transitions, or matrix text don't work, STOP and debug before Phase 3.
+
+**Time limit per feature:** If any single feature (lens, matrix, zones) takes >5 minutes to debug:
+1. Document the issue
+2. Create simplified fallback (e.g., remove lens effect, keep static version)
+3. Note in lessons learned as "complex feature requiring more time"
+4. Continue with working version
+
+---
+
+### ✅ CHECKPOINT: Phase 2 Complete
+
+**Before proceeding to Phase 3, confirm:**
+
+- [ ] All 3 page components created (Home.jsx, CallToAdventure.jsx, ThresholdConvergence.jsx)
+- [ ] Visual comparison passed for andrew-1 (no regressions)
+- [ ] Visual comparison passed for andrew-gem-2 (no regressions)
+- [ ] All interactions tested (accordions, hover states, scroll effects)
+- [ ] Console shows zero errors on all pages
+- [ ] Mobile test passed (375px portrait) for all pages
+- [ ] Tailwind CDN removed from andrew-gem-2 (project Tailwind works)
+
+**If ANY checkbox unchecked:** STOP and resolve before Phase 3.
+
+**Time check:** You should be ~1.5-2 hours into execution at this point.
+
+---
 
 ### Phase 3: Router Integration
 
@@ -617,6 +1009,34 @@ Current [`main.jsx`](sites/odyssey-lab/src/main.jsx:1) is fine as-is. BrowserRou
 
 May need configuration for client-side routing on Vercel. Check if 404 fallback needed.
 
+---
+
+### ✅ CHECKPOINT: Phase 3 Complete
+
+**Before proceeding to Phase 4, confirm:**
+
+- [ ] App.jsx refactored to router wrapper (no longer full page component)
+- [ ] All 3 routes defined (`/`, `/call-to-adventure`, `/threshold-convergence`)
+- [ ] BrowserRouter wraps Routes correctly
+- [ ] Dev server still runs (`npm run dev`)
+- [ ] All routes accessible via browser navigation
+- [ ] No import errors in console
+
+**Quick route test:**
+
+```bash
+# Open each route manually:
+# http://localhost:5173/
+# http://localhost:5173/call-to-adventure
+# http://localhost:5173/threshold-convergence
+```
+
+**If ANY route 404s or breaks:** STOP and debug routing before Phase 4.
+
+**Time check:** You should be ~2-2.5 hours into execution at this point.
+
+---
+
 ### Phase 4: Validation & Testing
 
 **4.1 Test each route:**
@@ -632,6 +1052,165 @@ May need configuration for client-side routing on Vercel. Check if 404 fallback 
 - [ ] Direct URL access works (not just SPA navigation)
 - [ ] Browser back/forward works
 - [ ] Refresh page doesn't break
+
+---
+
+**4.3 Build & Deploy Validation**
+
+**4.3.1 Production Build Test**
+
+**What:** Verify build succeeds and production bundle works.
+
+**Why:** Dev mode can hide issues that break production builds.
+
+**How:**
+
+```bash
+npm run build
+```
+
+**Expected result:**
+- ✅ Build completes without errors
+- ✅ Output in `dist/odyssey-lab/`
+- ✅ No warnings about missing dependencies
+- ✅ Asset optimization succeeds
+
+**Stop condition:** If build fails, STOP and fix errors before proceeding.
+
+**Common build failures:**
+- Missing dependencies (check package.json)
+- Import path errors (check @shared aliases)
+- Undefined variables in production mode
+- Missing public assets
+
+**Time estimate:** 1-2 minutes
+
+---
+
+**4.3.2 Preview Production Build**
+
+**What:** Test production build locally before deploying.
+
+**How:**
+
+```bash
+npm run preview
+```
+
+**Test in preview mode:**
+- [ ] Navigate to all routes
+- [ ] Verify styles render correctly
+- [ ] Test interactions (accordions, hover states)
+- [ ] Check console for errors
+- [ ] Confirm no dev-only code running
+
+**Time estimate:** 3-5 minutes
+
+---
+
+**4.3.3 Vercel Configuration Validation**
+
+**What:** Confirm vercel.json exists and is valid.
+
+**Check:**
+
+```bash
+cat vercel.json
+```
+
+**Expected content:**
+
+```json
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
+```
+
+**Validation:**
+- [ ] File exists in project root
+- [ ] JSON is valid (no syntax errors)
+- [ ] Rewrite rule present
+
+**If missing:** Create now (critical for Vercel deployment).
+
+**Time estimate:** 1 minute
+
+---
+
+### ✅ CHECKPOINT: Phase 4 Complete
+
+**Before proceeding to Phase 5, confirm:**
+
+- [ ] All routes tested (/, /call-to-adventure, /threshold-convergence)
+- [ ] All routes work in dev mode
+- [ ] All routes work in production preview
+- [ ] Build succeeds without errors
+- [ ] No console errors in dev or preview
+- [ ] vercel.json exists with correct config
+- [ ] Visual regression checks passed for all routes
+- [ ] Mobile tests passed (375px)
+
+**If ANY checkbox unchecked:** STOP and resolve before Phase 5.
+
+**Time check:** You should be ~2.5-3 hours into execution at this point.
+
+---
+
+### 🔍 FINAL VALIDATION (Before Documentation)
+
+**Purpose:** Ensure migration is 100% successful before documenting.
+
+**Run full test suite:**
+
+**1. Dev server test:**
+
+```bash
+npm run dev
+```
+
+- [ ] Starts without errors
+- [ ] All 3 routes load
+- [ ] No console errors on any route
+
+**2. Build test:**
+
+```bash
+npm run build
+```
+
+- [ ] Build succeeds
+- [ ] No errors or warnings
+
+**3. Preview test:**
+
+```bash
+npm run preview
+```
+
+- [ ] All 3 routes work in production mode
+- [ ] Styles render correctly
+- [ ] Interactions functional
+
+**4. Visual regression check (final):**
+- [ ] Open all 3 original files (HTML/current App.jsx) in browser
+- [ ] Open all 3 converted routes in browser
+- [ ] Side-by-side comparison: NO visual differences
+- [ ] All interactions work identically
+
+**5. Vercel readiness:**
+- [ ] `vercel.json` exists
+- [ ] Valid JSON format
+- [ ] Rewrite rule present
+
+**Acceptance criteria:** ALL checkboxes must be checked.
+
+**If ANY fail:** STOP, fix, retest. Do NOT proceed to documentation with broken code.
+
+**Time estimate:** 10-15 minutes
+
+---
 
 ### Phase 5: Documentation & Learnings
 
