@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
   Activity,
   Compass,
@@ -381,7 +382,7 @@ const AlchemyDiagram = () => (
   </div>
 );
 
-export default function Home() {
+export default function App() {
   return (
     <div className="min-h-screen relative selection:bg-[var(--color-bronze-light)] selection:text-white">
       <GlobalStyles />
@@ -1290,9 +1291,17 @@ export default function Home() {
       </section>
 
       <footer className="bg-[#020617] py-8 text-center border-t border-gray-900">
-        <p className="font-mono text-[10px] text-gray-600 uppercase tracking-widest">
-          Life Philosophy v1.0 • 2024-2025
-        </p>
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="font-mono text-[10px] text-gray-600 uppercase tracking-widest">
+            Life Philosophy v1.0 • 2024-2025
+          </p>
+          <Link
+            to="/andrew-threshold"
+            className="font-mono text-[10px] text-[var(--color-bronze)] hover:text-[var(--color-gold)] uppercase tracking-widest transition-colors"
+          >
+            → View Andrew Threshold
+          </Link>
+        </div>
       </footer>
 
       <StickyNav />
