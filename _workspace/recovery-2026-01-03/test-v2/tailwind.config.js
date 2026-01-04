@@ -3,12 +3,11 @@ export default {
   content: [
     "./index.html",
     "./main.jsx",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./_workspace/**/*.{js,jsx,ts,tsx}",
-    "./sites/**/*.{js,ts,jsx,tsx}",
+    "./TestApp.jsx",
   ],
   theme: {
     extend: {},
   },
   plugins: [],
 }
+

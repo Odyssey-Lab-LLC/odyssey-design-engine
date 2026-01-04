@@ -2,13 +2,12 @@
 export default {
   content: [
     "./index.html",
-    "./main.jsx",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./_workspace/**/*.{js,jsx,ts,tsx}",
-    "./sites/**/*.{js,ts,jsx,tsx}",
+    "./**/*.{js,jsx,ts,tsx}",
+    "./**/*.html",
   ],
   theme: {
     extend: {},
   },
   plugins: [],
 }
+

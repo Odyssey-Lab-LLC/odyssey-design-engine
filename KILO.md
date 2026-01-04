@@ -117,17 +117,17 @@ changelog:
 **After completing handoff, create:**
 
 1. **Report** (`plans/reports/[handoff-name]-report.md`):
-   - What was built
-   - Files created/modified
-   - Validation results
+- What was built
+- Files created/modified
+- Validation results
    - Issues encountered
-   - Conflicts resolved
+- Conflicts resolved
 
 2. **Lessons Learned** (`plans/lessons/[handoff-name]-lessons.md`):
-   - Edge cases discovered
-   - Gaps in rules or handoff
-   - Suggestions for improvements
-   - Patterns that should become standards
+- Edge cases discovered
+- Gaps in rules or handoff
+- Suggestions for improvements
+- Patterns that should become standards
 
 ### Completion Reply Format
 

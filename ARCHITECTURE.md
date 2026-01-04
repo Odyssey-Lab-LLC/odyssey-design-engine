@@ -1,11 +1,12 @@
 ---
-version: "1.1.0"
+version: "1.2.0"
 last_updated: "2026-01-03"
 updated_by: "Claude"
 synced_with:
   AGENTS.md: "1.1.0"
   README.md: "1.0.0"
 changelog:
+  - "1.2.0 (2026-01-03): Updated directory structure to reflect actual working configuration (configs in root, not /sites/)"
   - "1.1.0 (2026-01-03): Added design system philosophy (descriptive vs prescriptive)"
   - "1.0.0 (2026-01-03): Initial architecture documentation for Odyssey Design Engine"
 ---
@@ -33,16 +34,16 @@ The Odyssey Design Engine is a **multi-site React development environment** with
 
 ```
 /odyssey-design-engine/
-├── .rules/                         # Authoritative coding standards (SSoT)
-│   ├── README.md                  # Rules architecture
-│   ├── 00-general.md              # Universal standards
-│   ├── 00-conflict-checking.md    # Conflict protocol
-│   ├── 10-react-standards.md      # React/JSX patterns
-│   ├── 10-design-system.md        # Design token usage
-│   ├── 20-testing.md              # Test requirements
-│   └── 90-odyssey-project.md      # Project-specific patterns
+├── .rules/              # Source of truth for standards
+│   ├── README.md
+│   ├── 00-general.md
+│   ├── 00-conflict-checking.md
+│   ├── 10-react-standards.md
+│   ├── 10-design-system.md
+│   ├── 20-testing.md
+│   └── 90-odyssey-project.md
 │
-├── .cursor/rules/                  # Cursor pointer files (.mdc)
+├── .cursor/rules/       # Cursor pointer files
 │   ├── general.mdc
 │   ├── conflict-checking.mdc
 │   ├── react.mdc
@@ -50,7 +51,7 @@ The Odyssey Design Engine is a **multi-site React development environment** with
 │   ├── testing.mdc
 │   └── odyssey-project.mdc
 │
-├── .kilocode/rules/                # Kilo pointer files (.md)
+├── .kilocode/rules/     # Kilo pointer files (simpler format)
 │   ├── general.md
 │   ├── conflict-checking.md
 │   ├── react.md
@@ -58,73 +59,55 @@ The Odyssey Design Engine is a **multi-site React development environment** with
 │   ├── testing.md
 │   └── odyssey-project.md
 │
-├── config/                         # Build/tool configuration
-│   ├── vite.config.js             # Vite build config
-│   ├── tailwind.config.js         # Tailwind CSS config
-│   └── postcss.config.js          # PostCSS config
+├── config/              # Build/tool configs
+│   └── vite.config.js
 │
-├── sites/                          # Deployable sites
-│   └── odyssey-lab/               # Main Odyssey Lab site
+├── index.css            # Shared Tailwind directives (imported by sites)
+├── postcss.config.js    # Shared PostCSS config (used by all sites)
+├── tailwind.config.js   # Shared Tailwind config (used by all sites)
+│
+├── sites/               # Deployable sites
+│   └── odyssey-lab/     # Individual site
 │       ├── src/
-│       │   ├── App.jsx            # Root component
-│       │   ├── main.jsx           # Entry point
-│       │   └── components/        # Site-specific components
-│       ├── public/                # Static assets
-│       └── index.html             # HTML template
+│       │   ├── App.jsx       # Full homepage component (1303 lines)
+│       │   ├── main.jsx      # Entry point (imports @/index.css)
+│       │   ├── pages/
+│       │   │   └── Home.jsx  # Alternative homepage version
+│       │   └── components/
+│       ├── public/
+│       └── index.html
 │
-├── shared/                         # Shared across all sites
+├── shared/              # Shared across sites
 │   ├── design-system/
-│   │   ├── tokens.js              # JS token exports
-│   │   ├── GlobalStyles.jsx       # CSS variables component
-│   │   └── README.md              # Usage documentation
-│   │
+│   │   ├── tokens.js
+│   │   ├── GlobalStyles.jsx
+│   │   └── README.md
 │   ├── components/
-│   │   ├── library/               # Documented, reusable components
-│   │   │   ├── README.md         # Component catalog
-│   │   │   ├── Accordion.jsx     # + Accordion.md
-│   │   │   ├── Card.jsx          # + Card.md
-│   │   │   └── ...
-│   │   └── experimental/          # Not yet standardized
-│   │
-│   └── utils/                     # Shared utilities
+│   │   ├── library/     # Documented, reusable components
+│   │   └── experimental/
+│   └── utils/
 │
-├── plans/                          # Multi-agent coordination
-│   ├── handoffs/                  # Work assignments
-│   │   └── archive/
-│   ├── _plans/                    # Execution plans
-│   │   └── archive/
-│   ├── checkpoints/               # Progress snapshots
-│   │   └── archive/
-│   ├── reports/                   # Completion reports
-│   │   └── archive/
-│   ├── lessons/                   # Lessons learned
-│   ├── sessions/                  # Session continuity
-│   ├── incidents/                 # Incident management
-│   └── ragereports/               # User frustration logs
+├── plans/               # Multi-agent coordination
+│   ├── handoffs/
+│   ├── _plans/
+│   ├── checkpoints/
+│   ├── reports/
+│   ├── lessons/
+│   ├── sessions/        # Session continuity
+│   ├── incidents/       # Incident management
+│   └── ragereports/     # User frustration logs
 │
-├── scripts/                        # Automation
-│   ├── check-system-file-sync.py  # Version sync validation
-│   └── dev.sh                     # (Future) Multi-site dev wrapper
+├── scripts/             # Automation
+│   └── check-system-file-sync.py
 │
-├── _workspace/                     # Research/experiments
-│   ├── andrew gem merge/          # Client prototypes
-│   ├── init gem content delta test/  # Gemini experiments
-│   └── claude-odyssey-design-system-project/
-│       └── _system/
-│           └── SYSTEM_odyssey-design-tokens_v0.3_2025-12-19.md
+├── _workspace/          # Research/experiments
+│   └── recovery-2026-01-03/  # Archived test environments
 │
-├── this-is-odyssey-lab/           # Deployed artifacts (legacy)
-│   └── deploy/
-│
-├── AGENTS.md                       # Primary agent coordination (SSoT)
-├── CLAUDE.md                       # Claude-specific directives
-├── KILO.md                         # Kilo-specific directives
-├── ARCHITECTURE.md                 # This file (technical design)
-├── README.md                       # External-facing docs
-│
-├── package.json                    # Dependencies & scripts
-├── package-lock.json
-└── .gitignore
+├── AGENTS.md            # Agent coordination (PRIMARY)
+├── CLAUDE.md            # Claude-specific directives
+├── KILO.md              # Kilo-specific directives
+├── ARCHITECTURE.md      # This file - Technical design
+└── README.md            # External-facing docs
 ```
 
 ---
@@ -195,6 +178,146 @@ Each site deploys independently:
 - Root directory: `sites/odyssey-lab/` (or other site)
 - Build command: `npm run build`
 - Output directory: `dist/odyssey-lab/`
+
+---
+
+## Configuration Architecture
+
+### Configuration Organization
+
+The project uses a **hybrid approach** for configuration management:
+
+**Shared Configs (Project Root):**
+- `index.css` - Tailwind CSS directives (imported by all sites)
+- `tailwind.config.js` - Shared Tailwind configuration
+- `postcss.config.js` - Shared PostCSS configuration
+
+**Build Configs (`config/` directory):**
+- `vite.config.js` - Vite build configuration
+
+**Why this structure:**
+1. CSS/Tailwind configs in root are accessible to all sites via path aliases
+2. Each site imports `@/index.css` where `@` resolves to project root
+3. Vite root is set to individual site directory (`sites/odyssey-lab/`)
+4. PostCSS/Tailwind process CSS relative to their config locations
+
+### Path Resolution
+
+**Vite Configuration (`config/vite.config.js`):**
+```javascript
+{
+  root: path.resolve(__dirname, '../sites/odyssey-lab'),
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '..'),        // Project root
+      '@shared': path.resolve(__dirname, '../shared'),
+      '@sites': path.resolve(__dirname, '../sites')
+    }
+  }
+}
+```
+
+**Key Points:**
+- Vite `root` = Site directory (`sites/odyssey-lab/`)
+- `@` alias = Project root (allows importing shared configs)
+- All relative paths in Tailwind/PostCSS are relative to **their location**, not Vite root
+
+### Tailwind Content Paths
+
+**Critical Configuration:**
+```javascript
+// tailwind.config.js (in project root)
+export default {
+  content: [
+    "./index.html",
+    "./**/*.{js,jsx,ts,tsx}",
+    "./**/*.html",
+  ],
+  // ...
+}
+```
+
+**Why these paths:**
+- Paths are relative to `tailwind.config.js` location (project root)
+- `./index.html` - Not used (sites have their own)
+- `./**/*.{js,jsx,ts,tsx}` - Scans ALL JSX files from root
+- This finds files in `sites/`, `shared/`, `_workspace/`, etc.
+
+**Alternative approach that was tried and failed:**
+```javascript
+// ❌ WRONG - Paths relative to Vite root won't find files
+content: [
+  "./sites/**/*.html",
+  "./sites/**/*.{js,jsx,ts,tsx}",
+]
+```
+
+When Vite root is `sites/odyssey-lab/`, this would look for `sites/odyssey-lab/sites/**/*` (wrong!).
+
+### CSS Import Pattern
+
+**Every site's `main.jsx` must:**
+```javascript
+import '@/index.css'  // Critical - loads Tailwind
+```
+
+**What happens:**
+1. Vite resolves `@/index.css` to `<project-root>/index.css`
+2. PostCSS processes the CSS file
+3. Tailwind plugin runs, generates utility classes
+4. Generated CSS is injected into the page
+
+**Without this import:**
+- Tailwind directives never load
+- No CSS classes are generated
+- Page renders unstyled
+
+### Configuration Flow Diagram
+
+```
+User loads site
+    ↓
+Vite serves from sites/odyssey-lab/ (root)
+    ↓
+main.jsx imports '@/index.css' (via @ alias → project root)
+    ↓
+PostCSS processes index.css (finds postcss.config.js in project root)
+    ↓
+Tailwind plugin runs (finds tailwind.config.js in project root)
+    ↓
+Tailwind scans ./**/*.{js,jsx,ts,tsx} (relative to its config location)
+    ↓
+Generates CSS for all utility classes found
+    ↓
+CSS injected into page, site renders with styling
+```
+
+### Troubleshooting Checklist
+
+If styles aren't loading:
+
+1. **CSS Import:**
+   - [ ] Does `main.jsx` import `@/index.css`?
+   - [ ] Is the `@` alias configured in `vite.config.js`?
+
+2. **Tailwind Content:**
+   - [ ] Are content paths relative to `tailwind.config.js` location?
+   - [ ] Do paths find the site's JSX files?
+
+3. **PostCSS Config:**
+   - [ ] Does `postcss.config.js` exist in project root?
+   - [ ] Does it reference `tailwind.config.js`?
+
+4. **Vite Root:**
+   - [ ] Is Vite root set to the site directory?
+   - [ ] Are path aliases absolute (not relative to Vite root)?
+
+5. **Browser Check:**
+   - [ ] Hard refresh (Cmd+Shift+R) to clear cache
+   - [ ] Check browser console for import errors
+   - [ ] Inspect element - are Tailwind classes present in HTML?
+
+**See also:** `plans/lessons/002-sites-migration-css-debugging.md` for detailed debugging case study.
 
 ---
 
