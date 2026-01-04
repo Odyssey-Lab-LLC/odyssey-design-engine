@@ -1231,6 +1231,32 @@ export default function AndrewThreshold() {
   const lenisRef = useRef(null);
   const updateZoneRef = useRef(() => {});
 
+  useEffect(() => {
+    const origin = window.location.origin;
+    const ogPng = `${origin}/images/andrew-threshold-og.png`;
+    const ogJpg = `${origin}/images/andrew-threshold-og.jpg`;
+    const tags = [];
+
+    const addMeta = (attr, value, content) => {
+      const tag = document.createElement('meta');
+      tag.setAttribute(attr, value);
+      tag.setAttribute('content', content);
+      tag.setAttribute('data-andrew-og', 'true');
+      document.head.appendChild(tag);
+      tags.push(tag);
+    };
+
+    addMeta('property', 'og:image', ogPng);
+    addMeta('property', 'og:image', ogJpg);
+    addMeta('property', 'og:image:alt', 'Andrew Threshold');
+    addMeta('name', 'twitter:image', ogPng);
+    addMeta('name', 'twitter:card', 'summary_large_image');
+
+    return () => {
+      tags.forEach((tag) => tag.remove());
+    };
+  }, []);
+
   const handleAccordionToggle = (index) => {
     setOpenAccordion((prev) => (prev === index ? -1 : index));
   };
