@@ -31,6 +31,11 @@ This directory contains the **authoritative source of truth** for all coding sta
 - Fail-fast on uncertainty
 - One-time script ban
 
+**`00-rules-governance.md`** — Rules architecture and sync discipline
+- Rules live in `.rules/` only
+- Pointer files reference rules (no duplication)
+- Sync updates required for system files
+
 **`00-conflict-checking.md`** — Conflict resolution protocol
 - Active conflict checking before execution
 - AGENTS.md vs handoff reconciliation
@@ -139,4 +144,3 @@ Rules are enforced through:
 - [`CLAUDE.md`](../CLAUDE.md) — Claude-specific directives
 - [`KILO.md`](../KILO.md) — Kilo-specific directives
 - [`ARCHITECTURE.md`](../ARCHITECTURE.md) — Technical design
-

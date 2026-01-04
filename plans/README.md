@@ -24,11 +24,13 @@ plans/
 │
 ├── sessions/          # Session continuity (v1.1)
 │
-├── incidents/         # Incident management (v1.1)
+├── incidents_and_issues/ # Incidents + user frustration logs (v1.2)
+│   ├── incidents/     # Incident management
+│   └── ragereports/   # User frustration logs
 │
 ├── reviews/           # Review artifacts
 │
-└── ragereports/       # User frustration logs
+└── research/          # Research artifacts
 ```
 
 ---
@@ -170,7 +172,7 @@ sessions/
 
 ---
 
-## Incidents Directory (v1.1)
+## Incidents and Issues Directory (v1.2)
 
 **Purpose:** Track and resolve issues
 
@@ -182,13 +184,17 @@ sessions/
 
 **Active incident:**
 ```
-incidents/INCIDENT_ACTIVE.md
+incidents_and_issues/incidents/INCIDENT_ACTIVE.md
 ```
 
 **Resolved incidents:**
 ```
-incidents/YYYY-MM-DD-description.md
+incidents_and_issues/incidents/NNN-short-description.md
 ```
+
+**Naming:**
+- `NNN-short-description.md` (sequential, human-readable)
+- Example: `001-system-file-version-sync-mismatch.md`
 
 **Format:**
 ```markdown
@@ -216,7 +222,7 @@ incidents/YYYY-MM-DD-description.md
 
 **`.gitignore` entry:**
 ```
-plans/incidents/INCIDENT_ACTIVE.md
+plans/incidents_and_issues/incidents/INCIDENT_ACTIVE.md
 ```
 
 This prevents committing active incidents (they're in-progress investigation).
@@ -341,4 +347,3 @@ After work completes successfully:
 **Created:** 2026-01-03
 **Updated:** 2026-01-03
 **Version:** 1.0.0
-

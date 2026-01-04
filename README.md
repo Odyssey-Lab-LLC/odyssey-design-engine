@@ -1,10 +1,11 @@
 ---
-version: "1.0.0"
-last_updated: "2026-01-03"
+version: "1.0.1"
+last_updated: "2026-01-04"
 updated_by: "Claude"
 synced_with:
-  AGENTS.md: "1.1.0"
+  AGENTS.md: "1.2.0"
 changelog:
+  - "1.0.1 (2026-01-04): Synced with updated governance standards"
   - "1.0.0 (2026-01-03): Initial external-facing documentation for Odyssey Design Engine V1"
 ---
 
@@ -199,4 +200,3 @@ All technical standards live in `.rules/`:
 ## Contact
 
 [To be determined]
-

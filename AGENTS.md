@@ -1,11 +1,12 @@
 ---
-version: "1.1.0"
-last_updated: "2026-01-03"
+version: "1.2.0"
+last_updated: "2026-01-04"
 updated_by: "Claude"
 synced_with:
-  README.md: "1.0.0"
-  ARCHITECTURE.md: "1.1.0"
+  README.md: "1.0.1"
+  ARCHITECTURE.md: "1.2.1"
 changelog:
+  - "1.2.0 (2026-01-04): Added rules governance standard and updated plans directory structure"
   - "1.1.0 (2026-01-03): Added site sovereignty principle and prototype protection guidance"
   - "1.0.0 (2026-01-03): Initial agent coordination setup for Odyssey Design Engine"
 ---
@@ -137,6 +138,7 @@ The Odyssey Design Engine V1 is complete when:
 6. **Document as you build** — Library components get .md files immediately
 7. **Clean git commits** — Atomic commits with clear messages
 8. **Conflict checking** — Read governing files, check for conflicts, resolve per hierarchy
+9. **Rules governance** — Rules live in `.rules/`; Cursor/Kilo files are pointers only; sync updates required
 
 ---
 
@@ -215,8 +217,9 @@ The Odyssey Design Engine V1 is complete when:
 │   ├── reports/
 │   ├── lessons/
 │   ├── sessions/        # Session continuity
-│   ├── incidents/       # Incident management
-│   └── ragereports/     # User frustration logs
+│   └── incidents_and_issues/
+│       ├── incidents/   # Incident management
+│       └── ragereports/ # User frustration logs
 │
 ├── scripts/             # Automation
 │   └── check-system-file-sync.py
@@ -306,7 +309,7 @@ The Odyssey Design Engine V1 is complete when:
 
 ### Phase 2 — Planning Directory Setup
 - Create `plans/sessions/` directory
-- Create `plans/incidents/` directory
+- Create `plans/incidents_and_issues/` directory
 - Create archive subdirectories (handoffs, plans, reports, checkpoints)
 - Create `plans/README.md` explaining workflow
 
@@ -598,4 +601,3 @@ When reporting back to the user after completing a build, structure your reply a
 - [`KILO.md`](KILO.md) — Kilo-specific directives
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — Technical design
 - [`README.md`](README.md) — External-facing documentation
-

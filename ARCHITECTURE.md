@@ -1,11 +1,12 @@
 ---
-version: "1.2.0"
-last_updated: "2026-01-03"
+version: "1.2.1"
+last_updated: "2026-01-04"
 updated_by: "Claude"
 synced_with:
-  AGENTS.md: "1.1.0"
-  README.md: "1.0.0"
+  AGENTS.md: "1.2.0"
+  README.md: "1.0.1"
 changelog:
+  - "1.2.1 (2026-01-04): Updated plans directory structure references"
   - "1.2.0 (2026-01-03): Updated directory structure to reflect actual working configuration (configs in root, not /sites/)"
   - "1.1.0 (2026-01-03): Added design system philosophy (descriptive vs prescriptive)"
   - "1.0.0 (2026-01-03): Initial architecture documentation for Odyssey Design Engine"
@@ -94,8 +95,9 @@ The Odyssey Design Engine is a **multi-site React development environment** with
 │   ├── reports/
 │   ├── lessons/
 │   ├── sessions/        # Session continuity
-│   ├── incidents/       # Incident management
-│   └── ragereports/     # User frustration logs
+│   └── incidents_and_issues/
+│       ├── incidents/   # Incident management
+│       └── ragereports/ # User frustration logs
 │
 ├── scripts/             # Automation
 │   └── check-system-file-sync.py
@@ -866,4 +868,3 @@ Each site = separate Vercel project:
 - [`README.md`](README.md) — External documentation
 - [`shared/design-system/README.md`](shared/design-system/README.md) — Token usage guide
 - [`shared/components/library/README.md`](shared/components/library/README.md) — Component catalog
-

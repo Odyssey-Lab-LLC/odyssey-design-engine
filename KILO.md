@@ -1,12 +1,13 @@
 ---
-version: "1.0.0"
-last_updated: "2026-01-03"
+version: "1.0.1"
+last_updated: "2026-01-04"
 updated_by: "Claude"
 synced_with:
-  AGENTS.md: "1.1.0"
-  README.md: "1.0.0"
-  ARCHITECTURE.md: "1.1.0"
+  AGENTS.md: "1.2.0"
+  README.md: "1.0.1"
+  ARCHITECTURE.md: "1.2.1"
 changelog:
+  - "1.0.1 (2026-01-04): Synced system file versions"
   - "1.0.0 (2026-01-03): Refactored to DRY-compliant agent directive per Multi-Agent Standard v1.1"
 ---
 
