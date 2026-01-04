@@ -2,8 +2,9 @@
 export default {
   content: [
     "./index.html",
-    "./**/*.{js,jsx,ts,tsx}",
-    "./**/*.html",
+    "./sites/**/*.{js,jsx,ts,tsx,html}",
+    "./shared/**/*.{js,jsx,ts,tsx}",
+    "./_workspace/**/*.{js,jsx,ts,tsx,html}",
   ],
   theme: {
     extend: {},
