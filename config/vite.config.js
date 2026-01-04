@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [react()],
   root: path.resolve(__dirname, '../sites/odyssey-lab'),
   build: {
-    outDir: path.resolve(__dirname, '../dist/odyssey-lab'),
+    outDir: 'dist',
     emptyOutDir: true
   },
   resolve: {
