@@ -1451,7 +1451,7 @@ export default function AndrewThreshold() {
           </div>
 
           <div className="section-extended">
-            <p>Two people on parallel journeys arriving at a potential convergence point. Not accidental—<strong>serendipitous</strong>.</p>
+            <p>Two people on parallel journeys arriving at a potential convergence point. Not accidental. Not merely serendipitous. Syncronistic.</p>
 
             <div className="journey-arc">
               <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
@@ -1697,7 +1697,7 @@ export default function AndrewThreshold() {
 
           <div className="section-extended">
             <h3 id="tangibles">The Financial Picture</h3>
-            <p>Clear, specific, no ambiguity. Phased approach with checkpoints.</p>
+            <p>Clear starting framework with checkpoints and room to refine together.</p>
 
             <div className="phase-timeline">
               <div className="phase-box">
@@ -1736,12 +1736,13 @@ export default function AndrewThreshold() {
                 </div>
               </div>
             </div>
+            <p><em>*Provisional framework. Timing can accelerate if traction allows. Example: if net-new revenue increases while non-comp costs stay in line and we agree on reinvestment, we can move you toward the next comp band sooner and pull equity timing forward. See Critical Framing below.</em></p>
 
             <h4>Shadow Equity Explained</h4>
             <p><strong>What it is:</strong> Provisional ownership percentage that converts to real equity if we both commit long-term. Protects against early mis-hire while building trust.</p>
             <p><strong>How it works:</strong></p>
             <ul>
-              <li>Phase 2 (Mo 6-18): You're granted 10-15% shadow equity (conceptual range, TBD through conversation)</li>
+              <li>Phase 2 (Mo 6-18): You're granted 10-15% shadow equity (e.g., conceptual range, TBD through conversation)</li>
               <li>Operates like real equity in terms of decision-making voice and strategic input</li>
               <li>Does NOT have financial value unless/until converted</li>
               <li>Month 12 checkpoint: If partnership validated, shadow converts to real equity with vesting schedule</li>
@@ -1754,9 +1755,10 @@ export default function AndrewThreshold() {
             <p><strong>Phase 3 ($10-15K/month):</strong> Competitive product leader compensation. Real equity ownership adds long-term value beyond monthly salary.</p>
 
             <div className="highlight-block">
-              <h4>Critical Framing: Performance Upside</h4>
-              <p><strong>Numbers above are starting points, not fixed caps.</strong> If we hit aggressive targets (reaching $1M+ annual run rate, averaging $100K months by Q3/Q4), your compensation scales significantly higher.</p>
-              <p>This rewards you for being instrumental to growth, not pegging you to predetermined levels regardless of performance.</p>
+              <h4>Critical Framing: Starting Point & Performance Upside</h4>
+              <p><strong>These numbers are a starting point, not fixed terms.</strong> We align on baseline expectations, then co-define stretch targets and refine as we learn.</p>
+              <p><strong>Performance upside is front-loaded.</strong> If we hit aggressive goals (e.g., $1M+ annual run rate, ~$100K months by Q3/Q4), compensation scales materially higher and equity timing can move up.</p>
+              <p>I want you to set ambitious targets about 10-15% beyond current capacity and take real ownership of the trajectory.</p>
             </div>
 
             <h4>Vesting & Succession Philosophy</h4>
@@ -1824,9 +1826,9 @@ export default function AndrewThreshold() {
 
             <div className="honest-block">
               <h4>The Serendipity Element</h4>
-              <p>You introduced Brandon to the Hero's Journey books. Brandon named his company Odyssey Lab years before meeting you. The convergence of journey-focused philosophy + actual lived journey architecture feels less like coincidence.</p>
-              <p>Carl Jung called this <strong>synchronicity</strong>—meaningful coincidence. Not mystical, but recognition that some patterns emerge when conditions align.</p>
-              <p><em>This doesn't guarantee success. But it suggests paying attention.</em></p>
+              <p>You introduced Brandon to Areté and Heroic last year. Brandon named his company Odyssey Lab almost a year before reconnecting. That reconnection and other converging life events and influences helped spark his return, a clarity of purpose and power.</p>
+              <p>The convergence of journey-focused philosophy + actual lived journey architecture—Enneagram self discovery work, driven visionaries, spiritual seekers, actualized thinking-center types, lovers of learning and philosophy and the Hero's Journey—might be coincidence...</p>
+              <p>But might it destiny calling?</p>
             </div>
 
             <h3>Honest Risks</h3>

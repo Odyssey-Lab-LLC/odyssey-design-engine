@@ -195,3 +195,4 @@ Once you've confirmed the main site is working with V2 restored:
 **Next Action:**
 Copy `_workspace/init gem content delta test/NewHomepage-v2.jsx` to `sites/odyssey-lab/src/pages/Home.jsx` and verify the main site works.
 
+

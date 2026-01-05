@@ -190,3 +190,4 @@ When migrating a component/page to `sites/` structure:
 ✅ **Validated:** Hard refresh confirms styles persist  
 ✅ **Documented:** Architecture and debugging process captured  
 
+
