@@ -121,6 +121,7 @@ const AndrewStyles = () => (
     }
 
     h1, h2, h3, h4, .serif { font-family: 'Cormorant Garamond', serif; }
+    .font-display { font-family: var(--font-display); }
 
     /* LIGHT MODE STATES */
     body.zone-light {

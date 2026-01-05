@@ -121,7 +121,7 @@ export const StickyNav = ({
                   onClick={(event) => handleNavClick(event, item.id)}
                   className="flex items-center justify-between p-4 text-gray-200 hover:bg-[var(--dark-bg-body)] rounded-lg transition-colors group"
                 >
-                  <span className="text-lg" style={{ fontFamily: 'var(--font-display)' }}>{item.label}</span>
+                  <span className="font-display text-lg">{item.label}</span>
                   <span className="font-mono text-[10px] text-gray-600 group-hover:text-[var(--color-bronze)]">0{idx + 1}</span>
                 </a>
               ))}
