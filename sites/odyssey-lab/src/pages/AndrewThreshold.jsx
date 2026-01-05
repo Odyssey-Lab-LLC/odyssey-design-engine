@@ -146,8 +146,8 @@ const AndrewStyles = () => (
       box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     }
     
-    body.zone-light .clock-display { color: var(--color-gold); }
-    body.zone-light .clock-label { color: var(--light-text-muted); }
+    body.zone-light .clock-display { color: var(--color-bronze); }
+    body.zone-light .clock-label { color: var(--color-bronze); }
     
     body.zone-light .echo-word {
       color: var(--color-bronze-dark);
@@ -1188,26 +1188,45 @@ export default function AndrewThreshold() {
     const lens = lensRef.current;
     if (!lens) return undefined;
 
-    const updateLens = (clientX, clientY) => {
-      const rect = lens.getBoundingClientRect();
-      const x = Math.min(Math.max(clientX - rect.left, 0), rect.width);
-      const y = Math.min(Math.max(clientY - rect.top, 0), rect.height);
+    let rect = lens.getBoundingClientRect();
+    let frame = null;
+    let latestPoint = null;
+
+    const updateRect = () => {
+      rect = lens.getBoundingClientRect();
+    };
+
+    const applyLens = () => {
+      if (!latestPoint) {
+        frame = null;
+        return;
+      }
+
+      const x = Math.min(Math.max(latestPoint.clientX - rect.left, 0), rect.width);
+      const y = Math.min(Math.max(latestPoint.clientY - rect.top, 0), rect.height);
       lens.style.setProperty('--cursor-x', `${x}px`);
       lens.style.setProperty('--cursor-y', `${y}px`);
+      frame = null;
+    };
+
+    const scheduleUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(applyLens);
     };
 
     const handlePointerMove = (event) => {
-      const point = event.touches ? event.touches[0] : event;
-      updateLens(point.clientX, point.clientY);
+      latestPoint = event.touches ? event.touches[0] : event;
+      scheduleUpdate();
     };
 
     const handlePointerLeave = () => {
-      const rect = lens.getBoundingClientRect();
       lens.style.setProperty('--cursor-x', `${rect.width / 2}px`);
       lens.style.setProperty('--cursor-y', `${rect.height / 2}px`);
     };
 
     handlePointerLeave();
+    window.addEventListener('resize', updateRect);
+    window.addEventListener('scroll', updateRect, { passive: true });
     lens.addEventListener('pointermove', handlePointerMove);
     lens.addEventListener('pointerdown', handlePointerMove);
     lens.addEventListener('pointerleave', handlePointerLeave);
@@ -1215,11 +1234,16 @@ export default function AndrewThreshold() {
     lens.addEventListener('touchend', handlePointerLeave);
 
     return () => {
+      window.removeEventListener('resize', updateRect);
+      window.removeEventListener('scroll', updateRect);
       lens.removeEventListener('pointermove', handlePointerMove);
       lens.removeEventListener('pointerdown', handlePointerMove);
       lens.removeEventListener('pointerleave', handlePointerLeave);
       lens.removeEventListener('touchmove', handlePointerMove);
       lens.removeEventListener('touchend', handlePointerLeave);
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
     };
   }, []);
 
