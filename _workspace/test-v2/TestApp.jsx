@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { StickyNav } from '../components/StickyNav';
-import {
-  Activity,
-  Compass,
-  Layers,
-  ArrowRight,
-  Maximize2,
-  Minimize2,
+import { 
+  Activity, 
+  Compass, 
+  Layers, 
+  ArrowRight, 
+  Maximize2, 
+  Minimize2, 
   Circle,
   Hexagon,
   Triangle,
   ChevronDown,
+  Menu,
+  X,
   Anchor,
   Globe
 } from 'lucide-react';
@@ -21,9 +22,23 @@ import {
    All colors and spacing use CSS variables defined in the GlobalStyles component.
 */
 
-const GlobalStyles = () => (
+const GlobalStyles = () => {
+  // #region agent log
+  React.useEffect(() => {
+    fetch('http://127.0.0.1:7244/ingest/9a246c96-f781-4a53-be21-2887c3d42eaa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'TestApp.jsx:26',message:'GlobalStyles mounted',data:{timestamp:Date.now()},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'B'})}).catch(()=>{});
+    
+    // Check if fonts loaded
+    setTimeout(() => {
+      const fonts = ['Cinzel', 'Montserrat', 'Inter', 'JetBrains Mono', 'Cormorant Garamond'];
+      const loaded = fonts.map(f => document.fonts.check(`12px "${f}"`));
+      fetch('http://127.0.0.1:7244/ingest/9a246c96-f781-4a53-be21-2887c3d42eaa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'TestApp.jsx:32',message:'Font load check',data:{fonts,loaded,allLoaded:loaded.every(Boolean)},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+    }, 2000);
+  }, []);
+  // #endregion
+  
+  return (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
 
     /* @PRESERVE — Odyssey Lab Master Color Tokens v0.3 */
     :root {
@@ -39,16 +54,11 @@ const GlobalStyles = () => (
       --color-darker: #020617;
       --color-surface: #1E293B;
       --color-light: #F5F5F7;
-      --dark-bg-body: var(--color-dark);
-      --dark-bg-card: var(--color-surface);
-      --dark-bg-panel: var(--color-surface);
-      --dark-border-subtle: rgba(255, 255, 255, 0.1);
       
       /* ZONE: LIGHT (Primary) */
       --light-bg-body: #FFFDF7;          /* Warm white variant per design system */
       --light-bg-card: #FFFFFF;
       --light-bg-panel: #FDF6E3;
-      --light-bg-muted: #F8FAFC;
       --light-text-primary: #0F172A;     /* Deep Navy */
       --light-text-secondary: #1C1917;   /* Near Black */
       --light-text-muted: #475569;       /* Slate */
@@ -58,11 +68,8 @@ const GlobalStyles = () => (
       --light-border-strong: rgba(180, 142, 85, 0.4);
       
       /* SPACING & UTILS */
-      --font-display: 'Cinzel', serif;
-      --font-body: 'Inter', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --font-cinzel: var(--font-display);
-      --font-sans: var(--font-body);
+      --font-cinzel: 'Cinzel', serif;
+      --font-sans: 'Montserrat', sans-serif;
       --font-serif-accent: 'Cormorant Garamond', serif;
       
       --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
@@ -71,36 +78,16 @@ const GlobalStyles = () => (
     body {
       background-color: var(--light-bg-body);
       color: var(--light-text-secondary);
-      font-family: var(--font-body);
+      font-family: var(--font-sans);
       margin: 0;
       overflow-x: hidden;
     }
 
-    body[data-zone='dark'] .site-header {
-      background-color: rgba(2, 6, 23, 0.9);
-      border-color: rgba(255, 255, 255, 0.08);
-      backdrop-filter: none;
-    }
-
-    body[data-zone='dark'] .site-brand-title { color: var(--color-light); }
-    body[data-zone='dark'] .site-brand-sub { color: var(--color-bronze); }
-    body[data-zone='dark'] .site-logo-icon { color: var(--color-bronze-light); }
-
-    body[data-zone='dark'] .site-header .site-nav-link {
-      color: rgba(248, 250, 252, 0.7);
-    }
-
-    body[data-zone='dark'] .site-header .site-nav-link:hover,
-    body[data-zone='dark'] .site-header .site-nav-link[data-active='true'] {
-      color: var(--color-gold);
-    }
-
-    .font-display { font-family: var(--font-display); }
-    .font-cinzel { font-family: var(--font-display); }
-    .font-sans { font-family: var(--font-body); }
+    .font-cinzel { font-family: var(--font-cinzel); }
+    .font-sans { font-family: var(--font-sans); }
     .font-serif-accent { font-family: var(--font-serif-accent); }
-    .font-mono { font-family: var(--font-mono); }
-    .font-body { font-family: var(--font-body); }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .font-body { font-family: 'Inter', sans-serif; }
 
     .gold-gradient-text {
       background: linear-gradient(135deg, var(--color-bronze-dark) 0%, var(--color-gold) 50%, var(--color-bronze-dark) 100%);
@@ -155,7 +142,7 @@ const GlobalStyles = () => (
     .delay-300 { animation-delay: 300ms; }
 
     .text-gold-gradient {
-      background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-bronze) 100%);
+      background: linear-gradient(135deg, #D4AF37 0%, #B48E55 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -164,6 +151,7 @@ const GlobalStyles = () => (
     .odyssey-card {
       background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
       border: 1px solid rgba(180, 142, 85, 0.2);
+      backdrop-filter: blur(10px);
       transition: all 0.3s ease;
     }
     .odyssey-card:hover {
@@ -185,28 +173,18 @@ const GlobalStyles = () => (
       background: rgba(180, 142, 85, 0.1);
       border-color: rgba(180, 142, 85, 0.6);
     }
-
   `}</style>
-);
-
-// Reusable Components
-const SectionHeader = ({ eyebrow, title, description, descriptionTone = 'dark' }) => {
-  const descriptionClass = descriptionTone === 'light'
-    ? 'text-[var(--light-text-muted)]'
-    : 'text-slate-300';
-
-  return (
-    <div className="text-center mb-12">
-      <p className="font-mono text-[10px] text-[var(--color-bronze)] uppercase tracking-[0.3em]">{eyebrow}</p>
-      <h2 className="font-display text-4xl md:text-5xl font-medium text-[var(--color-gold)] my-4">{title}</h2>
-      {description && (
-        <p className={`max-w-3xl mx-auto text-lg md:text-xl leading-relaxed ${descriptionClass}`}>
-          {description}
-        </p>
-      )}
-    </div>
   );
 };
+
+// Reusable Components
+const SectionHeader = ({ eyebrow, title, description }) => (
+  <div className="text-center mb-12">
+    <p className="font-display text-lg text-[var(--color-bronze)] uppercase tracking-widest">{eyebrow}</p>
+    <h2 className="font-display text-5xl md:text-6xl text-[var(--color-gold)] my-4">{title}</h2>
+    {description && <p className="max-w-3xl mx-auto text-lg text-slate-300">{description}</p>}
+  </div>
+);
 
 const QuoteBlock = ({ text, attribution }) => (
   <blockquote className="border-l-4 border-[var(--color-bronze)] pl-6 italic my-8">
@@ -215,31 +193,25 @@ const QuoteBlock = ({ text, attribution }) => (
   </blockquote>
 );
 
-const Accordion = ({ eyebrow, title, description, children, defaultExpanded = false, tone = 'light' }) => {
+const Accordion = ({ eyebrow, title, description, children, defaultExpanded = false }) => {
   const [isOpen, setIsOpen] = useState(defaultExpanded);
-  const isDark = tone === 'dark';
-  const borderClass = isDark ? 'border-white/10' : 'border-[var(--light-border-subtle)]';
-  const eyebrowClass = isDark ? 'text-[var(--color-gold)]' : 'text-[var(--color-bronze)]';
-  const titleClass = isDark ? 'text-white' : 'text-[var(--light-text-primary)]';
-  const descriptionClass = isDark ? 'text-slate-300' : 'text-slate-500';
-  const iconClass = isDark ? 'text-[var(--color-gold)]' : 'text-[var(--color-bronze)]';
 
   return (
-    <div className={`border ${borderClass} rounded-lg mb-4 ${isDark ? 'bg-white/5' : ''}`}>
+    <div className="border border-[var(--light-border-subtle)] rounded-lg mb-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between items-center p-6 text-left"
       >
         <div className="flex-grow">
-          {eyebrow && <p className={`text-xs uppercase tracking-widest ${eyebrowClass}`}>{eyebrow}</p>}
-          <h3 className={`text-xl font-bold mt-1 ${titleClass}`}>{title}</h3>
-          {description && !isOpen && <p className={`mt-2 ${descriptionClass}`}>{description}</p>}
+          {eyebrow && <p className="text-xs text-[var(--color-bronze)] uppercase tracking-widest">{eyebrow}</p>}
+          <h3 className="text-xl font-bold text-[var(--light-text-primary)] mt-1">{title}</h3>
+          {description && !isOpen && <p className="text-slate-500 mt-2">{description}</p>}
         </div>
         <motion.div
           animate={{ rotate: isOpen ? 90 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <ArrowRight className={`w-5 h-5 ${iconClass}`} />
+          <ArrowRight className="w-5 h-5 text-[var(--color-bronze)]" />
         </motion.div>
       </button>
       <motion.div
@@ -247,7 +219,7 @@ const Accordion = ({ eyebrow, title, description, children, defaultExpanded = fa
         animate={{ height: isOpen ? 'auto' : 0 }}
         className="overflow-hidden"
       >
-        <div className={`p-6 border-t ${borderClass}`}>
+        <div className="p-6 border-t border-[var(--light-border-subtle)]">
           {children}
         </div>
       </motion.div>
@@ -260,9 +232,9 @@ const PillarCard = ({ number, title, essence, children }) => (
     <div className="relative z-10">
       <div className="flex items-center gap-4 mb-4">
         <span className="text-2xl font-bold text-[var(--color-bronze)]">{number}</span>
-        <h3 className="font-display text-2xl text-white">{title}</h3>
+        <h3 className="text-2xl font-bold text-white">{title}</h3>
       </div>
-      <p className="font-body text-slate-300 mb-6">{essence}</p>
+      <p className="text-slate-300 mb-6">{essence}</p>
       {children}
     </div>
   </div>
@@ -277,7 +249,7 @@ const PrincipleCard = ({ number, title, essence }) => (
 );
 
 const PathwayCard = ({ icon, title, description }) => (
-  <div className="bg-[var(--dark-bg-card)] border border-white/10 rounded-lg p-6 text-center">
+  <div className="bg-[var(--light-bg-card)]/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 text-center">
     <div className="text-4xl mb-4">{icon}</div>
     <h3 className="text-xl font-bold text-white">{title}</h3>
     <p className="text-slate-300 mt-2">{description}</p>
@@ -285,7 +257,7 @@ const PathwayCard = ({ icon, title, description }) => (
 );
 
 const SynthesisBlock = ({ label, children }) => (
-    <div className="bg-[var(--dark-bg-panel)] border-t-2 border-b-2 border-[var(--color-gold)]/50 my-12 py-8 px-6 text-center">
+    <div className="bg-[var(--dark-bg-card)]/5 backdrop-blur-sm border-t-2 border-b-2 border-[var(--color-gold)]/50 my-12 py-8 px-6 text-center">
         <p className="font-display text-sm uppercase tracking-widest text-[var(--color-gold-muted)] mb-4">{label}</p>
         <div className="max-w-4xl mx-auto text-xl md:text-2xl text-slate-200 leading-relaxed space-y-4">
             {children}
@@ -293,26 +265,97 @@ const SynthesisBlock = ({ label, children }) => (
     </div>
 );
 
+const ZoneTransition = () => (
+  <div className="h-48 bg-gradient-to-b from-[var(--light-bg-body)] to-[var(--dark-bg-body)]" />
+);
+
 // PILL-STYLE NAVIGATION FROM GEMINI-BASE-B
-const homeNavItems = [
-  { label: 'Origin', id: 'origin' },
-  { label: 'Root', id: 'root' },
-  { label: 'Cosmology', id: 'cosmology' },
-  { label: 'Principles', id: 'principles' },
-  { label: 'Manifestations', id: 'manifestations' },
-  { label: 'Synthesis', id: 'synthesis' },
-  { label: 'Invitation', id: 'invitation' },
-];
+const StickyNav = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsVisible(window.scrollY > 600);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  if (!isVisible) return null;
+
+  const navItems = [
+    { label: 'Origin', id: 'origin' },
+    { label: 'Root', id: 'root' },
+    { label: 'Cosmology', id: 'cosmology' },
+    { label: 'Principles', id: 'principles' },
+    { label: 'Manifestations', id: 'manifestations' },
+    { label: 'Synthesis', id: 'synthesis' },
+    { label: 'Invitation', id: 'invitation' },
+  ];
+
+  return (
+    <>
+      <nav className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-[95vw] md:w-auto flex justify-center pointer-events-none">
+        {/* Desktop View */}
+        <div className="hidden md:flex pointer-events-auto bg-[#0F172A]/90 backdrop-blur-md border border-gray-800 rounded-full px-6 py-3 shadow-2xl gap-8 items-center">
+          <span className="w-2 h-2 rounded-full bg-[#B48E55] animate-pulse"></span>
+          {navItems.map((item) => (
+            <a 
+              key={item.id} 
+              href={`#${item.id}`} 
+              className="text-[10px] font-mono uppercase tracking-widest text-gray-400 hover:text-[#D4AF37] transition-colors whitespace-nowrap"
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Mobile Button */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="md:hidden pointer-events-auto flex items-center gap-3 bg-[#0F172A] border border-[#B48E55] rounded-full px-8 py-4 shadow-2xl text-xs font-mono uppercase tracking-wider text-[#D4AF37]"
+        >
+          <Menu size={16} />
+          <span>Table of Contents</span>
+        </button>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-md flex items-end md:hidden animate-fade-in">
+          <div className="w-full bg-[#1E293B] rounded-t-2xl border-t border-[#B48E55]/30 p-6 pb-12 shadow-2xl">
+            <div className="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+              <span className="text-xs font-mono uppercase text-[#B48E55] tracking-widest">Navigation</span>
+              <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-white p-2">
+                <X size={24} />
+              </button>
+            </div>
+            <div className="flex flex-col gap-2">
+              {navItems.map((item, idx) => (
+                <a 
+                  key={item.id} 
+                  href={`#${item.id}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-4 text-gray-200 hover:bg-[#0F172A] rounded-lg transition-colors group"
+                >
+                  <span className="font-display text-lg">{item.label}</span>
+                  <span className="font-mono text-[10px] text-gray-600 group-hover:text-[#B48E55]">0{idx + 1}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 const NavLink = ({ children, active }) => (
-  <a
-    href="#"
-    data-active={active ? 'true' : 'false'}
-    className={`
-      site-nav-link relative px-4 py-2 text-xs font-sans font-medium tracking-[0.2em] transition-colors
-      ${active ? 'text-[var(--color-bronze-dark)]' : 'text-[var(--light-text-muted)] hover:text-[var(--color-bronze)]'}
-    `}
-  >
+  <a href="#" className={`
+    relative px-4 py-2 text-xs font-sans font-medium tracking-[0.2em] transition-colors
+    ${active ? 'text-[var(--color-bronze-dark)]' : 'text-[var(--light-text-muted)] hover:text-[var(--color-bronze)]'}
+  `}>
     {children}
     {active && (
       <motion.div 
@@ -354,63 +397,49 @@ const AlchemyDiagram = () => (
 );
 
 export default function App() {
-  useEffect(() => {
-    const body = document.body;
-    body.dataset.zone = 'light';
-
-    const darkSections = Array.from(document.querySelectorAll('.zone-dark'));
-    if (!darkSections.length) {
-      return () => {
-        delete body.dataset.zone;
+  // #region agent log
+  React.useEffect(() => {
+    fetch('http://127.0.0.1:7244/ingest/9a246c96-f781-4a53-be21-2887c3d42eaa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'TestApp.jsx:386',message:'App component mounted',data:{rootExists:!!document.getElementById('root')},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'B'})}).catch(()=>{});
+    
+    // Check if CSS vars are set
+    setTimeout(() => {
+      const root = document.documentElement;
+      const styles = getComputedStyle(root);
+      const varsCheck = {
+        colorBronze: styles.getPropertyValue('--color-bronze'),
+        fontCinzel: styles.getPropertyValue('--font-cinzel'),
+        lightBgBody: styles.getPropertyValue('--light-bg-body')
       };
-    }
-
-    const visibleDarkSections = new Set();
-    const updateZone = () => {
-      body.dataset.zone = visibleDarkSections.size > 0 ? 'dark' : 'light';
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            visibleDarkSections.add(entry.target);
-          } else {
-            visibleDarkSections.delete(entry.target);
-          }
-        });
-        updateZone();
-      },
-      { rootMargin: '-25% 0px -55% 0px', threshold: 0 }
-    );
-
-    darkSections.forEach((section) => observer.observe(section));
-    updateZone();
-
-    return () => {
-      observer.disconnect();
-      delete body.dataset.zone;
-    };
+      fetch('http://127.0.0.1:7244/ingest/9a246c96-f781-4a53-be21-2887c3d42eaa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'TestApp.jsx:395',message:'CSS variables check',data:varsCheck,timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'C'})}).catch(()=>{});
+    }, 1000);
   }, []);
-
+  // #endregion
+  
   return (
     <div className="min-h-screen relative selection:bg-[var(--color-bronze-light)] selection:text-white">
       <GlobalStyles />
 
+      {/* --- BACKGROUND LAYER --- */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 grid-pattern opacity-50" />
+        {/* Subtle vignetting for focus */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--light-bg-body)]" />
+      </div>
+
       {/* --- HEADER --- */}
-      <header className="site-header fixed top-0 left-0 right-0 z-50 bg-[var(--light-bg-body)] border-b border-[var(--light-border-subtle)]">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--light-bg-body)]/80 backdrop-blur-md border-b border-[var(--light-border-subtle)]">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Logo Block */}
           <div className="flex items-center gap-4">
-            <div className="site-logo w-8 h-8 border border-[var(--color-bronze)] flex items-center justify-center relative overflow-hidden group">
+            <div className="w-8 h-8 border border-[var(--color-bronze)] flex items-center justify-center relative overflow-hidden group">
                <div className="absolute inset-0 bg-[var(--color-bronze)] opacity-0 group-hover:opacity-10 transition-opacity" />
-               <Compass className="site-logo-icon w-4 h-4 text-[var(--color-bronze-dark)]" />
+               <Compass className="w-4 h-4 text-[var(--color-bronze-dark)]" />
             </div>
             <div className="flex flex-col">
-              <span className="site-brand-title font-cinzel font-bold text-lg leading-none tracking-wide text-[var(--light-text-primary)]">
+              <span className="font-cinzel font-bold text-lg leading-none tracking-wide text-[var(--light-text-primary)]">
                 ODYSSEY LAB
               </span>
-              <span className="site-brand-sub font-sans text-[9px] tracking-[0.3em] text-[var(--color-bronze-dark)] uppercase mt-1">
+              <span className="font-sans text-[9px] tracking-[0.3em] text-[var(--color-bronze-dark)] uppercase mt-1">
                 System: Flourishing
               </span>
             </div>
@@ -440,9 +469,9 @@ export default function App() {
         
         {/* Floating particles background */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-[var(--color-gold)] rounded-full opacity-20 animate-float" />
-          <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-[var(--color-gold)] rounded-full opacity-30 animate-float delay-100" />
-          <div className="absolute top-1/2 right-1/4 w-3 h-3 bg-[var(--color-bronze)] rounded-full opacity-10 animate-float delay-200" />
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-[#D4AF37] rounded-full opacity-20 animate-float" />
+          <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-[#D4AF37] rounded-full opacity-30 animate-float delay-100" />
+          <div className="absolute top-1/2 right-1/4 w-3 h-3 bg-[#B48E55] rounded-full opacity-10 animate-float delay-200" />
         </div>
 
         {/* Top Meta Label */}
@@ -496,7 +525,7 @@ export default function App() {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="bg-[var(--light-bg-card)] border-l-2 border-[var(--color-bronze)] p-6 md:p-8"
+              className="bg-[var(--light-bg-card)]/60 backdrop-blur-sm border-l-2 border-[var(--color-bronze)] p-6 md:p-8"
             >
               <div className="flex items-center gap-2 mb-4 text-[var(--color-bronze-dark)]">
                 <Activity className="w-4 h-4" />
@@ -597,11 +626,10 @@ export default function App() {
             eyebrow="Where This Comes From"
             title="Origin Story: A Decade-Long Quest"
             description="This philosophy didn't start with business principles or design frameworks. It emerged from a decade-long quest to understand what makes life meaningful and how technology shapes human consciousness."
-            descriptionTone="light"
           />
           
           <div className="prose prose-lg max-w-none mx-auto text-slate-600 leading-relaxed">
-            <p>For nearly a decade, I've gathered with friends for philosophy book club—reading, discussing, wrestling with ideas that matter. This interest traces back to my anthropology training, to dreams of ethnography and travel writing, to a deep curiosity about how humans make meaning across cultures.</p>
+            <p>For nearly a decade, I\'ve gathered with friends for philosophy book club—reading, discussing, wrestling with ideas that matter. This interest traces back to my anthropology training, to dreams of ethnography and travel writing, to a deep curiosity about how humans make meaning across cultures.</p>
             <p>The philosophy has been forming for years. But it crystallized in two Christmas Day 2024 epiphanies that revealed its complete architecture:</p>
           </div>
 
@@ -613,7 +641,7 @@ export default function App() {
             >
               <div className="prose max-w-none">
                 <p>Vision for technology as consciousness elevation tool, crafted to help build authentic lives based on true "Know Thyself" authentic awareness and actualize lives of thriving and eudaimonia across All Quadrants and All Levels.</p>
-                <p>This wasn't just an app idea—it was a recognition that technology could serve human flourishing if intentionally designed for consciousness elevation rather than engagement optimization.</p>
+                <p>This wasn\'t just an app idea—it was a recognition that technology could serve human flourishing if intentionally designed for consciousness elevation rather than engagement optimization.</p>
               </div>
             </Accordion>
             <Accordion
@@ -624,26 +652,28 @@ export default function App() {
               <div className="prose max-w-none">
                 <p>My answer to the challenge: design the most ambitious vision for what I would do if this business achieved monumental 10-year success:</p>
                 <ul>
-                  <li>Moving toward takeoff toward "A New Earth" (Tolle's vision) as force for human flourishing</li>
+                  <li>Moving toward takeoff toward "A New Earth" (Tolle\'s vision) as force for human flourishing</li>
                   <li>8-9 figure per year business earned through harmonization of goods</li>
                   <li>Platform for civil awareness, transparency of action vs. promises</li>
                   <li>Tracking 1st to 3rd order impacts of policies</li>
                   <li>Meta-analysis of how policies across civil societies globally contribute near and long term toward sustained maximization of Eudaimonia</li>
                   <li>Shepherding of consciousness on Earth</li>
                 </ul>
-                <p>These weren't random brainstorms. They were breakthrough moments where a decade of philosophical exploration converged into actionable vision. The pattern: Christmas (my birthday) opens portals to insight, creates flow states for wisdom access.</p>
+                <p>These weren\'t random brainstorms. They were breakthrough moments where a decade of philosophical exploration converged into actionable vision. The pattern: Christmas (my birthday) opens portals to insight, creates flow states for wisdom access.</p>
               </div>
             </Accordion>
           </div>
 
           <div className="prose prose-lg max-w-none mx-auto text-slate-600 leading-relaxed mt-12">
-            <p><strong>What follows isn't just "business philosophy" or "design principles." This is a complete worldview</strong>—about consciousness, meaning, purpose, technology, human potential—from which everything else flows.</p>
+            <p><strong>What follows isn\'t just "business philosophy" or "design principles." This is a complete worldview</strong>—about consciousness, meaning, purpose, technology, human potential—from which everything else flows.</p>
           </div>
         </div>
       </section>
 
+      <ZoneTransition />
+
       {/* --- THE ROOT (WITH DARK THEME FROM GEMINI-BASE-B) --- */}
-      <section id="root" className="zone-dark bg-[var(--dark-bg-body)] py-24">
+      <section id="root" className="bg-[#0F172A] py-24">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader
             eyebrow="Philosophical Foundations"
@@ -655,87 +685,85 @@ export default function App() {
               number="#1"
               title="Viktor Frankl: Life Questions Us"
               essence="Life doesn't ask what meaning is—it questions you. Meaning is discovered through purpose, responsibility, and response to life's call."
-            />
+            >
+              <Accordion
+                eyebrow="Explore Frankl's Insights"
+                title="The Core Teaching"
+                description="Logotherapy fundamentally inverted how we understand meaning—with profound implications for human flourishing."
+              >
+                <div className="prose prose-invert max-w-none">
+                  <p>Viktor Frankl's <em>Man's Search for Meaning</em> holds "highest precedence" or "co-equal" status as philosophical foundation. His logotherapy fundamentally inverted how I understand meaning:</p>
+                  <QuoteBlock
+                    text="Ultimately, man should not ask what the meaning of his life is, but rather must recognize that it is he who is asked. In a word, each man is questioned by life; and he can only answer to life by answering for his own life; to life he can only respond by being responsible."
+                    attribution="— Viktor Frankl, Man's Search for Meaning"
+                  />
+                  <p><strong>The Core Insight:</strong> Life asks YOU the question. Meaning isn\'t found in pleasure (Freud) or power (Adler)—it\'s found in PURPOSE. You don\'t create meaning; you discover it by responding to life\'s call with responsibility.</p>
+                  <QuoteBlock
+                    text="Those who have a 'why' to live, can bear with almost any 'how'."
+                    attribution="— Viktor Frankl"
+                  />
+                  <p>This is foundational to everything. Suffering ceases to be suffering when it finds meaning. Between stimulus and response lies our freedom to choose. Redemptive challenge over destructive suffering. The right why enables any how.</p>
+                </div>
+              </Accordion>
+            </PillarCard>
             <PillarCard
               number="#2"
               title="Eckhart Tolle: A New Earth"
               essence="Consciousness elevation transcends ego, overcomes separateness. We're at a threshold—technology can elevate or alienate humanity."
-            />
+            >
+              <Accordion
+                eyebrow="Explore Tolle's Vision"
+                title="Consciousness Elevation"
+                description="A New Earth was catalytic—it unlocked vision for consciousness elevation through technology and human potential."
+              >
+                <div className="prose prose-invert max-w-none">
+                  <p><em>A New Earth</em> (MORE influential on me than <em>The Power of Now</em>) wasn\'t derivative—it was <strong>catalytic</strong>. Tolle unlocked my vision for consciousness elevation:</p>
+                  <ul>
+                    <li>Elevation of human spirit and consciousness</li>
+                    <li>Mindfulness "takeoff" in collective consciousness</li>
+                    <li>Harmonious participation in universal creation</li>
+                    <li>Overcoming illusion of separateness</li>
+                    <li>Ego transcendence through present-moment awareness</li>
+                  </ul>
+                  <p>This shaped my entire worldview: Technology can uplift OR alienate. We\'re at a threshold moment. Consciousness elevation is the answer—not more systems, more rules, more control. <strong>Know Thyself</strong> becomes the foundation of everything.</p>
+                  <p>The illusion of separateness is the root problem:</p>
+                   <ul>
+                    <li>Ego creates boundaries that don\'t exist</li>
+                    <li>Competition replaces collaboration</li>
+                    <li>Individual optimization ignores systemic effects</li>
+                    <li>"I succeed, you fail" mentality</li>
+                    <li>Political polarization, economic inequality, environmental destruction</li>
+                  </ul>
+                  <p><strong>Interconnection is reality.</strong> Separateness is illusion. Consciousness elevation means recognizing and living this truth.</p>
+                </div>
+              </Accordion>
+            </PillarCard>
             <PillarCard
               number="#3"
               title="Panpsychism: Consciousness as Ground"
               essence="Universal consciousness is the root of reality. We are nodes in this process—gardeners and tenders of planetary consciousness."
-            />
-          </div>
-          <div className="mt-12 space-y-4">
-            <Accordion
-              eyebrow="Explore Frankl's Insights"
-              title="The Core Teaching"
-              description="Logotherapy fundamentally inverted how we understand meaning—with profound implications for human flourishing."
-              tone="dark"
             >
-              <div className="prose prose-invert max-w-none">
-                <p>Viktor Frankl's <em>Man's Search for Meaning</em> holds "highest precedence" or "co-equal" status as philosophical foundation. His logotherapy fundamentally inverted how I understand meaning:</p>
-                <QuoteBlock
-                  text="Ultimately, man should not ask what the meaning of his life is, but rather must recognize that it is he who is asked. In a word, each man is questioned by life; and he can only answer to life by answering for his own life; to life he can only respond by being responsible."
-                  attribution="— Viktor Frankl, Man's Search for Meaning"
-                />
-                <p><strong>The Core Insight:</strong> Life asks YOU the question. Meaning isn't found in pleasure (Freud) or power (Adler)—it's found in PURPOSE. You don't create meaning; you discover it by responding to life's call with responsibility.</p>
-                <QuoteBlock
-                  text="Those who have a 'why' to live, can bear with almost any 'how'."
-                  attribution="— Viktor Frankl"
-                />
-                <p>This is foundational to everything. Suffering ceases to be suffering when it finds meaning. Between stimulus and response lies our freedom to choose. Redemptive challenge over destructive suffering. The right why enables any how.</p>
-              </div>
-            </Accordion>
-            <Accordion
-              eyebrow="Explore Tolle's Vision"
-              title="Consciousness Elevation"
-              description="A New Earth was catalytic—it unlocked vision for consciousness elevation through technology and human potential."
-              tone="dark"
-            >
-              <div className="prose prose-invert max-w-none">
-                <p><em>A New Earth</em> (MORE influential on me than <em>The Power of Now</em>) wasn't derivative—it was <strong>catalytic</strong>. Tolle unlocked my vision for consciousness elevation:</p>
-                <ul>
-                  <li>Elevation of human spirit and consciousness</li>
-                  <li>Mindfulness "takeoff" in collective consciousness</li>
-                  <li>Harmonious participation in universal creation</li>
-                  <li>Overcoming illusion of separateness</li>
-                  <li>Ego transcendence through present-moment awareness</li>
-                </ul>
-                <p>This shaped my entire worldview: Technology can uplift OR alienate. We're at a threshold moment. Consciousness elevation is the answer—not more systems, more rules, more control. <strong>Know Thyself</strong> becomes the foundation of everything.</p>
-                <p>The illusion of separateness is the root problem:</p>
-                 <ul>
-                  <li>Ego creates boundaries that don't exist</li>
-                  <li>Competition replaces collaboration</li>
-                  <li>Individual optimization ignores systemic effects</li>
-                  <li>"I succeed, you fail" mentality</li>
-                  <li>Political polarization, economic inequality, environmental destruction</li>
-                </ul>
-                <p><strong>Interconnection is reality.</strong> Separateness is illusion. Consciousness elevation means recognizing and living this truth.</p>
-              </div>
-            </Accordion>
-            <Accordion
-              eyebrow="Explore Cosmology"
-              title="Universal Consciousness"
-              description="This isn't metaphor—it's cosmology. We're participants in the universe's self-knowing process."
-              tone="dark"
-            >
-              <div className="prose prose-invert max-w-none">
-                <p>My worldview is fundamentally <strong>panpsychist</strong>. Universal consciousness is the root of reality—deeper than physical matter. God/universe is undertaking a program of knowing itself.</p>
-                <p><strong>We are nodes in this process.</strong> Humans contribute to evolution of knowledge, expansion of consciousness. Our mission: Become "gardeners and tenders of consciousness of the entire planet."</p>
-                <p>This isn't metaphor—it's cosmology. Interconnection is reality. Separateness is illusion. We don't just participate in universal consciousness—we ARE it, localized, learning, growing, transmuting.</p>
-                <p><strong>Core Metaphysics:</strong></p>
-                <ul>
-                  <li>Universal consciousness is primordial (exists before matter)</li>
-                  <li>God/universe knows itself THROUGH creation</li>
-                  <li>Humans are nodes—localized consciousness participating in universal evolution</li>
-                  <li>We're not observers of reality, we're participants in creation</li>
-                  <li>Knowledge expansion and consciousness evolution are the fundamental processes</li>
-                </ul>
-                <p><strong>Our Mission:</strong> We must overcome sins of the past (war, brutality, greed, separateness) and become stewards of planetary consciousness. Not dominators—stewards. Not extractors—gardeners.</p>
-              </div>
-            </Accordion>
+              <Accordion
+                eyebrow="Explore Cosmology"
+                title="Universal Consciousness"
+                description="This isn't metaphor—it's cosmology. We're participants in the universe's self-knowing process."
+              >
+                <div className="prose prose-invert max-w-none">
+                  <p>My worldview is fundamentally <strong>panpsychist</strong>. Universal consciousness is the root of reality—deeper than physical matter. God/universe is undertaking a program of knowing itself.</p>
+                  <p><strong>We are nodes in this process.</strong> Humans contribute to evolution of knowledge, expansion of consciousness. Our mission: Become "gardeners and tenders of consciousness of the entire planet."</p>
+                  <p>This isn\'t metaphor—it\'s cosmology. Interconnection is reality. Separateness is illusion. We don\'t just participate in universal consciousness—we ARE it, localized, learning, growing, transmuting.</p>
+                  <p><strong>Core Metaphysics:</strong></p>
+                  <ul>
+                    <li>Universal consciousness is primordial (exists before matter)</li>
+                    <li>God/universe knows itself THROUGH creation</li>
+                    <li>Humans are nodes—localized consciousness participating in universal evolution</li>
+                    <li>We\'re not observers of reality, we\'re participants in creation</li>
+                    <li>Knowledge expansion and consciousness evolution are the fundamental processes</li>
+                  </ul>
+                  <p><strong>Our Mission:</strong> We must overcome sins of the past (war, brutality, greed, separateness) and become stewards of planetary consciousness. Not dominators—stewards. Not extractors—gardeners.</p>
+                </div>
+              </Accordion>
+            </PillarCard>
           </div>
           <SynthesisBlock label="The Synthesis">
             <p><strong>Frankl</strong> says: Life asks you a question, answer with responsibility and purpose.</p>
@@ -747,7 +775,7 @@ export default function App() {
       </section>
 
       {/* --- COSMOLOGY SECTION --- */}
-      <section id="cosmology" className="zone-dark bg-[var(--dark-bg-body)] py-24">
+      <section id="cosmology" className="bg-[#0F172A] pb-24">
         <div className="max-w-3xl mx-auto px-6">
           <SectionHeader
             title="The Cosmology: How Reality Works"
@@ -758,7 +786,6 @@ export default function App() {
               eyebrow="Understanding Reality"
               title="Universal Consciousness & Human Participation"
               description="We're not separate observers—we're active participants in the universe's process of knowing itself through creation."
-              tone="dark"
             >
               <div className="prose prose-invert max-w-none">
                 <p><strong>Core Metaphysics:</strong></p>
@@ -777,7 +804,6 @@ export default function App() {
               eyebrow="Critical Moment"
               title="The Technology Threshold"
               description="We're at a pivotal moment where technology can either elevate human consciousness or create alienation and separation from truth."
-              tone="dark"
             >
                 <div className="prose prose-invert max-w-none">
                     <p><strong>We are at a pivotal moment:</strong> Technology can elevate human spirit OR create alienation, distraction, separation from presence/inner truth/consciousness.</p>
@@ -802,20 +828,19 @@ export default function App() {
                         <li>Facilitate participation in universal consciousness evolution</li>
                         <li>Level playing field (small businesses vs private equity consolidation)</li>
                     </ul>
-                    <p>The question isn't "technology: yes or no?" The question is: <strong>"Technology serving what purpose?"</strong></p>
+                    <p>The question isn\'t "technology: yes or no?" The question is: <strong>"Technology serving what purpose?"</strong></p>
                 </div>
             </Accordion>
             <Accordion
               eyebrow="Core Human Need"
               title="Meaning-Making as Fundamental"
               description="Meaning isn't optional—it's fundamental to human flourishing. Three false paths and one true path to meaning."
-              tone="dark"
             >
                 <div className="prose prose-invert max-w-none">
-                    <p>Meaning isn't optional—it's <strong>fundamental to human flourishing.</strong> Frankl proved this in concentration camps: Those with purpose survived. Those without, perished.</p>
+                    <p>Meaning isn\'t optional—it\'s <strong>fundamental to human flourishing.</strong> Frankl proved this in concentration camps: Those with purpose survived. Those without, perished.</p>
                     <p><strong>Three False Paths to Meaning:</strong></p>
                     <ol>
-                        <li><strong>Pleasure</strong> (Freud) - Hedonism degrades, doesn't sustain</li>
+                        <li><strong>Pleasure</strong> (Freud) - Hedonism degrades, doesn\'t sustain</li>
                         <li><strong>Power</strong> (Adler) - Domination creates separation, not flourishing</li>
                         <li><strong>Avoidance</strong> (Modern distraction culture) - Phones, endless content, escape from self</li>
                     </ol>
@@ -828,12 +853,11 @@ export default function App() {
               eyebrow="The Root Problem"
               title="Interconnection vs Separateness"
               description="Illusion of separateness creates competition, polarization, and destruction. Interconnection is the reality we must recognize."
-              tone="dark"
             >
               <div className="prose prose-invert max-w-none">
-                <p><strong>Illusion of Separateness</strong> (Tolle's core insight) is the root problem:</p>
+                <p><strong>Illusion of Separateness</strong> (Tolle\'s core insight) is the root problem:</p>
                 <ul>
-                  <li>Ego creates boundaries that don't exist</li>
+                  <li>Ego creates boundaries that don\'t exist</li>
                   <li>Competition replaces collaboration</li>
                   <li>Individual optimization ignores systemic effects</li>
                   <li>"I succeed, you fail" mentality</li>
@@ -843,7 +867,7 @@ export default function App() {
                 <ul>
                   <li>No person is an island (ecosystems, families, communities, planet)</li>
                   <li>Your wellbeing affects mine, mine affects yours</li>
-                  <li>Business success built on others' failure is unsustainable</li>
+                  <li>Business success built on others\' failure is unsustainable</li>
                   <li>Environmental destruction harms all (no separate space to hide)</li>
                   <li>Universal consciousness means literal interconnection, not metaphor</li>
                 </ul>
@@ -854,6 +878,8 @@ export default function App() {
         </div>
       </section>
 
+      <ZoneTransition />
+
       {/* --- 10 PRINCIPLES --- */}
       <section id="principles" className="zone-light py-24">
         <div className="max-w-7xl mx-auto px-6">
@@ -861,7 +887,6 @@ export default function App() {
             eyebrow="Operationalizing Philosophy"
             title="The 10 Principles for Living"
             description="How the philosophy translates into daily practice. These principles guide decision-making, behavior, and business operations."
-            descriptionTone="light"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             <PrincipleCard number={1} title="Know Thyself Foundation" essence="Self-knowledge precedes authentic action. Understand your personality, strengths, shadow, values before seeking external change." />
@@ -883,7 +908,7 @@ export default function App() {
             >
               <div className="prose max-w-none">
                 <h4>1. Know Thyself Foundation</h4>
-                <p><strong>Core Truth:</strong> You cannot serve consciousness evolution if you don't know yourself. Self-deception blocks authentic action. Shadow work, personality awareness, values clarification are prerequisites.</p>
+                <p><strong>Core Truth:</strong> You cannot serve consciousness evolution if you don\'t know yourself. Self-deception blocks authentic action. Shadow work, personality awareness, values clarification are prerequisites.</p>
                 <p><strong>Application:</strong> Use frameworks (CliftonStrengths, Enneagram, MBTI) not as labels but as lenses. Annual reflection, journaling, facilitated self-inquiry. Business decisions tested against values.</p>
                 
                 <h4>2. Consciousness Elevation Imperative</h4>
@@ -895,7 +920,7 @@ export default function App() {
                 <p><strong>Application:</strong> Friction where appropriate (pause before action). Transparency in persuasion techniques. Optimize for user wellbeing, not just engagement. This is NOT "user experience"—it's civic design.</p>
                 
                 <h4>4. Multi-Stakeholder Optimization</h4>
-                <p><strong>Core Truth:</strong> Interconnection means your success doesn't exist separate from ecosystem health. Extractive business (maximize shareholder value at all costs) destroys the ground it stands on.</p>
+                <p><strong>Core Truth:</strong> Interconnection means your success doesn\'t exist separate from ecosystem health. Extractive business (maximize shareholder value at all costs) destroys the ground it stands on.</p>
                 <p><strong>Application:</strong> Harmonized goods—clients, team, Brandon, community all benefit. Not equal distribution but ALIGNED interests. Refuse work that harms one stakeholder to benefit another.</p>
 
                 <h4>5. Redemptive Challenge Over Destructive Suffering</h4>
@@ -904,22 +929,22 @@ export default function App() {
 
                 <h4>6. Technology as Partner, Not Replacement</h4>
                 <p><strong>Core Truth:</strong> AI replacing human thinking creates dependency and degradation. AI enhancing human capability creates abundance and elevation.</p>
-                <p><strong>Application:</strong> Build tools that require human judgment. Augment cognition, don't replace it. Calculator enhances math understanding when used right; becomes crutch when used wrong. Same with AI.</p>
+                <p><strong>Application:</strong> Build tools that require human judgment. Augment cognition, don\'t replace it. Calculator enhances math understanding when used right; becomes crutch when used wrong. Same with AI.</p>
 
                 <h4>7. Transmutation Over Transformation</h4>
                 <p><strong>Core Truth:</strong> Transformation can discard essence. Transmutation preserves core while elevating expression. Alchemical—lead to gold retains metallic nature but transcends limitations.</p>
                 <p><strong>Application:</strong> Personal growth preserves authentic self while releasing limiting patterns. Business pivot maintains mission while evolving methods. Not "become different person"—become MORE yourself.</p>
 
                 <h4>8. Purpose Through Response-ability</h4>
-                <p><strong>Core Truth:</strong> Life is questioning YOU. Your purpose isn't chosen arbitrarily—it's discovered through responsible response to what life demands of you.</p>
-                <p><strong>Application:</strong> Notice what calls you. What problems won't leave you alone? What injustice demands your response? Purpose emerges from paying attention to life's questions and choosing to answer.</p>
+                <p><strong>Core Truth:</strong> Life is questioning YOU. Your purpose isn\'t chosen arbitrarily—it\'s discovered through responsible response to what life demands of you.</p>
+                <p><strong>Application:</strong> Notice what calls you. What problems won\'t leave you alone? What injustice demands your response? Purpose emerges from paying attention to life\'s questions and choosing to answer.</p>
 
                 <h4>9. Interconnection is Reality</h4>
                 <p><strong>Core Truth:</strong> Ego creates illusion of separateness. Reality is interconnected ecosystems—biological, social, economic, consciousness. Individual success impossible without system health.</p>
                 <p><strong>Application:</strong> Business decisions consider ripple effects. Personal choices consider community impact. Environmental destruction recognized as self-harm. Collaboration over competition where possible.</p>
 
                 <h4>10. Stewardship Over Domination</h4>
-                <p><strong>Core Truth:</strong> Humans aren't meant to dominate nature/others—we're meant to tend, garden, steward. Power is responsibility, not privilege. Leadership is service.</p>
+                <p><strong>Core Truth:</strong> Humans aren\'t meant to dominate nature/others—we\'re meant to tend, garden, steward. Power is responsibility, not privilege. Leadership is service.</p>
                 <p><strong>Application:</strong> Leave code better than you found it. Mentor others. Build systems that outlast you. Sustainable practices over extraction. Care for team wellbeing as priority, not afterthought.</p>
               </div>
             </Accordion>
@@ -934,7 +959,6 @@ export default function App() {
             eyebrow="Philosophy in Practice"
             title="The Manifestations"
             description="How this philosophy expresses across multiple domains—from personal practices to business operations to cultural expression."
-            descriptionTone="light"
           />
           <div className="space-y-4">
             <Accordion
@@ -1000,14 +1024,14 @@ export default function App() {
                 </ul>
                 <p><strong>Hero's Journey Framework:</strong></p>
                 <ul>
-                  <li>Call to Adventure (life's question emerges)</li>
+                  <li>Call to Adventure (life\'s question emerges)</li>
                   <li>Crossing Threshold (commitment to change)</li>
                   <li>Trials and Transformation (redemptive challenge)</li>
-                  <li>Return with Gift (stewardship—sharing what you've learned)</li>
+                  <li>Return with Gift (stewardship—sharing what you\'ve learned)</li>
                 </ul>
                 <p><strong>Annual Planning with Year Compass:</strong></p>
                 <ul>
-                  <li>Reflection on past year (what worked, what didn't)</li>
+                  <li>Reflection on past year (what worked, what didn\'t)</li>
                   <li>Vision for coming year (across all life domains)</li>
                   <li>Quarterly themes and milestones</li>
                   <li>Integration with business/personal goals</li>
@@ -1041,7 +1065,7 @@ export default function App() {
                   <li>Consciousness elevation over growth hacking</li>
                   <li>Know Thyself over personal branding</li>
                 </ul>
-                <p>Every aesthetic choice reflects philosophical commitments—this isn't decoration, it's expression of worldview.</p>
+                <p>Every aesthetic choice reflects philosophical commitments—this isn\'t decoration, it\'s expression of worldview.</p>
               </div>
             </Accordion>
             <Accordion
@@ -1086,10 +1110,10 @@ export default function App() {
                 <ul>
                   <li>Harmonized goods (not one stakeholder at expense of another)</li>
                   <li>Attention architecture as civic responsibility (in client work)</li>
-                  <li>Technology as partner (AI augments, doesn't replace team)</li>
+                  <li>Technology as partner (AI augments, doesn\'t replace team)</li>
                   <li>Stewardship mindset (leave code/systems better than found)</li>
                 </ul>
-                <p><strong>Proof of Concept:</strong> Odyssey Lab is profitable, sustainable, and aligned with philosophy. This isn't theory—it's operationalized reality.</p>
+                <p><strong>Proof of Concept:</strong> Odyssey Lab is profitable, sustainable, and aligned with philosophy. This isn\'t theory—it\'s operationalized reality.</p>
               </div>
             </Accordion>
           </div>
@@ -1097,11 +1121,11 @@ export default function App() {
       </section>
 
       {/* --- SYNTHESIS SECTION (NEW FROM GEMINI-BASE-B) --- */}
-      <section id="synthesis" className="zone-dark bg-[var(--dark-bg-panel)] py-24">
+      <section id="synthesis" className="bg-[#1E293B] py-24">
          <div className="text-center mb-12 max-w-3xl mx-auto px-6">
-            <span className="font-mono text-xs text-[var(--color-gold)] tracking-[0.2em] uppercase">Integration</span>
+            <span className="font-mono text-xs text-blue-400 tracking-[0.2em] uppercase">Integration</span>
             <h2 className="font-display text-4xl text-white mt-4">The Synthesis</h2>
-            <p className="font-display text-lg text-gray-300 mt-8 leading-relaxed border-l-2 border-[var(--color-gold)] pl-6 text-left">
+            <p className="font-display text-lg text-gray-300 mt-8 leading-relaxed border-l-2 border-[#D4AF37] pl-6 text-left">
               "When existential meaning meets present moment awareness within a participatory universe, a new operating system for human flourishing emerges."
             </p>
          </div>
@@ -1120,41 +1144,73 @@ export default function App() {
               </defs>
               
               {/* Circle 1: Frankl */}
-              <circle cx="200" cy="130" r="90" fill="none" stroke="var(--color-gold)" strokeWidth="1" className="opacity-40" />
-              <text x="200" y="80" textAnchor="middle" fill="var(--color-gold)" className="text-xs uppercase tracking-widest" style={{fontFamily: 'JetBrains Mono', fontSize: '10px'}}>Frankl</text>
+              <circle cx="200" cy="130" r="90" fill="none" stroke="#D4AF37" strokeWidth="1" className="opacity-40" />
+              <text x="200" y="80" textAnchor="middle" className="text-xs uppercase tracking-widest fill-[#D4AF37]" style={{fontFamily: 'JetBrains Mono', fontSize: '10px'}}>Frankl</text>
               <text x="200" y="95" textAnchor="middle" className="text-[9px] uppercase tracking-wide fill-gray-400" style={{fontFamily: 'JetBrains Mono', fontSize: '8px'}}>Meaning</text>
               
               {/* Circle 2: Tolle */}
-              <circle cx="120" cy="270" r="90" fill="none" stroke="var(--color-gold)" strokeWidth="1" className="opacity-40" />
-              <text x="80" y="320" textAnchor="middle" fill="var(--color-gold)" className="text-xs uppercase tracking-widest" style={{fontFamily: 'JetBrains Mono', fontSize: '10px'}}>Tolle</text>
+              <circle cx="120" cy="270" r="90" fill="none" stroke="#D4AF37" strokeWidth="1" className="opacity-40" />
+              <text x="80" y="320" textAnchor="middle" className="text-xs uppercase tracking-widest fill-[#D4AF37]" style={{fontFamily: 'JetBrains Mono', fontSize: '10px'}}>Tolle</text>
               <text x="80" y="335" textAnchor="middle" className="text-[9px] uppercase tracking-wide fill-gray-400" style={{fontFamily: 'JetBrains Mono', fontSize: '8px'}}>Presence</text>
 
               {/* Circle 3: Panpsychism */}
-              <circle cx="280" cy="270" r="90" fill="none" stroke="var(--color-gold)" strokeWidth="1" className="opacity-40" />
-              <text x="320" y="320" textAnchor="middle" fill="var(--color-gold)" className="text-xs uppercase tracking-widest" style={{fontFamily: 'JetBrains Mono', fontSize: '10px'}}>Panpsychism</text>
+              <circle cx="280" cy="270" r="90" fill="none" stroke="#D4AF37" strokeWidth="1" className="opacity-40" />
+              <text x="320" y="320" textAnchor="middle" className="text-xs uppercase tracking-widest fill-[#D4AF37]" style={{fontFamily: 'JetBrains Mono', fontSize: '10px'}}>Panpsychism</text>
               <text x="320" y="335" textAnchor="middle" className="text-[9px] uppercase tracking-wide fill-gray-400" style={{fontFamily: 'JetBrains Mono', fontSize: '8px'}}>Connection</text>
 
               {/* Center circle with PULSING v1.0 */}
-              <circle cx="200" cy="225" r="30" fill="var(--color-bronze)" className="opacity-20 animate-pulse" />
+              <circle cx="200" cy="225" r="30" fill="#B48E55" className="opacity-20 animate-pulse" />
               <text x="200" y="230" textAnchor="middle" className="text-sm font-bold fill-white" style={{fontFamily: 'Cinzel'}}>v1.0</text>
             </svg>
          </div>
 
          <div className="max-w-4xl mx-auto text-center mt-12 px-6">
-            <h3 className="font-display text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-gray-100 via-[var(--color-gold)] to-gray-100 leading-relaxed">
+            <h3 className="font-display text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-gray-100 via-[#FDE68A] to-gray-100 leading-relaxed">
               Together they form a coherent worldview: You are interconnected consciousness discovering meaning through present-moment response to life's call.
             </h3>
          </div>
       </section>
 
+      {/* --- TRANSMUTE FINALE SECTION (NEW FROM GEMINI-BASE-B) --- */}
+      <section id="transmute" className="bg-[#020617] min-h-screen flex flex-col items-center justify-center text-center relative overflow-hidden py-24">
+        {/* Ambient Glow */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#B48E55] rounded-full blur-[120px] opacity-10 pointer-events-none"></div>
+
+        <div className="relative z-10 max-w-4xl px-4">
+          <p className="font-display text-2xl md:text-4xl text-gray-300 mb-12 leading-tight">
+            Life doesn't ask you what meaning is—<br/>
+            <span className="text-white">it questions you.</span>
+          </p>
+
+          <div className="space-y-6 font-display text-lg md:text-xl text-[#B48E55] opacity-80 mb-16">
+            <p>You answer through responsibility, presence, service.</p>
+            <p>Purpose emerges in response to life's call.</p>
+            <p>Elevate awareness. Dissolve ego. Serve beyond self.</p>
+          </div>
+
+          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#B48E55] via-[#FDE68A] to-[#B48E55] mb-8 animate-pulse shadow-lg tracking-tight">
+            TRANSMUTE
+          </h2>
+          
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-gray-500 mb-12">
+            Rather than Transform
+          </p>
+
+          <div className="w-px h-16 bg-gradient-to-b from-transparent via-[#D4AF37] to-transparent mx-auto mb-12"></div>
+
+          <p className="font-display text-xl md:text-2xl text-white italic">
+            For the New Earth.
+          </p>
+        </div>
+      </section>
+
       {/* --- INVITATION SECTION --- */}
-      <section id="invitation" className="zone-light py-24 bg-[var(--light-bg-body)]">
+      <section id="invitation" className="zone-light py-24 bg-gradient-to-b from-[var(--light-bg-body)] to-[var(--light-bg-panel)]">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader
             eyebrow="For the Journey"
             title="The Invitation: What This Philosophy Enables"
             description="This philosophy serves multiple pathways—choose the one that calls to you, or integrate them all."
-            descriptionTone="light"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <PathwayCard
@@ -1195,7 +1251,6 @@ export default function App() {
             eyebrow="Toward Completion"
             title="What's Next: v1.0 Development"
             description="This is v1.0—ready for refinement. Here are known gaps and questions for continued evolution."
-            descriptionTone="light"
           />
           <Accordion
             eyebrow="Open Questions"
@@ -1267,36 +1322,14 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- TRANSMUTE FINALE SECTION (NEW FROM GEMINI-BASE-B) --- */}
-      <section id="transmute" className="zone-dark bg-[var(--color-darker)] min-h-screen flex flex-col items-center justify-center text-center relative overflow-hidden py-24">
-        <div className="relative z-10 max-w-4xl px-4">
-          <p className="font-display text-2xl md:text-4xl text-gray-300 mb-12 leading-tight">
-            Life doesn't provide an answer to its meaning—it questions you.
-          </p>
+      <footer className="bg-[#020617] py-8 text-center border-t border-gray-900">
+        <p className="font-mono text-[10px] text-gray-600 uppercase tracking-widest">
+          Life Philosophy v1.0 • 2024-2025
+        </p>
+      </footer>
 
-          <div className="space-y-6 font-display text-lg md:text-xl text-[var(--color-bronze)] opacity-80 mb-16">
-            <p>Purpose emerges through life's questions and our each moment's response.</p>
-            <p>We answer in attitude and action. Are your answers in deep inner alignment—responsible, present, and rich of mind and heart?</p>
-            <p>Subvert the ego. Know thyself. Hear the call.</p>
-          </div>
-
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-bronze)] via-[var(--color-gold)] to-[var(--color-bronze)] mb-8 animate-pulse shadow-lg tracking-tight">
-            TRANSMUTE
-          </h2>
-          
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-gray-500 mb-12">
-            Rather than Transform
-          </p>
-
-          <div className="w-px h-16 bg-gradient-to-b from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-12"></div>
-
-          <p className="font-display text-xl md:text-2xl text-white italic">
-            For the New Earth.
-          </p>
-        </div>
-      </section>
-
-      <StickyNav items={homeNavItems} showDesktop={false} />
+      <StickyNav />
     </div>
   );
 }
+

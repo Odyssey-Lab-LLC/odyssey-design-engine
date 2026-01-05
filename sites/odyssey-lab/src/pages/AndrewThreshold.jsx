@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Lenis from '@studio-freight/lenis';
 import { Link } from 'react-router-dom';
+import { StickyNav } from '../components/StickyNav';
 
 const AndrewStyles = () => (
   <style>{`
@@ -269,6 +270,32 @@ const AndrewStyles = () => (
     }
     
     body.zone-light .section-title-main { color: var(--light-text-primary); }
+
+    .section-header-minor {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: var(--color-bronze);
+      margin-bottom: var(--space-16);
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+      opacity: 0.8;
+    }
+    .section-header-minor::before {
+      content: ''; width: var(--space-8); height: 1px; background: var(--color-bronze);
+    }
+
+    .section-title-sub {
+      font-size: var(--text-4xl);
+      line-height: 1.2;
+      margin-bottom: var(--space-24);
+      color: var(--dark-text-primary);
+      transition: color 1s ease;
+      max-width: 900px;
+    }
+    
+    body.zone-light .section-title-sub { color: var(--light-text-primary); }
 
     p.narrative-lead {
       font-size: 1.8rem;
@@ -1115,112 +1142,6 @@ const navItems = [
   { label: 'Beyond', id: 'beyond' },
 ];
 
-const StickyNav = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [activeId, setActiveId] = useState(navItems[0].id);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 600);
-    };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const sections = navItems
-      .map((item) => document.getElementById(item.id))
-      .filter(Boolean);
-
-    if (!sections.length) return undefined;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
-  const handleNavClick = (event, id) => {
-    event.preventDefault();
-    setIsMobileOpen(false);
-    const target = document.getElementById(id);
-    if (!target) return;
-    const offset = 120;
-    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-    window.scrollTo({ top, behavior: 'smooth' });
-  };
-
-  if (!isVisible) return null;
-
-  return (
-    <>
-      <nav className="sticky-nav">
-        <div className="sticky-nav__bar">
-          <span className="sticky-nav__dot" aria-hidden="true" />
-          {navItems.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              className={`sticky-nav__link ${activeId === item.id ? 'sticky-nav__link--active' : ''}`}
-              onClick={(event) => handleNavClick(event, item.id)}
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
-        <button
-          type="button"
-          className="sticky-nav__mobile-toggle"
-          onClick={() => setIsMobileOpen(true)}
-        >
-          Table of Contents
-        </button>
-      </nav>
-
-      {isMobileOpen && (
-        <div className="sticky-nav__overlay" onClick={() => setIsMobileOpen(false)}>
-          <div className="sticky-nav__mobile-panel" onClick={(event) => event.stopPropagation()}>
-            <div className="sticky-nav__mobile-header">
-              <span className="sticky-nav__mobile-title">Navigation</span>
-              <button
-                type="button"
-                className="sticky-nav__mobile-close"
-                onClick={() => setIsMobileOpen(false)}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="sticky-nav__mobile-list">
-              {navItems.map((item, index) => (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  className="sticky-nav__mobile-item"
-                  onClick={(event) => handleNavClick(event, item.id)}
-                >
-                  <span className="sticky-nav__mobile-label">{item.label}</span>
-                  <span className="sticky-nav__mobile-index">0{index + 1}</span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
-
 export default function AndrewThreshold() {
   const [clockText, setClockText] = useState('CALCULATING...');
   const [printDate, setPrintDate] = useState('');
@@ -1430,7 +1351,7 @@ export default function AndrewThreshold() {
       <AndrewStyles />
       
       <Link to="/" className="back-link">← Back to Home</Link>
-      <StickyNav />
+      <StickyNav items={navItems} />
 
       {/* HERO SECTION (DARK ZONE) */}
       <section className="lens-container" id="hero" ref={lensRef}>
@@ -1726,12 +1647,12 @@ export default function AndrewThreshold() {
         </div>
 
         {/* TANGIBLES */}
-        <div className="section-wrapper" id="tangibles">
-          <div className="section-header-large">TANGIBLES</div>
-          <h2 className="section-title-main serif">Numbers, Proof, Risk</h2>
+        <div className="section-wrapper">
+          <div className="section-header-minor">TANGIBLES</div>
+          <h3 className="section-title-sub serif">Numbers, Proof, Risk</h3>
 
           <div className="section-extended">
-            <h3>The Financial Picture</h3>
+            <h3 id="tangibles">The Financial Picture</h3>
             <p>Clear, specific, no ambiguity. Phased approach with checkpoints.</p>
 
             <div className="phase-timeline">
@@ -1902,9 +1823,9 @@ export default function AndrewThreshold() {
         </div>
 
         {/* QUESTIONS */}
-        <div className="section-wrapper" id="questions">
-          <div className="section-header-large">QUESTIONS</div>
-          <h2 className="section-title-main serif">Frequently Asked Questions</h2>
+        <div className="section-wrapper">
+          <div className="section-header-minor">QUESTIONS</div>
+          <h3 className="section-title-sub serif" id="questions">Frequently Asked Questions</h3>
 
           <div className="section-extended">
             <p>These are questions Andrew has raised (directly or implicitly) during our conversations. Answering them comprehensively.</p>
@@ -2357,9 +2278,9 @@ export default function AndrewThreshold() {
         </div>
 
         {/* NEXT STEPS */}
-        <div className="section-wrapper" id="next">
-          <div className="section-header-large">NEXT</div>
-          <h2 className="section-title-main serif">Next Steps</h2>
+        <div className="section-wrapper">
+          <div className="section-header-minor">NEXT</div>
+          <h3 className="section-title-sub serif" id="next">Next Steps</h3>
 
           <div className="section-extended">
             <div className="phase-timeline">
