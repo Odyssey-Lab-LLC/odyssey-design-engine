@@ -169,6 +169,7 @@ const AndrewStyles = () => (
       justify-content: center;
       background-color: var(--entangled-bg);
       color: var(--dark-text-primary);
+      touch-action: pan-y;
     }
 
     .lens-layer-blur {
@@ -204,7 +205,6 @@ const AndrewStyles = () => (
       color: var(--color-gold); margin-top: 2rem; text-transform: uppercase;
     }
     @media (max-width: 768px) {
-      .lens-layer-sharp { clip-path: circle(150px at 50% 50%) !important; }
       .lens-layer-sharp h1, .lens-layer-blur h1 { font-size: 12vw; }
     }
 
@@ -890,7 +890,7 @@ const AndrewStyles = () => (
 
     /* Echo Words */
     .echo-word {
-      display: inline-block; color: var(--color-bronze-light); cursor: pointer; position: relative;
+      display: inline-block; color: var(--color-bronze-light); cursor: inherit; position: relative;
       transition: all 0.3s ease; border-bottom: 1px solid rgba(180, 142, 85, 0.3);
       font-family: 'Cormorant Garamond', serif; font-style: italic; padding-right: 2px;
     }
@@ -1192,6 +1192,25 @@ export default function AndrewThreshold() {
     let frame = null;
     let latestPoint = null;
 
+    const getLensSize = () => {
+      const value = window.getComputedStyle(lens).getPropertyValue('--lens-size').trim();
+      const size = parseFloat(value);
+      return Number.isFinite(size) ? size : 300;
+    };
+
+    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+    const setDefaultLensPosition = () => {
+      const lensSize = getLensSize();
+      const margin = 16;
+      const x = isMobile()
+        ? Math.min(Math.max(lensSize / 2 + margin, 0), rect.width)
+        : rect.width / 2;
+      const y = rect.height / 2;
+      lens.style.setProperty('--cursor-x', `${x}px`);
+      lens.style.setProperty('--cursor-y', `${y}px`);
+    };
+
     const updateRect = () => {
       rect = lens.getBoundingClientRect();
     };
@@ -1220,11 +1239,10 @@ export default function AndrewThreshold() {
     };
 
     const handlePointerLeave = () => {
-      lens.style.setProperty('--cursor-x', `${rect.width / 2}px`);
-      lens.style.setProperty('--cursor-y', `${rect.height / 2}px`);
+      latestPoint = null;
     };
 
-    handlePointerLeave();
+    setDefaultLensPosition();
     window.addEventListener('resize', updateRect);
     window.addEventListener('scroll', updateRect, { passive: true });
     lens.addEventListener('pointermove', handlePointerMove);
@@ -1502,7 +1520,8 @@ export default function AndrewThreshold() {
             <p>The realization: I'm at the <strong>Return</strong> stage of the Hero's Journey—the wounded healer bringing wisdom back. The agency taught me operational systems, client relationships, team dynamics. The philosophy work (20 years in the making) gave me frameworks for human flourishing. The life design methodology emerging from both. It's time to return with what I've learned.</p>
 
             <h3>The Shared Foundation</h3>
-            <p><strong>You introduced me to the Hero's Journey books.</strong> That's not a small thing—it's a gift that shaped how I understand this threshold moment. We both operate from Stoicism (resilience, virtue, acceptance) and Hero's Journey as operational philosophy, not just metaphor.</p>
+            <p>You introduced me to Areté and the Heroic app. That's not a small thing. It's a gift that shaped how I understand this threshold moment. Their statement of purpose, <a href="https://drive.google.com/file/d/1pvQ1aDNAmXePd_1txLfIExJUi90l-M94/view?usp=sharing" className="inline-link" target="_blank" rel="noopener noreferrer">The World We Live In</a>, helped reawaken me to my own hunger for purpose aligned success, for greatness through healing and srengthening others. Their philosopher's note on The Bhagavad Gita inspired the <a href="https://odyssey-lab.notion.site/Dharma-Pledge-SOP-1d48ce9eefa28059b31cc77f0b4cd54e?source=copy_link" className="inline-link" target="_blank" rel="noopener noreferrer">Dharma Pledge</a> week 6 ritual I designed for Odyssey Lab.</p>
+            <p>We both operate from with philosophy (e.g. Stoicism: resilience, virtue, acceptance) and Hero's Journey as operational realities, not just metaphor.</p>
             <p>We both value:</p>
             <ul>
               <li><strong>Impact over income</strong> (meaningfulness beats pure financial optimization)</li>

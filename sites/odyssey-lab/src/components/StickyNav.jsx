@@ -8,6 +8,12 @@ const pulseStyles = `
   }
 
   .toc-pulse { animation: toc-pulse 2s ease-in-out infinite; }
+
+  .sticky-nav__glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-bronze);
+  }
 `;
 
 export const StickyNav = ({
@@ -74,7 +80,7 @@ export const StickyNav = ({
       <style>{pulseStyles}</style>
       <nav className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-[95vw] md:w-auto flex justify-center pointer-events-none">
         {showDesktop && (
-          <div className="hidden md:flex pointer-events-auto bg-[var(--dark-bg-body)] border border-[var(--dark-border-subtle)] rounded-full px-6 py-3 shadow-2xl gap-8 items-center">
+          <div className="hidden md:flex pointer-events-auto sticky-nav__glass rounded-full px-6 py-3 shadow-2xl gap-8 items-center">
             <span className="w-2 h-2 rounded-full bg-[var(--color-bronze)] toc-pulse" aria-hidden="true" />
             {items.map((item) => (
               <a
@@ -93,7 +99,7 @@ export const StickyNav = ({
           <button
             type="button"
             onClick={() => setIsMobileOpen(true)}
-            className="md:hidden pointer-events-auto flex items-center gap-3 bg-[var(--dark-bg-body)] border border-[var(--color-bronze)] rounded-full px-8 py-4 shadow-2xl text-xs font-mono uppercase tracking-wider text-[var(--color-gold)]"
+            className="md:hidden pointer-events-auto flex items-center gap-3 sticky-nav__glass rounded-full px-8 py-4 shadow-2xl text-xs font-mono uppercase tracking-wider text-[var(--color-gold)]"
           >
             Table of Contents
           </button>
