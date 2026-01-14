@@ -4,6 +4,7 @@ import { Camera, Mail, Instagram, ArrowRight, X, Menu, Flame, Anchor, Heart } fr
 const EclipseStudio = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Handle scroll for navbar changes
   useEffect(() => {
@@ -26,6 +27,13 @@ const EclipseStudio = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   return (
     <div className="min-h-screen bg-[#050505] text-[#e5e5e5] font-sans selection:bg-[#d4af37] selection:text-black overflow-x-hidden">
       {/* Global Noise Texture Overlay */}
@@ -34,7 +42,7 @@ const EclipseStudio = () => {
       </div>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-40 transition-all duration-500 ${scrolled ? 'bg-[#050505]/90 backdrop-blur-md py-4 border-b border-[#ffffff05]' : 'py-8 bg-transparent'}`}>
+      <nav className={`fixed top-0 w-full z-40 transition-all duration-500 ${scrolled ? 'bg-[#050505]/60 backdrop-blur-xl py-4 border-b border-[#ffffff05]' : 'py-8 bg-transparent'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="text-2xl font-serif tracking-widest font-bold text-[#d4af37]">
             G. ABUSLEME
@@ -44,11 +52,37 @@ const EclipseStudio = () => {
             <a href="#philosophy" className="hover:text-[#d4af37] transition-colors duration-300">Philosophy</a>
             <a href="#contact" className="hover:text-[#d4af37] transition-colors duration-300">Booking</a>
           </div>
-          <button className="md:hidden text-[#d4af37]">
-            <Menu size={24} />
+          <button
+            className="md:hidden text-[#d4af37]"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </nav>
+
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-30">
+          <button
+            className="absolute inset-0 bg-black/70"
+            onClick={() => setIsMenuOpen(false)}
+            aria-label="Close menu overlay"
+          />
+          <div
+            id="mobile-menu"
+            className="absolute top-20 left-6 right-6 rounded-2xl border border-[#ffffff08] bg-[#0a0a0a]/80 backdrop-blur-2xl p-6"
+          >
+            <div className="flex flex-col gap-6 text-sm tracking-[0.3em] uppercase text-gray-300">
+              <a href="#work" onClick={() => setIsMenuOpen(false)} className="hover:text-[#d4af37] transition-colors duration-300">Work</a>
+              <a href="#philosophy" onClick={() => setIsMenuOpen(false)} className="hover:text-[#d4af37] transition-colors duration-300">Philosophy</a>
+              <a href="#contact" onClick={() => setIsMenuOpen(false)} className="hover:text-[#d4af37] transition-colors duration-300">Booking</a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* HERO SECTION: The Eclipse */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -80,7 +114,7 @@ const EclipseStudio = () => {
         {/* Hero Content */}
         <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
           <p className="text-[#d4af37] text-sm md:text-base tracking-[0.4em] mb-6 uppercase animate-fade-in-up">
-            Oslo, Norway
+            Tattoo Artist in Oslo, Norway
           </p>
           <h1 className="text-5xl md:text-8xl font-serif font-bold tracking-tighter mb-8 text-transparent bg-clip-text bg-gradient-to-b from-[#e5e5e5] to-[#555] animate-fade-in-up delay-100">
             TRANSMUTE<br/>THE FLESH
