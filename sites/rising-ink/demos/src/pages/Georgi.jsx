@@ -114,16 +114,16 @@ const EclipseStudio = () => {
           <div className="relative order-2 md:order-1 h-[600px] w-full flex justify-center items-center group">
             {/* The Arch Shape Mask */}
             <div className="relative w-full max-w-md h-full overflow-hidden rounded-t-[200px] border border-[#d4af37]/20 bg-[#0a0a0a]">
+              <img
+                src="/images/georgi/georgi_abusleme_the_ritual_1847475718839408845_6628144.jpg"
+                alt="The Ritual tattoo"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
               
               {/* Inner "Magma" or "Nebula" animation representing the creative chaos */}
               <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700">
                  <div className="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-[#cc5500] via-[#3a1c05] to-[#000] animate-spin-veryslow blur-3xl"></div>
-              </div>
-              
-              {/* Silhouette Placeholder - mimicking the skeleton/window vibe */}
-              <div className="absolute inset-0 flex items-end justify-center pb-20 grayscale contrast-125 mix-blend-lighten">
-                {/* Abstract shape representing figure */}
-                <div className="w-32 h-64 bg-black/80 blur-xl"></div>
               </div>
               
               {/* Overlay Text */}
@@ -187,47 +187,58 @@ const EclipseStudio = () => {
             
             {/* Project 1 - The Wave Vibe */}
             <div className="group relative aspect-[3/4] overflow-hidden bg-[#111] cursor-pointer">
+              <img
+                src="/images/georgi/georgi_abusleme_tattoo_1603975401_2430644292698329406_6628144.jpg"
+                alt="Eagle Raa tattoo"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 z-10"></div>
-              {/* Placeholder for Art */}
-              <div className="w-full h-full bg-[#151515] group-hover:scale-105 transition-transform duration-700 ease-out flex items-center justify-center">
-                 {/* Abstract representation of a wave */}
-                 <svg viewBox="0 0 100 100" className="w-1/2 opacity-20 stroke-[#556] stroke-2 fill-none">
-                    <path d="M0,50 Q25,30 50,50 T100,50" />
-                    <path d="M0,60 Q25,40 50,60 T100,60" />
-                    <path d="M0,70 Q25,50 50,70 T100,70" />
-                 </svg>
+              <div className="absolute inset-0 z-10 flex items-center justify-center opacity-20 transition-opacity duration-300 group-hover:opacity-0 group-active:opacity-0">
+                <svg viewBox="0 0 100 100" className="w-1/2 stroke-[#556] stroke-2 fill-none">
+                  <path d="M0,50 Q25,30 50,50 T100,50" />
+                  <path d="M0,60 Q25,40 50,60 T100,60" />
+                  <path d="M0,70 Q25,50 50,70 T100,70" />
+                </svg>
               </div>
               <div className="absolute bottom-0 left-0 w-full p-8 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <h3 className="text-xl font-serif text-[#e5e5e5]">Abyssal Dragon</h3>
+                <h3 className="text-xl font-serif text-[#e5e5e5]">Eagle Raa</h3>
                 <p className="text-[#d4af37] text-xs tracking-widest uppercase mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Full Back • 40 Hours</p>
               </div>
             </div>
 
             {/* Project 2 - The Skeleton/Gold Vibe */}
             <div className="group relative aspect-[3/4] md:translate-y-12 overflow-hidden bg-[#111] cursor-pointer">
+              <img
+                src="/images/georgi/georgi_abuslemetattoo_1637265148_2709898931751199448_6628144.jpg"
+                alt="Black Peonie tattoo"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 z-10"></div>
-              <div className="w-full h-full bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-700 ease-out flex items-center justify-center">
-                 {/* Abstract representation of skull */}
-                 <div className="w-24 h-32 border border-[#d4af37]/30 rounded-t-full flex items-center justify-center">
-                    <div className="w-2 h-2 bg-[#d4af37] rounded-full shadow-[0_0_15px_#d4af37]"></div>
-                 </div>
+              <div className="absolute inset-0 z-10 flex items-center justify-center opacity-30 transition-opacity duration-300 group-hover:opacity-0 group-active:opacity-0">
+                <div className="w-24 h-32 border border-[#d4af37]/30 rounded-t-full flex items-center justify-center">
+                  <div className="w-2 h-2 bg-[#d4af37] rounded-full shadow-[0_0_15px_#d4af37]"></div>
+                </div>
               </div>
               <div className="absolute bottom-0 left-0 w-full p-8 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <h3 className="text-xl font-serif text-[#e5e5e5]">The Gilded Saint</h3>
-                <p className="text-[#d4af37] text-xs tracking-widest uppercase mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Forearm • Neo-Trad</p>
+                <h3 className="text-xl font-serif text-[#e5e5e5]">Black Peonie</h3>
+                <p className="text-[#d4af37] text-xs tracking-widest uppercase mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Neo-Japanese • 12 Hours</p>
               </div>
             </div>
 
             {/* Project 3 - The Cosmic Vibe */}
             <div className="group relative aspect-[3/4] overflow-hidden bg-[#111] cursor-pointer">
+              <img
+                src="/images/georgi/georgi_abusleme_tattoo_1532443514_1830591339186388112_6628144.jpg"
+                alt="Winged Fortune tattoo"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 z-10"></div>
-              <div className="w-full h-full bg-[#151515] group-hover:scale-105 transition-transform duration-700 ease-out flex items-center justify-center">
-                {/* Abstract representation of stars */}
-                <div className="w-full h-full opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black"></div>
+              <div className="absolute inset-0 z-10 flex items-center justify-center opacity-30 transition-opacity duration-300 group-hover:opacity-0 group-active:opacity-0">
+                <div className="w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black"></div>
               </div>
               <div className="absolute bottom-0 left-0 w-full p-8 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <h3 className="text-xl font-serif text-[#e5e5e5]">Nebula Sleeve</h3>
-                <p className="text-[#d4af37] text-xs tracking-widest uppercase mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Full Arm • Color</p>
+                <h3 className="text-xl font-serif text-[#e5e5e5]">Winged Fortune</h3>
+                <p className="text-[#d4af37] text-xs tracking-widest uppercase mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Neo-Trad • 18 Hours</p>
               </div>
             </div>
 

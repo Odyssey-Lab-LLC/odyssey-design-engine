@@ -107,10 +107,20 @@ content: [
 | Framework Preset | `Vite` | Auto-detected |
 | Build Command | `npm run build` | Runs from repo root |
 | Output Directory | `dist` | Relative to Root Directory |
-| Install Command | `npm install --prefix ../../` | Installs from monorepo root |
+| Install Command | `npm install --prefix ../../` | Installs from monorepo root (one level under `sites/`) |
 | Node.js Version | `18.x` or `20.x` | Recommended |
 
 **Critical:** Root Directory must match site path. Each site = separate Vercel project with own Root Directory setting.
+
+### Nested Root Directories (Vertical Containers)
+
+If your Root Directory is nested (e.g., `sites/rising-ink/demos`), update commands to reach the repo root:
+
+| Setting | Value |
+|---------|-------|
+| Install Command | `npm install --prefix ../../../` |
+| Build Command | `npm --prefix ../../../ run build:rising-ink` |
+| Output Directory | `dist` |
 
 ---
 
