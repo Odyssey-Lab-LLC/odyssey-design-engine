@@ -20,7 +20,13 @@ sites/
 │   ├── public/
 │   └── index.html
 │
-└── [future-sites]/       # Additional client sites
+├── rising-ink/           # Vertical container (tattoo/piercing)
+│   └── demos/            # Deployable demos site (single-page prototypes)
+│       ├── src/
+│       ├── public/
+│       └── index.html
+│
+└── [future-sites]/       # Additional client sites or vertical containers
 ```
 
 ### Site-Specific vs Shared
@@ -44,6 +50,11 @@ Each site in `sites/` is an independent Vercel deployment:
 - **Build root:** `sites/odyssey-lab/`
 - **Build command:** `npm run build` (references `config/vite.config.js`)
 - **Output:** `dist/odyssey-lab/`
+
+**Rising Ink demos:**
+- **Build root:** `sites/rising-ink/demos/`
+- **Build command:** `npm run build:rising-ink`
+- **Output:** `sites/rising-ink/demos/dist/`
 
 ---
 
@@ -540,4 +551,3 @@ All text must meet WCAG AA:
 - [`.rules/10-react-standards.md`](./10-react-standards.md) — React patterns
 - [`.rules/10-design-system.md`](./10-design-system.md) — Design tokens
 - [`shared/components/library/README.md`](../shared/components/library/README.md) — Component catalog
-

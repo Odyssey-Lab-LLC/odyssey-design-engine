@@ -1,11 +1,12 @@
 ---
-version: "1.2.0"
-last_updated: "2026-01-04"
+version: "1.3.0"
+last_updated: "2026-01-05"
 updated_by: "Claude"
 synced_with:
-  README.md: "1.0.1"
-  ARCHITECTURE.md: "1.2.1"
+  README.md: "1.0.2"
+  ARCHITECTURE.md: "1.3.0"
 changelog:
+  - "1.3.0 (2026-01-05): Added Rising Ink demos structure and speed-first exception guidance"
   - "1.2.0 (2026-01-04): Added rules governance standard and updated plans directory structure"
   - "1.1.0 (2026-01-03): Added site sovereignty principle and prototype protection guidance"
   - "1.0.0 (2026-01-03): Initial agent coordination setup for Odyssey Design Engine"
@@ -69,6 +70,7 @@ The **Odyssey Design Engine** is a flexible React-based design system and compon
 - Design system implementation (Odyssey tokens v0.3)
 - Vite-based build system with clean config organization
 - Multi-agent governed development environment
+- Rising Ink demos site for rapid tattoo/piercing prototypes (`sites/rising-ink/demos`)
 
 ---
 
@@ -131,7 +133,7 @@ The Odyssey Design Engine V1 is complete when:
 ## Non-Negotiables (All Agents)
 
 1. **Token-first development** — MUST load design token spec before building UI
-2. **No hardcoded values** — Colors, spacing, typography use design tokens
+2. **No hardcoded values** — Colors, spacing, typography use design tokens (exception: Rising Ink demos per `.rules/11-design-system-extensions.md`)
 3. **Form-first naming** — Components named by structure (Accordion), not content (PrinciplesAccordion)
 4. **Complete implementations** — No placeholder comments or "rest of code" snippets
 5. **Test before proceeding** — Verify changes work (dev server, browser check)
@@ -163,10 +165,13 @@ The Odyssey Design Engine V1 is complete when:
 /odyssey-design-engine/
 ├── .rules/              # Source of truth for standards
 │   ├── README.md
-│   ├── 00-general.md
 │   ├── 00-conflict-checking.md
+│   ├── 00-general.md
+│   ├── 00-rules-governance.md
 │   ├── 10-react-standards.md
 │   ├── 10-design-system.md
+│   ├── 11-design-system-extensions.md
+│   ├── 12-vercel-deployment.md
 │   ├── 20-testing.md
 │   └── 90-odyssey-project.md
 │
@@ -192,13 +197,18 @@ The Odyssey Design Engine V1 is complete when:
 │   └── postcss.config.js
 │
 ├── sites/               # Deployable sites
-│   └── odyssey-lab/
+│   ├── odyssey-lab/
 │       ├── src/
 │       │   ├── App.jsx
 │       │   ├── main.jsx
 │       │   └── components/
 │       ├── public/
 │       └── index.html
+│   └── rising-ink/
+│       └── demos/
+│           ├── src/
+│           ├── public/
+│           └── index.html
 │
 ├── shared/              # Shared across sites
 │   ├── design-system/
@@ -239,6 +249,8 @@ The Odyssey Design Engine V1 is complete when:
 
 **Key principle:** Each site in `sites/` is an independent deployment.
 
+**Vertical containers are allowed:** `sites/` can include vertical groupings (e.g., `sites/rising-ink/`) that hold one or more deployable sites (e.g., `sites/rising-ink/demos`).
+
 **Site structure:**
 - Self-contained (own src/, public/, index.html)
 - Can import from `shared/`
@@ -278,6 +290,8 @@ The Odyssey Design Engine V1 is complete when:
 - Move AS-IS first, refactor later (maybe)
 - Extraction happens when patterns PROVE reusable (3+ uses across sites)
 - Premature abstraction is worse than variety
+
+**Rising Ink demos:** Speed-first delivery is allowed, including hardcoded values, per `.rules/11-design-system-extensions.md`.
 
 **Eventual Convergence:**
 - All sites WILL adopt base styles once patterns stabilize

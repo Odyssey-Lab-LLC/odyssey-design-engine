@@ -79,6 +79,30 @@ While pages and sites have sovereignty, certain core identity elements should be
 
 ---
 
+## Rising Ink Demos (Speed-First Exception)
+
+**Scope:** `sites/rising-ink/demos`
+
+**Intent:** Ship demo sites fast during sales cycles, even if they use hardcoded values and custom Tailwind arbitrary tokens.
+
+**Allowed:**
+- Hardcoded colors, spacing, and typography
+- One-off section structure per demo
+- Embedded styles and custom animation utilities
+
+**Not allowed:**
+- Pushing demo-specific tokens into `shared/design-system/`
+- Promoting demo components to `shared/components/library/` without 3+ uses
+- Using the exception outside Rising Ink demos
+
+**Path to convergence:**
+1. Standardize section flow and wrappers first
+2. Introduce a translation layer for shared logic
+3. Adopt Untitled UI React components as base when ready
+4. Only then align with shared tokens and library components
+
+---
+
 ## Prototype → Production Flow
 
 **Correct flow:**
@@ -227,4 +251,3 @@ While pages and sites have sovereignty, certain core identity elements should be
 - [`.rules/10-design-system.md`](./10-design-system.md) — Base design system tokens and usage
 - [`ARCHITECTURE.md`](../ARCHITECTURE.md) — Design system philosophy section
 - [`AGENTS.md`](../AGENTS.md) — Site sovereignty principle
-

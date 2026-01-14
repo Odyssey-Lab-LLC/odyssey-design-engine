@@ -2,8 +2,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config config/vite.config.js",
+    "dev:rising-ink": "vite --config config/vite.rising-ink.config.js",
     "build": "vite build --config config/vite.config.js",
-    "preview": "vite preview --config config/vite.config.js"
+    "build:rising-ink": "vite build --config config/vite.rising-ink.config.js",
+    "preview": "vite preview --config config/vite.config.js",
+    "preview:rising-ink": "vite preview --config config/vite.rising-ink.config.js"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",

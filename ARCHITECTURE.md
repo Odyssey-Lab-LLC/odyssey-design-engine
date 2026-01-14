@@ -1,11 +1,12 @@
 ---
-version: "1.2.1"
-last_updated: "2026-01-04"
+version: "1.3.0"
+last_updated: "2026-01-05"
 updated_by: "Claude"
 synced_with:
-  AGENTS.md: "1.2.0"
-  README.md: "1.0.1"
+  AGENTS.md: "1.3.0"
+  README.md: "1.0.2"
 changelog:
+  - "1.3.0 (2026-01-05): Added Rising Ink demos site and vertical grouping guidance"
   - "1.2.1 (2026-01-04): Updated plans directory structure references"
   - "1.2.0 (2026-01-03): Updated directory structure to reflect actual working configuration (configs in root, not /sites/)"
   - "1.1.0 (2026-01-03): Added design system philosophy (descriptive vs prescriptive)"
@@ -37,10 +38,13 @@ The Odyssey Design Engine is a **multi-site React development environment** with
 /odyssey-design-engine/
 ├── .rules/              # Source of truth for standards
 │   ├── README.md
-│   ├── 00-general.md
 │   ├── 00-conflict-checking.md
+│   ├── 00-general.md
+│   ├── 00-rules-governance.md
 │   ├── 10-react-standards.md
 │   ├── 10-design-system.md
+│   ├── 11-design-system-extensions.md
+│   ├── 12-vercel-deployment.md
 │   ├── 20-testing.md
 │   └── 90-odyssey-project.md
 │
@@ -61,14 +65,15 @@ The Odyssey Design Engine is a **multi-site React development environment** with
 │   └── odyssey-project.md
 │
 ├── config/              # Build/tool configs
-│   └── vite.config.js
+│   ├── vite.config.js
+│   └── vite.rising-ink.config.js
 │
 ├── index.css            # Shared Tailwind directives (imported by sites)
 ├── postcss.config.js    # Shared PostCSS config (used by all sites)
 ├── tailwind.config.js   # Shared Tailwind config (used by all sites)
 │
 ├── sites/               # Deployable sites
-│   └── odyssey-lab/     # Individual site
+│   ├── odyssey-lab/     # Individual site
 │       ├── src/
 │       │   ├── App.jsx       # Full homepage component (1303 lines)
 │       │   ├── main.jsx      # Entry point (imports @/index.css)
@@ -77,6 +82,11 @@ The Odyssey Design Engine is a **multi-site React development environment** with
 │       │   └── components/
 │       ├── public/
 │       └── index.html
+│   └── rising-ink/      # Vertical container
+│       └── demos/       # Deployable demos site
+│           ├── src/
+│           ├── public/
+│           └── index.html
 │
 ├── shared/              # Shared across sites
 │   ├── design-system/
@@ -120,6 +130,8 @@ The Odyssey Design Engine is a **multi-site React development environment** with
 
 Each site in `sites/` is an **independent, deployable unit**.
 
+**Vertical groupings are allowed:** Some directories under `sites/` are containers for a business vertical (e.g., `sites/rising-ink/`) and hold one or more deployable roots (e.g., `sites/rising-ink/demos`).
+
 **Benefits:**
 - Clean separation of concerns
 - Independent deployment per site
@@ -143,6 +155,11 @@ sites/[site-name]/
 │   └── ...
 │
 └── index.html                 # HTML template
+```
+
+**Vertical container variant:**
+```
+sites/[vertical]/[site-name]/
 ```
 
 ### Site-Specific vs Shared
@@ -181,6 +198,11 @@ Each site deploys independently:
 - Build command: `npm run build`
 - Output directory: `dist/odyssey-lab/`
 
+**Rising Ink demos:**
+- Root directory: `sites/rising-ink/demos/`
+- Build command: `npm run build:rising-ink`
+- Output directory: `dist`
+
 ---
 
 ## Configuration Architecture
@@ -195,12 +217,13 @@ The project uses a **hybrid approach** for configuration management:
 - `postcss.config.js` - Shared PostCSS configuration
 
 **Build Configs (`config/` directory):**
-- `vite.config.js` - Vite build configuration
+- `vite.config.js` - Vite build configuration (odyssey-lab)
+- `vite.rising-ink.config.js` - Vite build configuration (rising-ink demos)
 
 **Why this structure:**
 1. CSS/Tailwind configs in root are accessible to all sites via path aliases
 2. Each site imports `@/index.css` where `@` resolves to project root
-3. Vite root is set to individual site directory (`sites/odyssey-lab/`)
+3. Vite root is set to each site directory (e.g., `sites/odyssey-lab/`, `sites/rising-ink/demos/`)
 4. PostCSS/Tailwind process CSS relative to their config locations
 
 ### Path Resolution
@@ -212,6 +235,20 @@ The project uses a **hybrid approach** for configuration management:
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '..'),        // Project root
+      '@shared': path.resolve(__dirname, '../shared'),
+      '@sites': path.resolve(__dirname, '../sites')
+    }
+  }
+}
+```
+
+**Vite Configuration (`config/vite.rising-ink.config.js`):**
+```javascript
+{
+  root: path.resolve(__dirname, '../sites/rising-ink/demos'),
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '..'),
       '@shared': path.resolve(__dirname, '../shared'),
       '@sites': path.resolve(__dirname, '../sites')
     }

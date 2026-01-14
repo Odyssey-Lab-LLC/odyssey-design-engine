@@ -19,6 +19,8 @@ Rules for using the Odyssey Design System tokens, patterns, and component archit
 
 **Rule:** MUST load and reference the design token specification before building or modifying any UI components.
 
+**Exception:** Rising Ink demos (`sites/rising-ink/demos`) may ship with hardcoded values for speed. See `.rules/11-design-system-extensions.md` for scope and constraints.
+
 ### Token Specification Location
 
 **Authoritative Source:**
@@ -57,6 +59,15 @@ shared/design-system/README.md          // Usage documentation
 <div style={{ backgroundColor: 'var(--color-bronze)' }}>...</div>
 <div style={{ color: 'var(--color-odyssey-blue)' }}>...</div>
 ```
+
+### Rising Ink Demo Exception (Speed-First)
+
+For **Rising Ink demos only** (`sites/rising-ink/demos`), hardcoded colors, spacing, and typography are allowed to ship quickly. This exception does **not** apply to:
+- `shared/` components or design system files
+- Other `sites/` outside Rising Ink demos
+- Any reusable component intended for the library
+
+When this exception is used, document it in the completion report and plan for later standardization.
 
 ### Core Color Tokens
 
@@ -615,4 +626,3 @@ shared/design-system/GlobalStyles.jsx             ← CSS variables
 - [`.rules/10-react-standards.md`](./10-react-standards.md) — React component patterns
 - [`.rules/11-design-system-extensions.md`](./11-design-system-extensions.md) — Extension and prototype protection
 - [`ARCHITECTURE.md`](../ARCHITECTURE.md) — Component library structure
-

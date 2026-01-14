@@ -24,6 +24,8 @@ SYSTEM_odyssey-design-tokens_v0.3_2025-12-19.md
 - ❌ `fontFamily: 'Cinzel, serif'`
 - ✅ `fontFamily: 'var(--font-heading)'`
 
+**Rising Ink demos exception:** Hardcoded values are allowed only in `sites/rising-ink/demos` for speed-first demo work (see `.rules/11-design-system-extensions.md`).
+
 ## Key Token Categories
 
 **Colors:** --color-bronze, --color-gold, --color-odyssey-blue, --color-charcoal, --color-warm-white
@@ -58,4 +60,3 @@ Add comment to reusable components:
 ```
 
 Read `.rules/10-design-system.md` for full token reference and patterns.
-

@@ -1,10 +1,11 @@
 ---
-version: "1.0.1"
-last_updated: "2026-01-04"
+version: "1.0.2"
+last_updated: "2026-01-05"
 updated_by: "Claude"
 synced_with:
-  AGENTS.md: "1.2.0"
+  AGENTS.md: "1.3.0"
 changelog:
+  - "1.0.2 (2026-01-05): Documented Rising Ink demos structure and speed-first workflow"
   - "1.0.1 (2026-01-04): Synced with updated governance standards"
   - "1.0.0 (2026-01-03): Initial external-facing documentation for Odyssey Design Engine V1"
 ---
@@ -68,6 +69,17 @@ sites/
     └── index.html        # HTML template
 ```
 
+Vertical groupings are allowed. Rising Ink is a tattoo/piercing vertical with a speed-first demos site:
+
+```
+sites/
+└── rising-ink/
+    └── demos/            # Deployable demos site (single-page prototypes)
+        ├── src/
+        ├── public/
+        └── index.html
+```
+
 ### Shared Component Library
 
 Reusable, documented components live in `shared/components/library/`:
@@ -97,6 +109,9 @@ Tokens are implemented in `shared/design-system/` as both CSS variables and Java
 ```
 odyssey-design-engine/
 ├── sites/                # Deployable sites
+│   ├── odyssey-lab/       # Odyssey Lab site
+│   └── rising-ink/        # Tattoo/piercing vertical
+│       └── demos/         # Rising Ink demos site
 ├── shared/               # Shared components & design system
 │   ├── components/       
 │   │   └── library/      # Component library
@@ -156,6 +171,7 @@ All technical standards live in `.rules/`:
 ### Adding Sites
 
 1. Create directory in `sites/[site-name]/`
+   - For verticals: `sites/[vertical]/[site-name]/`
 2. Follow standard site structure (src/, public/, index.html)
 3. Import shared components via `@shared` alias
 4. Configure separate Vercel project for deployment
@@ -166,13 +182,15 @@ All technical standards live in `.rules/`:
 
 **Form over content** — Components named by structure (Accordion), not content (PrinciplesAccordion)
 
-**Token-first development** — All visual properties use design tokens, never hardcoded values
+**Token-first development** — All visual properties use design tokens, never hardcoded values (except Rising Ink demos)
 
 **Multi-site by default** — Architecture supports independent sites sharing a common foundation
 
 **Documentation as code** — Every component has paired `.md` documentation
 
 **Multi-agent governance** — Clear protocols for AI-assisted development with institutional memory
+
+**Speed-first demos (Rising Ink)** — Demo sites in `sites/rising-ink/demos` may ship with hardcoded values to move fast; convergence to Untitled UI React components and shared logic happens later.
 
 ---
 
