@@ -5,6 +5,7 @@ const EclipseStudio = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navLinkClassName = "text-sm tracking-[0.2em] uppercase text-gray-400 hover:text-[#d4af37] transition-colors duration-300";
   const navButtonClassName = "group relative inline-flex items-center px-6 py-3 border border-[#d4af37]/30 overflow-hidden transition-all duration-300 hover:border-[#d4af37]";
   const navButtonTextClassName = "relative text-[#d4af37] tracking-[0.2em] text-xs uppercase";
 
@@ -49,15 +50,9 @@ const EclipseStudio = () => {
           <div className="text-2xl font-serif tracking-widest font-bold text-[#d4af37]">
             G. ABUSLEME
           </div>
-          <div className="hidden md:flex items-center gap-4">
-            <a href="#work" className={navButtonClassName}>
-              <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
-              <span className={navButtonTextClassName}>Work</span>
-            </a>
-            <a href="#philosophy" className={navButtonClassName}>
-              <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
-              <span className={navButtonTextClassName}>Philosophy</span>
-            </a>
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#work" className={navLinkClassName}>Work</a>
+            <a href="#philosophy" className={navLinkClassName}>Philosophy</a>
             <a href="#contact" className={navButtonClassName}>
               <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
               <span className={navButtonTextClassName}>Booking</span>
@@ -86,15 +81,9 @@ const EclipseStudio = () => {
             id="mobile-menu"
             className="absolute top-20 left-6 right-6 rounded-2xl border border-[#ffffff08] bg-[#0a0a0a]/80 backdrop-blur-2xl p-6"
           >
-            <div className="flex flex-col gap-4">
-              <a href="#work" onClick={() => setIsMenuOpen(false)} className={`${navButtonClassName} w-full justify-center`}>
-                <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
-                <span className={navButtonTextClassName}>Work</span>
-              </a>
-              <a href="#philosophy" onClick={() => setIsMenuOpen(false)} className={`${navButtonClassName} w-full justify-center`}>
-                <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
-                <span className={navButtonTextClassName}>Philosophy</span>
-              </a>
+            <div className="flex flex-col gap-5 text-sm tracking-[0.3em] uppercase text-gray-300">
+              <a href="#work" onClick={() => setIsMenuOpen(false)} className="hover:text-[#d4af37] transition-colors duration-300">Work</a>
+              <a href="#philosophy" onClick={() => setIsMenuOpen(false)} className="hover:text-[#d4af37] transition-colors duration-300">Philosophy</a>
               <a href="#contact" onClick={() => setIsMenuOpen(false)} className={`${navButtonClassName} w-full justify-center`}>
                 <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
                 <span className={navButtonTextClassName}>Booking</span>
