@@ -5,6 +5,8 @@ const EclipseStudio = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navButtonClassName = "group relative inline-flex items-center px-6 py-3 border border-[#d4af37]/30 overflow-hidden transition-all duration-300 hover:border-[#d4af37]";
+  const navButtonTextClassName = "relative text-[#d4af37] tracking-[0.2em] text-xs uppercase";
 
   // Handle scroll for navbar changes
   useEffect(() => {
@@ -47,10 +49,19 @@ const EclipseStudio = () => {
           <div className="text-2xl font-serif tracking-widest font-bold text-[#d4af37]">
             G. ABUSLEME
           </div>
-          <div className="hidden md:flex space-x-12 text-sm tracking-[0.2em] uppercase text-gray-400">
-            <a href="#work" className="hover:text-[#d4af37] transition-colors duration-300">Work</a>
-            <a href="#philosophy" className="hover:text-[#d4af37] transition-colors duration-300">Philosophy</a>
-            <a href="#contact" className="hover:text-[#d4af37] transition-colors duration-300">Booking</a>
+          <div className="hidden md:flex items-center gap-4">
+            <a href="#work" className={navButtonClassName}>
+              <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+              <span className={navButtonTextClassName}>Work</span>
+            </a>
+            <a href="#philosophy" className={navButtonClassName}>
+              <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+              <span className={navButtonTextClassName}>Philosophy</span>
+            </a>
+            <a href="#contact" className={navButtonClassName}>
+              <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+              <span className={navButtonTextClassName}>Booking</span>
+            </a>
           </div>
           <button
             className="md:hidden text-[#d4af37]"
@@ -75,10 +86,19 @@ const EclipseStudio = () => {
             id="mobile-menu"
             className="absolute top-20 left-6 right-6 rounded-2xl border border-[#ffffff08] bg-[#0a0a0a]/80 backdrop-blur-2xl p-6"
           >
-            <div className="flex flex-col gap-6 text-sm tracking-[0.3em] uppercase text-gray-300">
-              <a href="#work" onClick={() => setIsMenuOpen(false)} className="hover:text-[#d4af37] transition-colors duration-300">Work</a>
-              <a href="#philosophy" onClick={() => setIsMenuOpen(false)} className="hover:text-[#d4af37] transition-colors duration-300">Philosophy</a>
-              <a href="#contact" onClick={() => setIsMenuOpen(false)} className="hover:text-[#d4af37] transition-colors duration-300">Booking</a>
+            <div className="flex flex-col gap-4">
+              <a href="#work" onClick={() => setIsMenuOpen(false)} className={`${navButtonClassName} w-full justify-center`}>
+                <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+                <span className={navButtonTextClassName}>Work</span>
+              </a>
+              <a href="#philosophy" onClick={() => setIsMenuOpen(false)} className={`${navButtonClassName} w-full justify-center`}>
+                <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+                <span className={navButtonTextClassName}>Philosophy</span>
+              </a>
+              <a href="#contact" onClick={() => setIsMenuOpen(false)} className={`${navButtonClassName} w-full justify-center`}>
+                <div className="absolute inset-0 w-0 bg-[#d4af37] transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+                <span className={navButtonTextClassName}>Booking</span>
+              </a>
             </div>
           </div>
         </div>
