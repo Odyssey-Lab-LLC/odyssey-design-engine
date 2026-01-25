@@ -552,22 +552,18 @@ const ProductVisionIntro = () => {
                   Integrator + co-founder. Proven operator who scales businesses, builds teams, and turns systems into
                   repeatable revenue engines.
                 </p>
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div>
-                    <p className="text-3xl font-bold text-emerald-400">Ops</p>
-                    <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Integrator</p>
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="flex items-center gap-3">
+                    <p className="text-2xl font-bold text-emerald-400">5→40+</p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Scaled product teams delivering 10x revenue growth</p>
                   </div>
-                  <div>
-                    <p className="text-3xl font-bold text-emerald-400">Scale</p>
-                    <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Execution</p>
+                  <div className="flex items-center gap-3">
+                    <p className="text-2xl font-bold text-emerald-400">4x</p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Doubled revenue at consecutive companies</p>
                   </div>
-                  <div>
-                    <p className="text-3xl font-bold text-emerald-400">Systems</p>
-                    <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Builder</p>
-                  </div>
-                  <div>
-                    <p className="text-3xl font-bold text-emerald-400">Founder</p>
-                    <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Partner</p>
+                  <div className="flex items-center gap-3">
+                    <p className="text-2xl font-bold text-emerald-400">46M+</p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Users on platforms generating $100M+ ARR</p>
                   </div>
                 </div>
               </div>
@@ -596,7 +592,7 @@ const ProductVisionIntro = () => {
                 }}
               />
 
-              <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <svg className="absolute inset-0 w-full h-full z-0" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="rgba(193,39,45,0.2)" />
@@ -630,7 +626,7 @@ const ProductVisionIntro = () => {
               ].map((node, index) => (
                 <div
                   key={node.label}
-                  className={`absolute ${node.pos} w-20 h-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/70 text-xs uppercase tracking-widest text-zinc-300 flex flex-col items-center justify-center gap-1 transition-all duration-300 hover:border-red-400 hover:text-red-300`}
+                  className={`absolute ${node.pos} z-10 w-20 h-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/70 text-xs uppercase tracking-widest text-zinc-300 flex flex-col items-center justify-center gap-1 transition-all duration-300 hover:border-red-400 hover:text-red-300`}
                   style={{ animation: `floatNode 4s ease-in-out ${index * 0.3}s infinite` }}
                 >
                   <span className="text-lg">{node.icon}</span>
@@ -652,10 +648,10 @@ const ProductVisionIntro = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <div className="group relative border border-white/10 rounded-2xl bg-[#111]/60 p-8 overflow-hidden transition-all duration-300 hover:border-red-500/40">
-                  <span className="absolute top-4 right-4 text-[10px] uppercase tracking-[0.3em] bg-red-500/10 border border-red-500/40 text-red-400 px-3 py-1 rounded-full">
+                  <span className={`absolute top-4 right-4 text-[10px] uppercase tracking-[0.3em] bg-red-500/10 border border-red-500/40 text-red-400 px-3 py-1 rounded-full transition-opacity duration-300 ${isDevMode ? 'opacity-0' : 'opacity-100'}`}>
                     MCP ACTIVE
                   </span>
-                  <p className="text-xs uppercase tracking-[0.3em] text-red-400 mb-4">[[ BACKEND_MANIFEST ]]</p>
+                  <p className={`text-xs uppercase tracking-[0.3em] mb-4 transition-opacity duration-300 ${isDevMode ? 'rune-glow opacity-100' : 'opacity-0'}`}>[[ BACKEND_MANIFEST ]]</p>
                   <h3 className="text-3xl font-bold mb-2">Sanity</h3>
                   <div className="relative min-h-[120px]">
                     <p className="text-zinc-400 text-lg transition-all duration-300 group-hover:opacity-0 group-hover:-translate-y-2">
@@ -670,10 +666,10 @@ const ProductVisionIntro = () => {
                 </div>
 
                 <div className="group relative border border-white/10 rounded-2xl bg-[#111]/60 p-8 overflow-hidden transition-all duration-300 hover:border-white/30">
-                  <span className="absolute top-4 right-4 text-[10px] uppercase tracking-[0.3em] bg-white/10 border border-white/30 text-white/80 px-3 py-1 rounded-full">
+                  <span className={`absolute top-4 right-4 text-[10px] uppercase tracking-[0.3em] bg-white/10 border border-white/30 text-white/80 px-3 py-1 rounded-full transition-opacity duration-300 ${isDevMode ? 'opacity-0' : 'opacity-100'}`}>
                     VISUAL BUILDER
                   </span>
-                  <p className="text-xs uppercase tracking-[0.3em] text-red-400 mb-4">[[ UI_FABRICATION ]]</p>
+                  <p className={`text-xs uppercase tracking-[0.3em] mb-4 transition-opacity duration-300 ${isDevMode ? 'rune-glow opacity-100' : 'opacity-0'}`}>[[ UI_FABRICATION ]]</p>
                   <h3 className="text-3xl font-bold mb-2">Plasmic</h3>
                   <div className="relative min-h-[120px]">
                     <p className="text-zinc-400 text-lg transition-all duration-300 group-hover:opacity-0 group-hover:-translate-y-2">
@@ -688,10 +684,10 @@ const ProductVisionIntro = () => {
                 </div>
 
                 <div className="group relative border border-white/10 rounded-2xl bg-[#111]/60 p-8 overflow-hidden transition-all duration-300 hover:border-emerald-400/40">
-                  <span className="absolute top-4 right-4 text-[10px] uppercase tracking-[0.3em] bg-emerald-500/10 border border-emerald-400/40 text-emerald-300 px-3 py-1 rounded-full">
+                  <span className={`absolute top-4 right-4 text-[10px] uppercase tracking-[0.3em] bg-emerald-500/10 border border-emerald-400/40 text-emerald-300 px-3 py-1 rounded-full transition-opacity duration-300 ${isDevMode ? 'opacity-0' : 'opacity-100'}`}>
                     ZERO JS
                   </span>
-                  <p className="text-xs uppercase tracking-[0.3em] text-red-400 mb-4">[[ CORE_RUNTIME ]]</p>
+                  <p className={`text-xs uppercase tracking-[0.3em] mb-4 transition-opacity duration-300 ${isDevMode ? 'rune-glow opacity-100' : 'opacity-0'}`}>[[ CORE_RUNTIME ]]</p>
                   <h3 className="text-3xl font-bold mb-2">Astro</h3>
                   <div className="relative min-h-[120px]">
                     <p className="text-zinc-400 text-lg transition-all duration-300 group-hover:opacity-0 group-hover:-translate-y-2">
@@ -703,50 +699,6 @@ const ProductVisionIntro = () => {
                     </p>
                   </div>
                   <span className="absolute -bottom-6 -right-2 text-[160px] font-bold text-white/5">A</span>
-                </div>
-              </div>
-
-              <div className="border border-white/10 bg-[#111]/60 rounded-2xl p-8">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-2">Elvis Prototype UI</p>
-                    <h3 className="text-2xl font-bold">Filterable Portfolio Grid</h3>
-                  </div>
-                  <span className="text-xs uppercase tracking-[0.3em] text-zinc-500">Relational Styles</span>
-                </div>
-
-                <div className="flex flex-wrap gap-3 mb-8">
-                  {['All', 'Blackwork', 'Fine Line', 'Japanese', 'Neo-Trad', 'Script'].map((filter, index) => (
-                    <button
-                      key={filter}
-                      className={`text-xs uppercase tracking-[0.3em] px-4 py-2 rounded-full border transition-all ${
-                        index === 0
-                          ? 'border-red-500 text-red-300 bg-red-500/10'
-                          : 'border-white/20 text-zinc-400 hover:border-red-400 hover:text-red-300'
-                      }`}
-                    >
-                      {filter}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {[
-                    { title: 'Geometric Blackwork', style: 'Blackwork' },
-                    { title: 'Neo-Trad Rose', style: 'Neo-Trad' },
-                    { title: 'Fine Line Script', style: 'Script' },
-                    { title: 'Japanese Wave', style: 'Japanese' },
-                    { title: 'Minimal Floral', style: 'Fine Line' },
-                    { title: 'Sacred Symbols', style: 'Blackwork' },
-                  ].map((card) => (
-                    <div key={card.title} className="bg-black/50 border border-white/10 rounded-xl overflow-hidden">
-                      <div className="h-28 bg-gradient-to-br from-zinc-900 to-zinc-800" />
-                      <div className="p-4">
-                        <p className="text-sm font-semibold mb-2">{card.title}</p>
-                        <span className="text-[10px] uppercase tracking-[0.3em] text-zinc-500">{card.style}</span>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </div>
 
@@ -802,6 +754,95 @@ const ProductVisionIntro = () => {
 "complexity": "Relational_DB"`}
                       </pre>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Elvis Prototype UI - Filterable Portfolio Grid */}
+              <div className="border border-white/10 bg-[#111]/60 rounded-2xl p-8 mt-12 relative overflow-hidden">
+                {/* Grainy texture overlay */}
+                <div
+                  className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                  style={{
+                    backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")',
+                    backgroundRepeat: 'repeat',
+                  }}
+                />
+
+                <div className="relative z-10">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-2">Elvis Prototype UI</p>
+                      <h3 className="text-2xl font-bold">Filterable Portfolio Grid</h3>
+                    </div>
+                    <span className="text-xs uppercase tracking-[0.3em] text-zinc-500">Relational Styles</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3 mb-8">
+                    {[
+                      { name: 'All', icon: '◉', color: 'red' },
+                      { name: 'Blackwork', icon: '▣', color: 'zinc' },
+                      { name: 'Fine Line', icon: '╱', color: 'amber' },
+                      { name: 'Japanese', icon: '🌊', color: 'blue' },
+                      { name: 'Neo-Trad', icon: '🌹', color: 'rose' },
+                      { name: 'Script', icon: '✎', color: 'emerald' },
+                    ].map((filter, index) => (
+                      <button
+                        key={filter.name}
+                        className={`flex items-center gap-2 text-xs uppercase tracking-[0.3em] px-4 py-2 rounded-full border transition-all ${
+                          index === 0
+                            ? 'border-red-500 text-red-300 bg-red-500/20'
+                            : 'border-white/20 text-zinc-400 hover:border-red-400 hover:text-red-300 hover:bg-red-500/5'
+                        }`}
+                      >
+                        <span className="text-sm">{filter.icon}</span>
+                        {filter.name}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {[
+                      { title: 'Geometric Blackwork', style: 'Blackwork', color: 'zinc', icon: '▣' },
+                      { title: 'Neo-Trad Rose', style: 'Neo-Trad', color: 'rose', icon: '🌹' },
+                      { title: 'Fine Line Script', style: 'Script', color: 'emerald', icon: '✎' },
+                      { title: 'Japanese Wave', style: 'Japanese', color: 'blue', icon: '🌊' },
+                      { title: 'Minimal Floral', style: 'Fine Line', color: 'amber', icon: '╱' },
+                      { title: 'Sacred Symbols', style: 'Blackwork', color: 'zinc', icon: '▣' },
+                    ].map((card) => (
+                      <div
+                        key={card.title}
+                        className="group bg-black/50 border border-white/10 rounded-xl overflow-hidden hover:border-red-500/40 transition-all duration-300 hover:-translate-y-1"
+                      >
+                        {/* Textured card background */}
+                        <div
+                          className="h-28 relative"
+                          style={{
+                            background: `linear-gradient(135deg, rgba(39, 39, 42, 0.9) 0%, rgba(24, 24, 27, 0.95) 100%)`,
+                          }}
+                        >
+                          {/* Style icon */}
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-4xl opacity-20 group-hover:opacity-40 transition-opacity">{card.icon}</span>
+                          </div>
+                          {/* Grainy texture */}
+                          <div
+                            className="absolute inset-0 opacity-[0.08]"
+                            style={{
+                              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")',
+                              backgroundRepeat: 'repeat',
+                            }}
+                          />
+                        </div>
+                        <div className="p-4">
+                          <p className="text-sm font-semibold mb-2 group-hover:text-red-300 transition-colors">{card.title}</p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs">{card.icon}</span>
+                            <span className="text-[10px] uppercase tracking-[0.3em] text-zinc-500">{card.style}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -912,7 +953,7 @@ const ProductVisionIntro = () => {
                   {[
                     {
                       status: 'VERIFIED',
-                      title: 'Agency Scale (Q1)',
+                      title: 'Agency Validation (2025)',
                       commit: 'COMMIT: b4a1c2... [2025]',
                       description:
                         'Established core tattoo artist service model at $200k ARR. Systems validated by real clients.',
@@ -922,11 +963,11 @@ const ProductVisionIntro = () => {
                       icon: '✓',
                     },
                     {
-                      status: 'IN PROGRESS',
-                      title: 'Elvis Pilot (Summer)',
+                      status: 'ACTIVE',
+                      title: 'Elvis Website Build (Q1)',
                       commit: 'COMMIT: CURRENT_HEAD [ACTIVE]',
                       description:
-                        'Executing modern tech-stack build (Sanity/Plasmic). Social media automation integration & styling.',
+                        'Executing modern tech-stack build (Sanity/Plasmic/Astro). 30-43 hour relational portfolio site.',
                       color: 'text-red-300',
                       border: 'border-red-500/40',
                       badge: 'bg-red-500/10 text-red-300',
@@ -934,10 +975,21 @@ const ProductVisionIntro = () => {
                       pulse: true,
                     },
                     {
+                      status: 'TENTATIVE',
+                      title: 'Elvis Social Media Pilot (Summer)',
+                      commit: 'COMMIT: pending... [TENTATIVE]',
+                      description:
+                        'Social media automation integration. InstaGo camera, AI content pipeline, artist approval flows.',
+                      color: 'text-amber-300',
+                      border: 'border-amber-500/40',
+                      badge: 'bg-amber-500/10 text-amber-300',
+                      icon: '◐',
+                    },
+                    {
                       status: 'LOCKED',
-                      title: 'Platform Launch',
+                      title: 'Vertical SaaS Platform (Q4 2026)',
                       commit: 'COMMIT: ??? [LOCKED]',
-                      description: 'Requires: $1M ARR achievement to unlock repository.',
+                      description: 'Requires: $1M ARR achievement to unlock repository. Full platform extraction.',
                       color: 'text-zinc-500',
                       border: 'border-dashed border-white/10',
                       badge: 'bg-white/5 text-zinc-500',
