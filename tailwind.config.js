@@ -2,13 +2,14 @@
 export default {
   content: [
     "./index.html",
-    "./sites/**/*.{js,jsx,ts,tsx,html}",
+    "./sites/odyssey-lab/index.html",
+    "./sites/odyssey-lab/src/**/*.{js,jsx,ts,tsx}",
+    "./sites/rising-ink/demos/index.html",
+    "./sites/rising-ink/demos/src/**/*.{js,jsx,ts,tsx}",
     "./shared/**/*.{js,jsx,ts,tsx}",
-    "./_workspace/**/*.{js,jsx,ts,tsx,html}",
   ],
   theme: {
     extend: {},
   },
   plugins: [],
 }
-

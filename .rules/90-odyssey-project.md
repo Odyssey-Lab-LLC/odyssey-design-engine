@@ -56,6 +56,16 @@ Each site in `sites/` is an independent Vercel deployment:
 - **Build command:** `npm run build:rising-ink`
 - **Output:** `sites/rising-ink/demos/dist/`
 
+### Tailwind Content Scoping (Required)
+
+**Rule:** Tailwind `content` paths MUST target only deployable site roots (and `shared/`), not broad `./sites/**/*` globs.
+
+**Why:** Broad globs can scan nested toolchains or `node_modules` under `sites/`, slowing builds and emitting warnings.
+
+**When adding a new site:**
+- Add its `index.html` and `src/**/*.{js,jsx,ts,tsx}` to `tailwind.config.js` content.
+- Keep `shared/` in the content list.
+
 ---
 
 ## Workspace Organization
